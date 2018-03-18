@@ -2,7 +2,10 @@ package com.swjtu.SYWeiServers.web.controller;
 
 import com.google.gson.Gson;
 import com.swjtu.SYWeiServers.entity.Admin;
+import com.swjtu.SYWeiServers.entity.StudentExample;
+import com.swjtu.SYWeiServers.mapper.StudentMapper;
 import com.swjtu.SYWeiServers.service.IAdminService;
+import com.swjtu.SYWeiServers.util.DataSourceFactory;
 import com.swjtu.SYWeiServers.util.JsonResult;
 import com.swjtu.SYWeiServers.util.enums.StatusCode;
 import net.sf.json.JSONObject;
@@ -85,11 +88,10 @@ public class AdminController {
         return JsonResult.build(StatusCode.SUCCESS);
     }
 
-    @RequestMapping(value = "/testlogin",method = RequestMethod.POST)
-    public JsonResult testLogin( @RequestBody Admin admin) throws Exception{
-       System.out.println("admin:"+admin.toString());
-        adminService.register(admin);
-        return JsonResult.build(StatusCode.SUCCESS);
+    @RequestMapping(value = "/testlogin",method = RequestMethod.GET)
+    public JsonResult testLogin( Integer id) throws Exception{
+        StudentMapper studentMapper = DataSourceFactory.getMapper(id, StudentMapper.class);
+        return JsonResult.build(StatusCode.SUCCESS, studentMapper.selectByExample(new StudentExample()));
     }
 
 }
