@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.swjtu.SYWeiServers.mapper.CompanyMapper" >
+  <resultMap id="BaseResultMap" type="com.swjtu.SYWeiServers.entity.Company" >
+    <result column="CompanyID" property="companyid" jdbcType="NVARCHAR" />
+    <result column="CompanyName" property="companyname" jdbcType="NVARCHAR" />
+    <result column="CompanyNO" property="companyno" jdbcType="NVARCHAR" />
+    <result column="FlagTrashed" property="flagtrashed" jdbcType="BIT" />
+    <result column="FlagDeleted" property="flagdeleted" jdbcType="BIT" />
+    <result column="RegDate" property="regdate" jdbcType="TIMESTAMP" />
+    <result column="DBname" property="dbname" jdbcType="VARCHAR" />
+    <result column="Email" property="email" jdbcType="NVARCHAR" />
+    <result column="password" property="password" jdbcType="NVARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="QQ" property="qq" jdbcType="VARCHAR" />
+    <result column="ExpireDate" property="expiredate" jdbcType="TIMESTAMP" />
+    <result column="Address" property="address" jdbcType="NVARCHAR" />
+    <result column="StoreCount" property="storecount" jdbcType="VARCHAR" />
+    <result column="FlagGrant" property="flaggrant" jdbcType="BIT" />
+    <result column="CityName" property="cityname" jdbcType="NVARCHAR" />
+    <result column="RTCount" property="rtcount" jdbcType="VARCHAR" />
+    <result column="Domain" property="domain" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.swjtu.SYWeiServers.entity.Company" extends="BaseResultMap" >
+    <result column="Remark" property="remark" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CompanyID, CompanyName, CompanyNO, FlagTrashed, FlagDeleted, RegDate, DBname, Email, 
+    password, tel, QQ, ExpireDate, Address, StoreCount, FlagGrant, CityName, RTCount, 
+    Domain
+  </sql>
+  <sql id="Blob_Column_List" >
+    Remark
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.swjtu.SYWeiServers.entity.CompanyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Company
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.swjtu.SYWeiServers.entity.CompanyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Company
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.swjtu.SYWeiServers.entity.CompanyExample" >
+    delete from Company
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.swjtu.SYWeiServers.entity.Company" >
+    insert into Company (CompanyID, CompanyName, CompanyNO, 
+      FlagTrashed, FlagDeleted, RegDate, 
+      DBname, Email, password, 
+      tel, QQ, ExpireDate, 
+      Address, StoreCount, FlagGrant, 
+      CityName, RTCount, Domain, 
+      Remark)
+    values (#{companyid,jdbcType=NVARCHAR}, #{companyname,jdbcType=NVARCHAR}, #{companyno,jdbcType=NVARCHAR}, 
+      #{flagtrashed,jdbcType=BIT}, #{flagdeleted,jdbcType=BIT}, #{regdate,jdbcType=TIMESTAMP}, 
+      #{dbname,jdbcType=VARCHAR}, #{email,jdbcType=NVARCHAR}, #{password,jdbcType=NVARCHAR}, 
+      #{tel,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{expiredate,jdbcType=TIMESTAMP}, 
+      #{address,jdbcType=NVARCHAR}, #{storecount,jdbcType=VARCHAR}, #{flaggrant,jdbcType=BIT}, 
+      #{cityname,jdbcType=NVARCHAR}, #{rtcount,jdbcType=VARCHAR}, #{domain,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.swjtu.SYWeiServers.entity.Company" >
+    insert into Company
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="companyid != null" >
+        CompanyID,
+      </if>
+      <if test="companyname != null" >
+        CompanyName,
+      </if>
+      <if test="companyno != null" >
+        CompanyNO,
+      </if>
+      <if test="flagtrashed != null" >
+        FlagTrashed,
+      </if>
+      <if test="flagdeleted != null" >
+        FlagDeleted,
+      </if>
+      <if test="regdate != null" >
+        RegDate,
+      </if>
+      <if test="dbname != null" >
+        DBname,
+      </if>
+      <if test="email != null" >
+        Email,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="qq != null" >
+        QQ,
+      </if>
+      <if test="expiredate != null" >
+        ExpireDate,
+      </if>
+      <if test="address != null" >
+        Address,
+      </if>
+      <if test="storecount != null" >
+        StoreCount,
+      </if>
+      <if test="flaggrant != null" >
+        FlagGrant,
+      </if>
+      <if test="cityname != null" >
+        CityName,
+      </if>
+      <if test="rtcount != null" >
+        RTCount,
+      </if>
+      <if test="domain != null" >
+        Domain,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="companyid != null" >
+        #{companyid,jdbcType=NVARCHAR},
+      </if>
+      <if test="companyname != null" >
+        #{companyname,jdbcType=NVARCHAR},
+      </if>
+      <if test="companyno != null" >
+        #{companyno,jdbcType=NVARCHAR},
+      </if>
+      <if test="flagtrashed != null" >
+        #{flagtrashed,jdbcType=BIT},
+      </if>
+      <if test="flagdeleted != null" >
+        #{flagdeleted,jdbcType=BIT},
+      </if>
+      <if test="regdate != null" >
+        #{regdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dbname != null" >
+        #{dbname,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=NVARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=NVARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="expiredate != null" >
+        #{expiredate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=NVARCHAR},
+      </if>
+      <if test="storecount != null" >
+        #{storecount,jdbcType=VARCHAR},
+      </if>
+      <if test="flaggrant != null" >
+        #{flaggrant,jdbcType=BIT},
+      </if>
+      <if test="cityname != null" >
+        #{cityname,jdbcType=NVARCHAR},
+      </if>
+      <if test="rtcount != null" >
+        #{rtcount,jdbcType=VARCHAR},
+      </if>
+      <if test="domain != null" >
+        #{domain,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.swjtu.SYWeiServers.entity.CompanyExample" resultType="java.lang.Integer" >
+    select count(*) from Company
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update Company
+    <set >
+      <if test="record.companyid != null" >
+        CompanyID = #{record.companyid,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.companyname != null" >
+        CompanyName = #{record.companyname,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.companyno != null" >
+        CompanyNO = #{record.companyno,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.flagtrashed != null" >
+        FlagTrashed = #{record.flagtrashed,jdbcType=BIT},
+      </if>
+      <if test="record.flagdeleted != null" >
+        FlagDeleted = #{record.flagdeleted,jdbcType=BIT},
+      </if>
+      <if test="record.regdate != null" >
+        RegDate = #{record.regdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dbname != null" >
+        DBname = #{record.dbname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        Email = #{record.email,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.tel != null" >
+        tel = #{record.tel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qq != null" >
+        QQ = #{record.qq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expiredate != null" >
+        ExpireDate = #{record.expiredate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.address != null" >
+        Address = #{record.address,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.storecount != null" >
+        StoreCount = #{record.storecount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flaggrant != null" >
+        FlagGrant = #{record.flaggrant,jdbcType=BIT},
+      </if>
+      <if test="record.cityname != null" >
+        CityName = #{record.cityname,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.rtcount != null" >
+        RTCount = #{record.rtcount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.domain != null" >
+        Domain = #{record.domain,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        Remark = #{record.remark,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update Company
+    set CompanyID = #{record.companyid,jdbcType=NVARCHAR},
+      CompanyName = #{record.companyname,jdbcType=NVARCHAR},
+      CompanyNO = #{record.companyno,jdbcType=NVARCHAR},
+      FlagTrashed = #{record.flagtrashed,jdbcType=BIT},
+      FlagDeleted = #{record.flagdeleted,jdbcType=BIT},
+      RegDate = #{record.regdate,jdbcType=TIMESTAMP},
+      DBname = #{record.dbname,jdbcType=VARCHAR},
+      Email = #{record.email,jdbcType=NVARCHAR},
+      password = #{record.password,jdbcType=NVARCHAR},
+      tel = #{record.tel,jdbcType=VARCHAR},
+      QQ = #{record.qq,jdbcType=VARCHAR},
+      ExpireDate = #{record.expiredate,jdbcType=TIMESTAMP},
+      Address = #{record.address,jdbcType=NVARCHAR},
+      StoreCount = #{record.storecount,jdbcType=VARCHAR},
+      FlagGrant = #{record.flaggrant,jdbcType=BIT},
+      CityName = #{record.cityname,jdbcType=NVARCHAR},
+      RTCount = #{record.rtcount,jdbcType=VARCHAR},
+      Domain = #{record.domain,jdbcType=VARCHAR},
+      Remark = #{record.remark,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update Company
+    set CompanyID = #{record.companyid,jdbcType=NVARCHAR},
+      CompanyName = #{record.companyname,jdbcType=NVARCHAR},
+      CompanyNO = #{record.companyno,jdbcType=NVARCHAR},
+      FlagTrashed = #{record.flagtrashed,jdbcType=BIT},
+      FlagDeleted = #{record.flagdeleted,jdbcType=BIT},
+      RegDate = #{record.regdate,jdbcType=TIMESTAMP},
+      DBname = #{record.dbname,jdbcType=VARCHAR},
+      Email = #{record.email,jdbcType=NVARCHAR},
+      password = #{record.password,jdbcType=NVARCHAR},
+      tel = #{record.tel,jdbcType=VARCHAR},
+      QQ = #{record.qq,jdbcType=VARCHAR},
+      ExpireDate = #{record.expiredate,jdbcType=TIMESTAMP},
+      Address = #{record.address,jdbcType=NVARCHAR},
+      StoreCount = #{record.storecount,jdbcType=VARCHAR},
+      FlagGrant = #{record.flaggrant,jdbcType=BIT},
+      CityName = #{record.cityname,jdbcType=NVARCHAR},
+      RTCount = #{record.rtcount,jdbcType=VARCHAR},
+      Domain = #{record.domain,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

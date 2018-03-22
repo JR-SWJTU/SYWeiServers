@@ -4,7 +4,6 @@ package com.swjtu.SYWeiServers.util;
  * Created by Administrator on 2018/3/18.
  */
 
-import com.swjtu.SYWeiServers.entity.Hotel;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -21,77 +20,81 @@ import java.util.Properties;
 @SuppressWarnings("finally")
 public class DataSourceFactory {
 
-    //酒店数据工作缓存数量
+    //数据库驱动
+    private static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    //数据库地址
+    private static String url = "jdbc:sqlserver://localhost:1433;databaseName=";
+    //数据库用户名
+    private static String userName = "sa";
+    //数据库连接密码
+    private static String password = "654321";
+
+
+    //最大数据库连接数量（采用数据库连接池思想）
     private static final int MaxDataSourceSize=10;
     //端口超时时间
     private static final int TimeOut = 2000;
-
-    //酒店数据工厂缓存
-    private static Map<Integer,SqlSessionFactory> dataSoruce;
+    //数据库连接池，一个id对应一个数据库连接，数量超过后自动将最早创建的连接去除
+    private static Map<String,SqlSessionFactory> dataSoruce;
 
     static{
-        dataSoruce = new HashMap<Integer, SqlSessionFactory>(MaxDataSourceSize);
+        dataSoruce = new HashMap<String, SqlSessionFactory>(MaxDataSourceSize);
     }
 
     //删除第一个元素
     private static void removeFirstMap(){
-        for (Integer key : dataSoruce.keySet()) {
+        for (String key : dataSoruce.keySet()) {
             dataSoruce.remove(key);
             break;
         }
     }
 
-    //删除酒店缓存
-    public static void removeHotel(int hotelid){
-        dataSoruce.remove(hotelid);
+    //删除数据库连接池中的数据库连接
+    public static void removeHotel(String companyId){
+        dataSoruce.remove(companyId);
     }
 
     //检测连接是否可用
-
-    public static boolean isConnection(Hotel hotel){
-        Boolean result = false;
-        try{
-            //检查端口是否开放
+//    public static boolean isConnection(Hotel hotel){
+//        Boolean result = false;
+//        try{
+//            //检查端口是否开放
 //            Socket client = new Socket();
 //            SocketAddress socketAddress = new InetSocketAddress(hotel.getIp(),Integer.parseInt(hotel.getPort()));
 //            client.connect(socketAddress,TimeOut);
 //            client.close();
+//
+//            result = true;
+//        }
+//        catch(Exception e){
+//            e.printStackTrace();
+//            result = false;
+//        }
+//        finally{
+//            return result;
+//        }
+//    }
 
-            result = true;
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            result = false;
-        }
-        finally{
-            return result;
-        }
-    }
-
-    private static SqlSessionFactory createSqlSessionFactory(Integer id){
+    /**
+     * 传入数据库名称，获取数据库连接
+     * @param dbName
+     * @return
+     */
+    private static SqlSessionFactory createSqlSessionFactory(String dbName){
         SqlSessionFactory _sqlSessionFactory = null;
         try{
-            Hotel hotel = HotelFactory.getHotelById(id);
-            if(hotel != null && isConnection(hotel)){
-                //数据库匹配           Oracle/Mysql
-//                String driver="oracle.jdbc.driver.OracleDriver",url="jdbc:oracle:thin:@"+hotel.getIp()+":"+hotel.getPort()+":"+hotel.getSid();
-                ///mysql
-                String driver = "com.mysql.jdbc.Driver";
-                String url = hotel.getDbName();
-                String userName = "root";
-                String password = "123456";
-                //url = "jdbc:mysql://"+hotel.getIp()+":"+hotel.getPort()+"/"+hotel.getDatabase();
-                //初始化数据库属性
-                Properties properties = new Properties();
-                properties.setProperty("jdbc.driver",driver);
-                properties.setProperty("jdbc.url", url);
-                properties.setProperty("jdbc.username", userName);
-                properties.setProperty("jdbc.password", password);
-                Reader reader = Resources.getResourceAsReader(HotelFactory.configuration);
-                //创建数据工厂
-                SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
-                _sqlSessionFactory = builder.build(reader, properties);
-            }
+            //拼接连接
+            String dataSourceUrl = url + dbName;
+            //初始化数据库属性
+            Properties properties = new Properties();
+            properties.setProperty("jdbc.driver",driver);
+            properties.setProperty("jdbc.url", url);
+            properties.setProperty("jdbc.username", userName);
+            properties.setProperty("jdbc.password", password);
+            Reader reader = Resources.getResourceAsReader(MainDataSourceFactory.configuration);
+            //创建数据工厂
+            SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
+            _sqlSessionFactory = builder.build(reader, properties);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -101,30 +104,34 @@ public class DataSourceFactory {
         }
     }
 
-    //根据酒店id获取Mapper
+    /**
+     * 根据公司id从数据库连接池中获取数据连接，然后获取相应的dao
+     * @param companyId
+     * @param clazz
+     * @param <T>
+     * @return
+     */
     @SuppressWarnings("unchecked")
-    public static <T> T getMapper(Integer id,Class<?> clazz){
-        SqlSessionFactory sqlSessionFactory = dataSoruce.get(id);
+    public static <T> T getMapper(String companyId, String dbName, Class<?> clazz){
+        SqlSessionFactory sqlSessionFactory = dataSoruce.get(companyId);
         if(sqlSessionFactory==null){
             //创建数据工厂
-            sqlSessionFactory = createSqlSessionFactory(id);
+            sqlSessionFactory = createSqlSessionFactory(dbName);
             if(sqlSessionFactory != null){
                 //排序算法 删除Map序列第一个元素，并将当前元素移至Map序列的首位
                 if(dataSoruce.size()>=MaxDataSourceSize){
                     removeFirstMap();
                 }
-                dataSoruce.put(id, sqlSessionFactory);
+                dataSoruce.put(companyId, sqlSessionFactory);
             }
             else
                 return null;
         }
-        /*else{
-            //排序算法 将当前元素移至Map序列的首位
-            dataSoruce.remove(id);
-            dataSoruce.put(id, sqlSessionFactory);
-        }*/
+        //获取数据库连接
         SqlSession sqlSession = sqlSessionFactory.openSession();
+        //根据传入的class类型获取相应的dao
         Object idal = sqlSession.getMapper(clazz);
+        //返回dao
         return (T)IDALProxy.bind(idal, sqlSession);
     }
 

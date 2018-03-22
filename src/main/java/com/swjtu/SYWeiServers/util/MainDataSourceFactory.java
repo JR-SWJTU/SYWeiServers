@@ -1,9 +1,6 @@
 package com.swjtu.SYWeiServers.util;
 
-import com.swjtu.SYWeiServers.entity.Hotel;
-import com.swjtu.SYWeiServers.mapper.HotelMapper;
 import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
@@ -14,7 +11,7 @@ import java.util.Properties;
 /**
  * Created by Administrator on 2018/3/18.
  */
-public class HotelFactory {
+public class MainDataSourceFactory {
 
     public static SqlSessionFactory sqlSessionFactory = null;
     //数据库属性值
@@ -41,25 +38,6 @@ public class HotelFactory {
             sqlSessionFactory = builder.build(reader, properties);
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-    //根据id获取酒店实体
-    @SuppressWarnings("finally")
-    public static Hotel getHotelById(Integer id){
-        Hotel hotel = null;
-        SqlSession sqlSession = null;
-        try{
-            sqlSession = sqlSessionFactory.openSession();
-            hotel = sqlSession.getMapper(HotelMapper.class).selectByPrimaryKey(id);
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-        finally{
-            if(sqlSession != null)
-                sqlSession.close();
-            return hotel;
         }
     }
 }

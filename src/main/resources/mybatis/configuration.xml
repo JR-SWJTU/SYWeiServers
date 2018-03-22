@@ -23,20 +23,11 @@
             </dataSource>
         </environment>
 
-        <!--        <environment id="HO">
-                    <transactionManager type="JDBC" />
-                    <dataSource type="POOLED">
-                        <property name="driver" value="oracle.jdbc.driver.OracleDriver" />
-                        <property name="url" value="jdbc:oracle:thin:@192.168.1.17:1521:orcl" />
-                        <property name="username" value="hotel" />
-                        <property name="password" value="q123" />
-                    </dataSource>
-                </environment>   -->
     </environments>
 
     <mappers>
         <!-- userMapper.xml装载进来  同等于把“dao”的实现装载进来 -->
-        <mapper resource="mapper/HotelMapper.xml"/>
-        <mapper resource="mapper/StudentMapper.xml"/>
+        <mapper resource="mapper/CompanyMapper.xml"/>
+        <mapper resource="mapper/UsersMapper.xml"/>
     </mappers>
 </configuration>
