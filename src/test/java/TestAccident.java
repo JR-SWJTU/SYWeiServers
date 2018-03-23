@@ -1,4 +1,5 @@
 import com.google.gson.Gson;
+import com.swjtu.SYWeiServers.util.DBHelper;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -44,26 +45,28 @@ public class TestAccident {
 //        jsonObject.put("teamName",name);
 //        System.out.println(jsonObject.toString());
 
-        Map<String, Integer> map = new HashMap<String, Integer>();
-        map.put("轻伤",5);
-        System.out.println( new Gson().toJson(map));
+//        Map<String, Integer> map = new HashMap<String, Integer>();
+//        map.put("轻伤",5);
+//        System.out.println( new Gson().toJson(map));
+//
+//        deleteDir(new File("E:\\com.swjtu.SYWeiServers\\")) ;
 
-        deleteDir(new File("E:\\com.swjtu.SYWeiServers\\")) ;
+        DBHelper.createNewDB("YYH");
 
     }
 
-    private  boolean deleteDir(File dir) {
-        if (dir.isDirectory()) {
-            String[] children = dir.list();
-            //递归删除目录中的子目录下
-            for (int i=0; i<children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
-                if (!success) {
-                    return false;
-                }
-            }
-        }
-        // 目录此时为空，可以删除
-        return dir.delete();
-    }
+//    private  boolean deleteDir(File dir) {
+//        if (dir.isDirectory()) {
+//            String[] children = dir.list();
+//            //递归删除目录中的子目录下
+//            for (int i=0; i<children.length; i++) {
+//                boolean success = deleteDir(new File(dir, children[i]));
+//                if (!success) {
+//                    return false;
+//                }
+//            }
+//        }
+//        // 目录此时为空，可以删除
+//        return dir.delete();
+//    }
 }
