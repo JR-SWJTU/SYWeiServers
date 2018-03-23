@@ -16,7 +16,7 @@
     <result column="MgtCompany" property="mgtcompany" jdbcType="NVARCHAR" />
     <result column="Price" property="price" jdbcType="DECIMAL" />
     <result column="MgtPrice" property="mgtprice" jdbcType="DECIMAL" />
-    <result column="Remark" property="remark" jdbcType="LONGNVARCHAR" />
+    <result column="Remark" property="remark" jdbcType="NVARCHAR" />
     <result column="LandNo" property="landno" jdbcType="NVARCHAR" />
     <result column="LandGrade" property="landgrade" jdbcType="VARCHAR" />
     <result column="FrameWork" property="framework" jdbcType="VARCHAR" />
@@ -186,7 +186,7 @@
       #{districtname,jdbcType=NVARCHAR}, #{areaid,jdbcType=CHAR}, #{spell,jdbcType=VARCHAR}, 
       #{address,jdbcType=NVARCHAR}, #{propertyusage,jdbcType=VARCHAR}, #{propertytype,jdbcType=VARCHAR}, 
       #{completeyear,jdbcType=VARCHAR}, #{devcompany,jdbcType=NVARCHAR}, #{mgtcompany,jdbcType=NVARCHAR}, 
-      #{price,jdbcType=DECIMAL}, #{mgtprice,jdbcType=DECIMAL}, #{remark,jdbcType=LONGNVARCHAR}, 
+      #{price,jdbcType=DECIMAL}, #{mgtprice,jdbcType=DECIMAL}, #{remark,jdbcType=NVARCHAR},
       #{landno,jdbcType=NVARCHAR}, #{landgrade,jdbcType=VARCHAR}, #{framework,jdbcType=VARCHAR}, 
       #{mgttel,jdbcType=VARCHAR}, #{moddate,jdbcType=TIMESTAMP}, #{flagtrashed,jdbcType=BIT}, 
       #{flagdeleted,jdbcType=BIT}, #{exdate,jdbcType=TIMESTAMP}, #{doc1,jdbcType=VARCHAR}, 
@@ -408,7 +408,7 @@
         #{mgtprice,jdbcType=DECIMAL},
       </if>
       <if test="remark != null" >
-        #{remark,jdbcType=LONGNVARCHAR},
+        #{remark,jdbcType=NVARCHAR},
       </if>
       <if test="landno != null" >
         #{landno,jdbcType=NVARCHAR},
@@ -578,7 +578,7 @@
         MgtPrice = #{record.mgtprice,jdbcType=DECIMAL},
       </if>
       <if test="record.remark != null" >
-        Remark = #{record.remark,jdbcType=LONGNVARCHAR},
+        Remark = #{record.remark,jdbcType=NVARCHAR},
       </if>
       <if test="record.landno != null" >
         LandNo = #{record.landno,jdbcType=NVARCHAR},
@@ -715,7 +715,7 @@
       MgtCompany = #{record.mgtcompany,jdbcType=NVARCHAR},
       Price = #{record.price,jdbcType=DECIMAL},
       MgtPrice = #{record.mgtprice,jdbcType=DECIMAL},
-      Remark = #{record.remark,jdbcType=LONGNVARCHAR},
+      Remark = #{record.remark,jdbcType=NVARCHAR},
       LandNo = #{record.landno,jdbcType=NVARCHAR},
       LandGrade = #{record.landgrade,jdbcType=VARCHAR},
       FrameWork = #{record.framework,jdbcType=VARCHAR},
@@ -774,7 +774,7 @@
       MgtCompany = #{record.mgtcompany,jdbcType=NVARCHAR},
       Price = #{record.price,jdbcType=DECIMAL},
       MgtPrice = #{record.mgtprice,jdbcType=DECIMAL},
-      Remark = #{record.remark,jdbcType=LONGNVARCHAR},
+      Remark = #{record.remark,jdbcType=NVARCHAR},
       LandNo = #{record.landno,jdbcType=NVARCHAR},
       LandGrade = #{record.landgrade,jdbcType=VARCHAR},
       FrameWork = #{record.framework,jdbcType=VARCHAR},

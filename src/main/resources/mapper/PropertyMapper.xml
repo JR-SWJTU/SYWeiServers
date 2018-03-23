@@ -81,7 +81,7 @@
     <result column="PropertyDate" property="propertydate" jdbcType="TIMESTAMP" />
     <result column="RegulatoryNo" property="regulatoryno" jdbcType="NVARCHAR" />
     <result column="WebTitle" property="webtitle" jdbcType="NVARCHAR" />
-    <result column="PropertyBrief" property="propertybrief" jdbcType="LONGNVARCHAR" />
+    <result column="PropertyBrief" property="propertybrief" jdbcType="NVARCHAR" />
     <result column="DeptID3" property="deptid3" jdbcType="CHAR" />
     <result column="EmpID3" property="empid3" jdbcType="CHAR" />
   </resultMap>
@@ -265,7 +265,7 @@
       #{deptid1,jdbcType=CHAR}, #{empid2,jdbcType=CHAR}, #{deptid2,jdbcType=CHAR}, #{empid1,jdbcType=CHAR}, 
       #{usage,jdbcType=VARCHAR}, #{privy,jdbcType=SMALLINT}, #{flagweb,jdbcType=BIT}, 
       #{word,jdbcType=NVARCHAR}, #{idcard,jdbcType=VARCHAR}, #{propertydate,jdbcType=TIMESTAMP}, 
-      #{regulatoryno,jdbcType=NVARCHAR}, #{webtitle,jdbcType=NVARCHAR}, #{propertybrief,jdbcType=LONGNVARCHAR}, 
+      #{regulatoryno,jdbcType=NVARCHAR}, #{webtitle,jdbcType=NVARCHAR}, #{propertybrief,jdbcType=NVARCHAR},
       #{deptid3,jdbcType=CHAR}, #{empid3,jdbcType=CHAR}, #{remark,jdbcType=LONGVARCHAR}, 
       #{busdatas,jdbcType=LONGVARCHAR})
   </insert>
@@ -764,7 +764,7 @@
         #{webtitle,jdbcType=NVARCHAR},
       </if>
       <if test="propertybrief != null" >
-        #{propertybrief,jdbcType=LONGNVARCHAR},
+        #{propertybrief,jdbcType=NVARCHAR},
       </if>
       <if test="deptid3 != null" >
         #{deptid3,jdbcType=CHAR},
@@ -1027,7 +1027,7 @@
         WebTitle = #{record.webtitle,jdbcType=NVARCHAR},
       </if>
       <if test="record.propertybrief != null" >
-        PropertyBrief = #{record.propertybrief,jdbcType=LONGNVARCHAR},
+        PropertyBrief = #{record.propertybrief,jdbcType=NVARCHAR},
       </if>
       <if test="record.deptid3 != null" >
         DeptID3 = #{record.deptid3,jdbcType=CHAR},
@@ -1127,7 +1127,7 @@
       PropertyDate = #{record.propertydate,jdbcType=TIMESTAMP},
       RegulatoryNo = #{record.regulatoryno,jdbcType=NVARCHAR},
       WebTitle = #{record.webtitle,jdbcType=NVARCHAR},
-      PropertyBrief = #{record.propertybrief,jdbcType=LONGNVARCHAR},
+      PropertyBrief = #{record.propertybrief,jdbcType=NVARCHAR},
       DeptID3 = #{record.deptid3,jdbcType=CHAR},
       EmpID3 = #{record.empid3,jdbcType=CHAR},
       Remark = #{record.remark,jdbcType=LONGVARCHAR},
@@ -1217,7 +1217,7 @@
       PropertyDate = #{record.propertydate,jdbcType=TIMESTAMP},
       RegulatoryNo = #{record.regulatoryno,jdbcType=NVARCHAR},
       WebTitle = #{record.webtitle,jdbcType=NVARCHAR},
-      PropertyBrief = #{record.propertybrief,jdbcType=LONGNVARCHAR},
+      PropertyBrief = #{record.propertybrief,jdbcType=NVARCHAR},
       DeptID3 = #{record.deptid3,jdbcType=CHAR},
       EmpID3 = #{record.empid3,jdbcType=CHAR}
     <if test="_parameter != null" >
@@ -1462,7 +1462,7 @@
         WebTitle = #{webtitle,jdbcType=NVARCHAR},
       </if>
       <if test="propertybrief != null" >
-        PropertyBrief = #{propertybrief,jdbcType=LONGNVARCHAR},
+        PropertyBrief = #{propertybrief,jdbcType=NVARCHAR},
       </if>
       <if test="deptid3 != null" >
         DeptID3 = #{deptid3,jdbcType=CHAR},
@@ -1559,7 +1559,7 @@
       PropertyDate = #{propertydate,jdbcType=TIMESTAMP},
       RegulatoryNo = #{regulatoryno,jdbcType=NVARCHAR},
       WebTitle = #{webtitle,jdbcType=NVARCHAR},
-      PropertyBrief = #{propertybrief,jdbcType=LONGNVARCHAR},
+      PropertyBrief = #{propertybrief,jdbcType=NVARCHAR},
       DeptID3 = #{deptid3,jdbcType=CHAR},
       EmpID3 = #{empid3,jdbcType=CHAR},
       Remark = #{remark,jdbcType=LONGVARCHAR},
@@ -1646,7 +1646,7 @@
       PropertyDate = #{propertydate,jdbcType=TIMESTAMP},
       RegulatoryNo = #{regulatoryno,jdbcType=NVARCHAR},
       WebTitle = #{webtitle,jdbcType=NVARCHAR},
-      PropertyBrief = #{propertybrief,jdbcType=LONGNVARCHAR},
+      PropertyBrief = #{propertybrief,jdbcType=NVARCHAR},
       DeptID3 = #{deptid3,jdbcType=CHAR},
       EmpID3 = #{empid3,jdbcType=CHAR}
     where PropertyID = #{propertyid,jdbcType=CHAR}
