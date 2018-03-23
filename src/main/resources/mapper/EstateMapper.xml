@@ -1,0 +1,815 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.swjtu.SYWeiServers.mapper.EstateMapper" >
+  <resultMap id="BaseResultMap" type="com.swjtu.SYWeiServers.entity.Estate" >
+    <result column="EstateID" property="estateid" jdbcType="CHAR" />
+    <result column="EstateName" property="estatename" jdbcType="NVARCHAR" />
+    <result column="CityName" property="cityname" jdbcType="NVARCHAR" />
+    <result column="DistrictName" property="districtname" jdbcType="NVARCHAR" />
+    <result column="AreaID" property="areaid" jdbcType="CHAR" />
+    <result column="Spell" property="spell" jdbcType="VARCHAR" />
+    <result column="Address" property="address" jdbcType="NVARCHAR" />
+    <result column="PropertyUsage" property="propertyusage" jdbcType="VARCHAR" />
+    <result column="PropertyType" property="propertytype" jdbcType="VARCHAR" />
+    <result column="CompleteYear" property="completeyear" jdbcType="VARCHAR" />
+    <result column="DevCompany" property="devcompany" jdbcType="NVARCHAR" />
+    <result column="MgtCompany" property="mgtcompany" jdbcType="NVARCHAR" />
+    <result column="Price" property="price" jdbcType="DECIMAL" />
+    <result column="MgtPrice" property="mgtprice" jdbcType="DECIMAL" />
+    <result column="Remark" property="remark" jdbcType="LONGNVARCHAR" />
+    <result column="LandNo" property="landno" jdbcType="NVARCHAR" />
+    <result column="LandGrade" property="landgrade" jdbcType="VARCHAR" />
+    <result column="FrameWork" property="framework" jdbcType="VARCHAR" />
+    <result column="MgtTel" property="mgttel" jdbcType="VARCHAR" />
+    <result column="ModDate" property="moddate" jdbcType="TIMESTAMP" />
+    <result column="FlagTrashed" property="flagtrashed" jdbcType="BIT" />
+    <result column="FlagDeleted" property="flagdeleted" jdbcType="BIT" />
+    <result column="ExDate" property="exdate" jdbcType="TIMESTAMP" />
+    <result column="Doc1" property="doc1" jdbcType="VARCHAR" />
+    <result column="Doc2" property="doc2" jdbcType="VARCHAR" />
+    <result column="Doc3" property="doc3" jdbcType="VARCHAR" />
+    <result column="Link1" property="link1" jdbcType="VARCHAR" />
+    <result column="Link2" property="link2" jdbcType="VARCHAR" />
+    <result column="Link3" property="link3" jdbcType="VARCHAR" />
+    <result column="Address2" property="address2" jdbcType="VARCHAR" />
+    <result column="DevTel" property="devtel" jdbcType="VARCHAR" />
+    <result column="Room" property="room" jdbcType="SMALLINT" />
+    <result column="Square" property="square" jdbcType="DOUBLE" />
+    <result column="EstateNameE" property="estatenamee" jdbcType="VARCHAR" />
+    <result column="AddressE" property="addresse" jdbcType="VARCHAR" />
+    <result column="MapID" property="mapid" jdbcType="VARCHAR" />
+    <result column="CoX" property="cox" jdbcType="INTEGER" />
+    <result column="CoY" property="coy" jdbcType="INTEGER" />
+    <result column="RoomRule" property="roomrule" jdbcType="INTEGER" />
+    <result column="BuildingRule" property="buildingrule" jdbcType="BIT" />
+    <result column="RoomRuleEx" property="roomruleex" jdbcType="VARCHAR" />
+    <result column="Surface" property="surface" jdbcType="VARCHAR" />
+    <result column="OwnYear" property="ownyear" jdbcType="VARCHAR" />
+    <result column="EstateNameA" property="estatenamea" jdbcType="NVARCHAR" />
+    <result column="FlagLocked" property="flaglocked" jdbcType="BIT" />
+    <result column="PropertyMetro" property="propertymetro" jdbcType="NVARCHAR" />
+    <result column="PropertyRing" property="propertyring" jdbcType="NVARCHAR" />
+    <result column="RoomNoRule" property="roomnorule" jdbcType="BIT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.swjtu.SYWeiServers.entity.Estate" extends="BaseResultMap" >
+    <result column="Environment" property="environment" jdbcType="LONGVARCHAR" />
+    <result column="Transportation" property="transportation" jdbcType="LONGVARCHAR" />
+    <result column="Education" property="education" jdbcType="LONGVARCHAR" />
+    <result column="Business" property="business" jdbcType="LONGVARCHAR" />
+    <result column="Entertainment" property="entertainment" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    EstateID, EstateName, CityName, DistrictName, AreaID, Spell, Address, PropertyUsage, 
+    PropertyType, CompleteYear, DevCompany, MgtCompany, Price, MgtPrice, Remark, LandNo, 
+    LandGrade, FrameWork, MgtTel, ModDate, FlagTrashed, FlagDeleted, ExDate, Doc1, Doc2, 
+    Doc3, Link1, Link2, Link3, Address2, DevTel, Room, Square, EstateNameE, AddressE, 
+    MapID, CoX, CoY, RoomRule, BuildingRule, RoomRuleEx, Surface, OwnYear, EstateNameA, 
+    FlagLocked, PropertyMetro, PropertyRing, RoomNoRule
+  </sql>
+  <sql id="Blob_Column_List" >
+    Environment, Transportation, Education, Business, Entertainment
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.swjtu.SYWeiServers.entity.EstateExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Estate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.swjtu.SYWeiServers.entity.EstateExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Estate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.swjtu.SYWeiServers.entity.EstateExample" >
+    delete from Estate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.swjtu.SYWeiServers.entity.Estate" >
+    insert into Estate (EstateID, EstateName, CityName, 
+      DistrictName, AreaID, Spell, 
+      Address, PropertyUsage, PropertyType, 
+      CompleteYear, DevCompany, MgtCompany, 
+      Price, MgtPrice, Remark, 
+      LandNo, LandGrade, FrameWork, 
+      MgtTel, ModDate, FlagTrashed, 
+      FlagDeleted, ExDate, Doc1, 
+      Doc2, Doc3, Link1, 
+      Link2, Link3, Address2, 
+      DevTel, Room, Square, 
+      EstateNameE, AddressE, MapID, 
+      CoX, CoY, RoomRule, 
+      BuildingRule, RoomRuleEx, Surface, 
+      OwnYear, EstateNameA, FlagLocked, 
+      PropertyMetro, PropertyRing, RoomNoRule, 
+      Environment, Transportation, Education, 
+      Business, Entertainment)
+    values (#{estateid,jdbcType=CHAR}, #{estatename,jdbcType=NVARCHAR}, #{cityname,jdbcType=NVARCHAR}, 
+      #{districtname,jdbcType=NVARCHAR}, #{areaid,jdbcType=CHAR}, #{spell,jdbcType=VARCHAR}, 
+      #{address,jdbcType=NVARCHAR}, #{propertyusage,jdbcType=VARCHAR}, #{propertytype,jdbcType=VARCHAR}, 
+      #{completeyear,jdbcType=VARCHAR}, #{devcompany,jdbcType=NVARCHAR}, #{mgtcompany,jdbcType=NVARCHAR}, 
+      #{price,jdbcType=DECIMAL}, #{mgtprice,jdbcType=DECIMAL}, #{remark,jdbcType=LONGNVARCHAR}, 
+      #{landno,jdbcType=NVARCHAR}, #{landgrade,jdbcType=VARCHAR}, #{framework,jdbcType=VARCHAR}, 
+      #{mgttel,jdbcType=VARCHAR}, #{moddate,jdbcType=TIMESTAMP}, #{flagtrashed,jdbcType=BIT}, 
+      #{flagdeleted,jdbcType=BIT}, #{exdate,jdbcType=TIMESTAMP}, #{doc1,jdbcType=VARCHAR}, 
+      #{doc2,jdbcType=VARCHAR}, #{doc3,jdbcType=VARCHAR}, #{link1,jdbcType=VARCHAR}, 
+      #{link2,jdbcType=VARCHAR}, #{link3,jdbcType=VARCHAR}, #{address2,jdbcType=VARCHAR}, 
+      #{devtel,jdbcType=VARCHAR}, #{room,jdbcType=SMALLINT}, #{square,jdbcType=DOUBLE}, 
+      #{estatenamee,jdbcType=VARCHAR}, #{addresse,jdbcType=VARCHAR}, #{mapid,jdbcType=VARCHAR}, 
+      #{cox,jdbcType=INTEGER}, #{coy,jdbcType=INTEGER}, #{roomrule,jdbcType=INTEGER}, 
+      #{buildingrule,jdbcType=BIT}, #{roomruleex,jdbcType=VARCHAR}, #{surface,jdbcType=VARCHAR}, 
+      #{ownyear,jdbcType=VARCHAR}, #{estatenamea,jdbcType=NVARCHAR}, #{flaglocked,jdbcType=BIT}, 
+      #{propertymetro,jdbcType=NVARCHAR}, #{propertyring,jdbcType=NVARCHAR}, #{roomnorule,jdbcType=BIT}, 
+      #{environment,jdbcType=LONGVARCHAR}, #{transportation,jdbcType=LONGVARCHAR}, #{education,jdbcType=LONGVARCHAR}, 
+      #{business,jdbcType=LONGVARCHAR}, #{entertainment,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.swjtu.SYWeiServers.entity.Estate" >
+    insert into Estate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="estateid != null" >
+        EstateID,
+      </if>
+      <if test="estatename != null" >
+        EstateName,
+      </if>
+      <if test="cityname != null" >
+        CityName,
+      </if>
+      <if test="districtname != null" >
+        DistrictName,
+      </if>
+      <if test="areaid != null" >
+        AreaID,
+      </if>
+      <if test="spell != null" >
+        Spell,
+      </if>
+      <if test="address != null" >
+        Address,
+      </if>
+      <if test="propertyusage != null" >
+        PropertyUsage,
+      </if>
+      <if test="propertytype != null" >
+        PropertyType,
+      </if>
+      <if test="completeyear != null" >
+        CompleteYear,
+      </if>
+      <if test="devcompany != null" >
+        DevCompany,
+      </if>
+      <if test="mgtcompany != null" >
+        MgtCompany,
+      </if>
+      <if test="price != null" >
+        Price,
+      </if>
+      <if test="mgtprice != null" >
+        MgtPrice,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="landno != null" >
+        LandNo,
+      </if>
+      <if test="landgrade != null" >
+        LandGrade,
+      </if>
+      <if test="framework != null" >
+        FrameWork,
+      </if>
+      <if test="mgttel != null" >
+        MgtTel,
+      </if>
+      <if test="moddate != null" >
+        ModDate,
+      </if>
+      <if test="flagtrashed != null" >
+        FlagTrashed,
+      </if>
+      <if test="flagdeleted != null" >
+        FlagDeleted,
+      </if>
+      <if test="exdate != null" >
+        ExDate,
+      </if>
+      <if test="doc1 != null" >
+        Doc1,
+      </if>
+      <if test="doc2 != null" >
+        Doc2,
+      </if>
+      <if test="doc3 != null" >
+        Doc3,
+      </if>
+      <if test="link1 != null" >
+        Link1,
+      </if>
+      <if test="link2 != null" >
+        Link2,
+      </if>
+      <if test="link3 != null" >
+        Link3,
+      </if>
+      <if test="address2 != null" >
+        Address2,
+      </if>
+      <if test="devtel != null" >
+        DevTel,
+      </if>
+      <if test="room != null" >
+        Room,
+      </if>
+      <if test="square != null" >
+        Square,
+      </if>
+      <if test="estatenamee != null" >
+        EstateNameE,
+      </if>
+      <if test="addresse != null" >
+        AddressE,
+      </if>
+      <if test="mapid != null" >
+        MapID,
+      </if>
+      <if test="cox != null" >
+        CoX,
+      </if>
+      <if test="coy != null" >
+        CoY,
+      </if>
+      <if test="roomrule != null" >
+        RoomRule,
+      </if>
+      <if test="buildingrule != null" >
+        BuildingRule,
+      </if>
+      <if test="roomruleex != null" >
+        RoomRuleEx,
+      </if>
+      <if test="surface != null" >
+        Surface,
+      </if>
+      <if test="ownyear != null" >
+        OwnYear,
+      </if>
+      <if test="estatenamea != null" >
+        EstateNameA,
+      </if>
+      <if test="flaglocked != null" >
+        FlagLocked,
+      </if>
+      <if test="propertymetro != null" >
+        PropertyMetro,
+      </if>
+      <if test="propertyring != null" >
+        PropertyRing,
+      </if>
+      <if test="roomnorule != null" >
+        RoomNoRule,
+      </if>
+      <if test="environment != null" >
+        Environment,
+      </if>
+      <if test="transportation != null" >
+        Transportation,
+      </if>
+      <if test="education != null" >
+        Education,
+      </if>
+      <if test="business != null" >
+        Business,
+      </if>
+      <if test="entertainment != null" >
+        Entertainment,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="estateid != null" >
+        #{estateid,jdbcType=CHAR},
+      </if>
+      <if test="estatename != null" >
+        #{estatename,jdbcType=NVARCHAR},
+      </if>
+      <if test="cityname != null" >
+        #{cityname,jdbcType=NVARCHAR},
+      </if>
+      <if test="districtname != null" >
+        #{districtname,jdbcType=NVARCHAR},
+      </if>
+      <if test="areaid != null" >
+        #{areaid,jdbcType=CHAR},
+      </if>
+      <if test="spell != null" >
+        #{spell,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=NVARCHAR},
+      </if>
+      <if test="propertyusage != null" >
+        #{propertyusage,jdbcType=VARCHAR},
+      </if>
+      <if test="propertytype != null" >
+        #{propertytype,jdbcType=VARCHAR},
+      </if>
+      <if test="completeyear != null" >
+        #{completeyear,jdbcType=VARCHAR},
+      </if>
+      <if test="devcompany != null" >
+        #{devcompany,jdbcType=NVARCHAR},
+      </if>
+      <if test="mgtcompany != null" >
+        #{mgtcompany,jdbcType=NVARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="mgtprice != null" >
+        #{mgtprice,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=LONGNVARCHAR},
+      </if>
+      <if test="landno != null" >
+        #{landno,jdbcType=NVARCHAR},
+      </if>
+      <if test="landgrade != null" >
+        #{landgrade,jdbcType=VARCHAR},
+      </if>
+      <if test="framework != null" >
+        #{framework,jdbcType=VARCHAR},
+      </if>
+      <if test="mgttel != null" >
+        #{mgttel,jdbcType=VARCHAR},
+      </if>
+      <if test="moddate != null" >
+        #{moddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flagtrashed != null" >
+        #{flagtrashed,jdbcType=BIT},
+      </if>
+      <if test="flagdeleted != null" >
+        #{flagdeleted,jdbcType=BIT},
+      </if>
+      <if test="exdate != null" >
+        #{exdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="doc1 != null" >
+        #{doc1,jdbcType=VARCHAR},
+      </if>
+      <if test="doc2 != null" >
+        #{doc2,jdbcType=VARCHAR},
+      </if>
+      <if test="doc3 != null" >
+        #{doc3,jdbcType=VARCHAR},
+      </if>
+      <if test="link1 != null" >
+        #{link1,jdbcType=VARCHAR},
+      </if>
+      <if test="link2 != null" >
+        #{link2,jdbcType=VARCHAR},
+      </if>
+      <if test="link3 != null" >
+        #{link3,jdbcType=VARCHAR},
+      </if>
+      <if test="address2 != null" >
+        #{address2,jdbcType=VARCHAR},
+      </if>
+      <if test="devtel != null" >
+        #{devtel,jdbcType=VARCHAR},
+      </if>
+      <if test="room != null" >
+        #{room,jdbcType=SMALLINT},
+      </if>
+      <if test="square != null" >
+        #{square,jdbcType=DOUBLE},
+      </if>
+      <if test="estatenamee != null" >
+        #{estatenamee,jdbcType=VARCHAR},
+      </if>
+      <if test="addresse != null" >
+        #{addresse,jdbcType=VARCHAR},
+      </if>
+      <if test="mapid != null" >
+        #{mapid,jdbcType=VARCHAR},
+      </if>
+      <if test="cox != null" >
+        #{cox,jdbcType=INTEGER},
+      </if>
+      <if test="coy != null" >
+        #{coy,jdbcType=INTEGER},
+      </if>
+      <if test="roomrule != null" >
+        #{roomrule,jdbcType=INTEGER},
+      </if>
+      <if test="buildingrule != null" >
+        #{buildingrule,jdbcType=BIT},
+      </if>
+      <if test="roomruleex != null" >
+        #{roomruleex,jdbcType=VARCHAR},
+      </if>
+      <if test="surface != null" >
+        #{surface,jdbcType=VARCHAR},
+      </if>
+      <if test="ownyear != null" >
+        #{ownyear,jdbcType=VARCHAR},
+      </if>
+      <if test="estatenamea != null" >
+        #{estatenamea,jdbcType=NVARCHAR},
+      </if>
+      <if test="flaglocked != null" >
+        #{flaglocked,jdbcType=BIT},
+      </if>
+      <if test="propertymetro != null" >
+        #{propertymetro,jdbcType=NVARCHAR},
+      </if>
+      <if test="propertyring != null" >
+        #{propertyring,jdbcType=NVARCHAR},
+      </if>
+      <if test="roomnorule != null" >
+        #{roomnorule,jdbcType=BIT},
+      </if>
+      <if test="environment != null" >
+        #{environment,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="transportation != null" >
+        #{transportation,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="business != null" >
+        #{business,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="entertainment != null" >
+        #{entertainment,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.swjtu.SYWeiServers.entity.EstateExample" resultType="java.lang.Integer" >
+    select count(*) from Estate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update Estate
+    <set >
+      <if test="record.estateid != null" >
+        EstateID = #{record.estateid,jdbcType=CHAR},
+      </if>
+      <if test="record.estatename != null" >
+        EstateName = #{record.estatename,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.cityname != null" >
+        CityName = #{record.cityname,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.districtname != null" >
+        DistrictName = #{record.districtname,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.areaid != null" >
+        AreaID = #{record.areaid,jdbcType=CHAR},
+      </if>
+      <if test="record.spell != null" >
+        Spell = #{record.spell,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        Address = #{record.address,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.propertyusage != null" >
+        PropertyUsage = #{record.propertyusage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.propertytype != null" >
+        PropertyType = #{record.propertytype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.completeyear != null" >
+        CompleteYear = #{record.completeyear,jdbcType=VARCHAR},
+      </if>
+      <if test="record.devcompany != null" >
+        DevCompany = #{record.devcompany,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.mgtcompany != null" >
+        MgtCompany = #{record.mgtcompany,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.price != null" >
+        Price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.mgtprice != null" >
+        MgtPrice = #{record.mgtprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.remark != null" >
+        Remark = #{record.remark,jdbcType=LONGNVARCHAR},
+      </if>
+      <if test="record.landno != null" >
+        LandNo = #{record.landno,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.landgrade != null" >
+        LandGrade = #{record.landgrade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.framework != null" >
+        FrameWork = #{record.framework,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mgttel != null" >
+        MgtTel = #{record.mgttel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moddate != null" >
+        ModDate = #{record.moddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.flagtrashed != null" >
+        FlagTrashed = #{record.flagtrashed,jdbcType=BIT},
+      </if>
+      <if test="record.flagdeleted != null" >
+        FlagDeleted = #{record.flagdeleted,jdbcType=BIT},
+      </if>
+      <if test="record.exdate != null" >
+        ExDate = #{record.exdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.doc1 != null" >
+        Doc1 = #{record.doc1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doc2 != null" >
+        Doc2 = #{record.doc2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.doc3 != null" >
+        Doc3 = #{record.doc3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.link1 != null" >
+        Link1 = #{record.link1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.link2 != null" >
+        Link2 = #{record.link2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.link3 != null" >
+        Link3 = #{record.link3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address2 != null" >
+        Address2 = #{record.address2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.devtel != null" >
+        DevTel = #{record.devtel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.room != null" >
+        Room = #{record.room,jdbcType=SMALLINT},
+      </if>
+      <if test="record.square != null" >
+        Square = #{record.square,jdbcType=DOUBLE},
+      </if>
+      <if test="record.estatenamee != null" >
+        EstateNameE = #{record.estatenamee,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addresse != null" >
+        AddressE = #{record.addresse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mapid != null" >
+        MapID = #{record.mapid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cox != null" >
+        CoX = #{record.cox,jdbcType=INTEGER},
+      </if>
+      <if test="record.coy != null" >
+        CoY = #{record.coy,jdbcType=INTEGER},
+      </if>
+      <if test="record.roomrule != null" >
+        RoomRule = #{record.roomrule,jdbcType=INTEGER},
+      </if>
+      <if test="record.buildingrule != null" >
+        BuildingRule = #{record.buildingrule,jdbcType=BIT},
+      </if>
+      <if test="record.roomruleex != null" >
+        RoomRuleEx = #{record.roomruleex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.surface != null" >
+        Surface = #{record.surface,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ownyear != null" >
+        OwnYear = #{record.ownyear,jdbcType=VARCHAR},
+      </if>
+      <if test="record.estatenamea != null" >
+        EstateNameA = #{record.estatenamea,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.flaglocked != null" >
+        FlagLocked = #{record.flaglocked,jdbcType=BIT},
+      </if>
+      <if test="record.propertymetro != null" >
+        PropertyMetro = #{record.propertymetro,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.propertyring != null" >
+        PropertyRing = #{record.propertyring,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.roomnorule != null" >
+        RoomNoRule = #{record.roomnorule,jdbcType=BIT},
+      </if>
+      <if test="record.environment != null" >
+        Environment = #{record.environment,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.transportation != null" >
+        Transportation = #{record.transportation,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.education != null" >
+        Education = #{record.education,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.business != null" >
+        Business = #{record.business,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.entertainment != null" >
+        Entertainment = #{record.entertainment,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update Estate
+    set EstateID = #{record.estateid,jdbcType=CHAR},
+      EstateName = #{record.estatename,jdbcType=NVARCHAR},
+      CityName = #{record.cityname,jdbcType=NVARCHAR},
+      DistrictName = #{record.districtname,jdbcType=NVARCHAR},
+      AreaID = #{record.areaid,jdbcType=CHAR},
+      Spell = #{record.spell,jdbcType=VARCHAR},
+      Address = #{record.address,jdbcType=NVARCHAR},
+      PropertyUsage = #{record.propertyusage,jdbcType=VARCHAR},
+      PropertyType = #{record.propertytype,jdbcType=VARCHAR},
+      CompleteYear = #{record.completeyear,jdbcType=VARCHAR},
+      DevCompany = #{record.devcompany,jdbcType=NVARCHAR},
+      MgtCompany = #{record.mgtcompany,jdbcType=NVARCHAR},
+      Price = #{record.price,jdbcType=DECIMAL},
+      MgtPrice = #{record.mgtprice,jdbcType=DECIMAL},
+      Remark = #{record.remark,jdbcType=LONGNVARCHAR},
+      LandNo = #{record.landno,jdbcType=NVARCHAR},
+      LandGrade = #{record.landgrade,jdbcType=VARCHAR},
+      FrameWork = #{record.framework,jdbcType=VARCHAR},
+      MgtTel = #{record.mgttel,jdbcType=VARCHAR},
+      ModDate = #{record.moddate,jdbcType=TIMESTAMP},
+      FlagTrashed = #{record.flagtrashed,jdbcType=BIT},
+      FlagDeleted = #{record.flagdeleted,jdbcType=BIT},
+      ExDate = #{record.exdate,jdbcType=TIMESTAMP},
+      Doc1 = #{record.doc1,jdbcType=VARCHAR},
+      Doc2 = #{record.doc2,jdbcType=VARCHAR},
+      Doc3 = #{record.doc3,jdbcType=VARCHAR},
+      Link1 = #{record.link1,jdbcType=VARCHAR},
+      Link2 = #{record.link2,jdbcType=VARCHAR},
+      Link3 = #{record.link3,jdbcType=VARCHAR},
+      Address2 = #{record.address2,jdbcType=VARCHAR},
+      DevTel = #{record.devtel,jdbcType=VARCHAR},
+      Room = #{record.room,jdbcType=SMALLINT},
+      Square = #{record.square,jdbcType=DOUBLE},
+      EstateNameE = #{record.estatenamee,jdbcType=VARCHAR},
+      AddressE = #{record.addresse,jdbcType=VARCHAR},
+      MapID = #{record.mapid,jdbcType=VARCHAR},
+      CoX = #{record.cox,jdbcType=INTEGER},
+      CoY = #{record.coy,jdbcType=INTEGER},
+      RoomRule = #{record.roomrule,jdbcType=INTEGER},
+      BuildingRule = #{record.buildingrule,jdbcType=BIT},
+      RoomRuleEx = #{record.roomruleex,jdbcType=VARCHAR},
+      Surface = #{record.surface,jdbcType=VARCHAR},
+      OwnYear = #{record.ownyear,jdbcType=VARCHAR},
+      EstateNameA = #{record.estatenamea,jdbcType=NVARCHAR},
+      FlagLocked = #{record.flaglocked,jdbcType=BIT},
+      PropertyMetro = #{record.propertymetro,jdbcType=NVARCHAR},
+      PropertyRing = #{record.propertyring,jdbcType=NVARCHAR},
+      RoomNoRule = #{record.roomnorule,jdbcType=BIT},
+      Environment = #{record.environment,jdbcType=LONGVARCHAR},
+      Transportation = #{record.transportation,jdbcType=LONGVARCHAR},
+      Education = #{record.education,jdbcType=LONGVARCHAR},
+      Business = #{record.business,jdbcType=LONGVARCHAR},
+      Entertainment = #{record.entertainment,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update Estate
+    set EstateID = #{record.estateid,jdbcType=CHAR},
+      EstateName = #{record.estatename,jdbcType=NVARCHAR},
+      CityName = #{record.cityname,jdbcType=NVARCHAR},
+      DistrictName = #{record.districtname,jdbcType=NVARCHAR},
+      AreaID = #{record.areaid,jdbcType=CHAR},
+      Spell = #{record.spell,jdbcType=VARCHAR},
+      Address = #{record.address,jdbcType=NVARCHAR},
+      PropertyUsage = #{record.propertyusage,jdbcType=VARCHAR},
+      PropertyType = #{record.propertytype,jdbcType=VARCHAR},
+      CompleteYear = #{record.completeyear,jdbcType=VARCHAR},
+      DevCompany = #{record.devcompany,jdbcType=NVARCHAR},
+      MgtCompany = #{record.mgtcompany,jdbcType=NVARCHAR},
+      Price = #{record.price,jdbcType=DECIMAL},
+      MgtPrice = #{record.mgtprice,jdbcType=DECIMAL},
+      Remark = #{record.remark,jdbcType=LONGNVARCHAR},
+      LandNo = #{record.landno,jdbcType=NVARCHAR},
+      LandGrade = #{record.landgrade,jdbcType=VARCHAR},
+      FrameWork = #{record.framework,jdbcType=VARCHAR},
+      MgtTel = #{record.mgttel,jdbcType=VARCHAR},
+      ModDate = #{record.moddate,jdbcType=TIMESTAMP},
+      FlagTrashed = #{record.flagtrashed,jdbcType=BIT},
+      FlagDeleted = #{record.flagdeleted,jdbcType=BIT},
+      ExDate = #{record.exdate,jdbcType=TIMESTAMP},
+      Doc1 = #{record.doc1,jdbcType=VARCHAR},
+      Doc2 = #{record.doc2,jdbcType=VARCHAR},
+      Doc3 = #{record.doc3,jdbcType=VARCHAR},
+      Link1 = #{record.link1,jdbcType=VARCHAR},
+      Link2 = #{record.link2,jdbcType=VARCHAR},
+      Link3 = #{record.link3,jdbcType=VARCHAR},
+      Address2 = #{record.address2,jdbcType=VARCHAR},
+      DevTel = #{record.devtel,jdbcType=VARCHAR},
+      Room = #{record.room,jdbcType=SMALLINT},
+      Square = #{record.square,jdbcType=DOUBLE},
+      EstateNameE = #{record.estatenamee,jdbcType=VARCHAR},
+      AddressE = #{record.addresse,jdbcType=VARCHAR},
+      MapID = #{record.mapid,jdbcType=VARCHAR},
+      CoX = #{record.cox,jdbcType=INTEGER},
+      CoY = #{record.coy,jdbcType=INTEGER},
+      RoomRule = #{record.roomrule,jdbcType=INTEGER},
+      BuildingRule = #{record.buildingrule,jdbcType=BIT},
+      RoomRuleEx = #{record.roomruleex,jdbcType=VARCHAR},
+      Surface = #{record.surface,jdbcType=VARCHAR},
+      OwnYear = #{record.ownyear,jdbcType=VARCHAR},
+      EstateNameA = #{record.estatenamea,jdbcType=NVARCHAR},
+      FlagLocked = #{record.flaglocked,jdbcType=BIT},
+      PropertyMetro = #{record.propertymetro,jdbcType=NVARCHAR},
+      PropertyRing = #{record.propertyring,jdbcType=NVARCHAR},
+      RoomNoRule = #{record.roomnorule,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>
