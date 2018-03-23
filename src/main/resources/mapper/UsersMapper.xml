@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--注意namespace中类与自己创建的类名称要一致-->
+<mapper namespace="com.swjtu.SYWeiServers.mapper.UsersMapper">
+
+  <resultMap id="userRes" type="com.swjtu.SYWeiServers.entity.Users">
+    <result column="ID" property="id"/>
+    <result column="username" property="username"/>
+    <result column="password" property="password"/>
+  </resultMap>
+
+  <!--写自己的sql语句，其中id为xml对应的mapper中的方法名称-->
+  <select id="findUserById" resultMap="userRes">
+      use ${dbName} SELECT * FROM Users WHERE ID = #{id}
+  </select>
+
+  <insert id="addUsers"  parameterType="com.swjtu.SYWeiServers.entity.Users">
+     use ${dbName} insert into Users(ID, username, password)
+    values(
+    10,
+    #{entity.username},
+    #{entity.password}
+    )
+  </insert>
+
+
+</mapper>
