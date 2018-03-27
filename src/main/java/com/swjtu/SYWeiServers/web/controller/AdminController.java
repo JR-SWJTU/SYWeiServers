@@ -33,7 +33,7 @@ public class AdminController {
      */
     @RequestMapping(value = "/loadCompany",method = RequestMethod.GET)
     public JsonResult loadCompany(String id) throws Exception{
-        Company company = companyService.loadCompany(id);
+        Company company = companyService.findCompany(id);
         return JsonResult.build(StatusCode.SUCCESS, company);
     }
 

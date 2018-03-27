@@ -1,12 +1,22 @@
 package com.swjtu.SYWeiServers.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.swjtu.SYWeiServers.entity.Company;
 import com.swjtu.SYWeiServers.entity.CompanyExample;
 import com.swjtu.SYWeiServers.mapper.CompanyMapper;
+import com.swjtu.SYWeiServers.mapper.CompanyMapperCustom;
 import com.swjtu.SYWeiServers.service.CompanyService;
 import com.swjtu.SYWeiServers.util.MainDataSourceFactory;
+import com.swjtu.SYWeiServers.util.PageResult;
+import com.swjtu.SYWeiServers.util.ToolHelper;
+import com.swjtu.SYWeiServers.web.exception.CustomException;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2018/3/19.
@@ -16,13 +26,78 @@ public class CompanyServiceImpl implements CompanyService {
 
     private static SqlSession sqlSession = null;
 
-    /**
-     * 根据公司id从数据库获取一个公司信息
-     *
-     * @param companyId
-     * @return
-     */
-    public Company loadCompany(String companyId) {
+    @Override
+    public boolean addCompany(Company company) throws Exception {
+        if(company.getDbname() == null || company.getDbname().equals("")) {
+            throw  new CustomException("数据库名为空");
+        }
+
+        if(findCompany(company.getCompanyno()) != null) {
+            throw new CustomException("账号已经存在");
+        }
+
+        CompanyMapper companyMapper;
+        try{
+            //获取主数据库连接
+            sqlSession = MainDataSourceFactory.sqlSessionFactory.openSession();
+            //获取操作Company表的dao
+            companyMapper =  sqlSession.getMapper(CompanyMapper.class);
+            company.setCompanyid(ToolHelper.autoID());
+            return companyMapper.insert(company) == 1;
+        }
+        catch(Exception e){
+            throw new Exception();
+        }
+        finally{
+            sqlSession.commit();
+            //关闭主数据库连接，防止连接过多造成内存溢出
+            if(sqlSession != null)
+                sqlSession.close();
+        }
+    }
+
+    @Override
+    public Company login(Company company) throws CustomException {
+        Company company1 = findCompany(company.getCompanyno());
+
+        if(company1 == null) {
+            throw new CustomException("账号不存在");
+        }
+
+        if(!company1.getPassword().equals(company.getPassword())) {
+            throw new CustomException("密码不正确");
+        }
+
+        return company1;
+    }
+
+    @Override
+    public List<Company> findCompanyByCompanyNo(List<String> companyNos) throws Exception {
+        CompanyMapperCustom companyMapperCustom;
+        try{
+            //获取主数据库连接
+            sqlSession = MainDataSourceFactory.sqlSessionFactory.openSession();
+            //获取操作Company表的dao
+            companyMapperCustom =  sqlSession.getMapper(CompanyMapperCustom.class);
+
+            List<Company> companies = companyMapperCustom.findCompanyByCompanyNo(companyNos);
+            if(CollectionUtils.isEmpty(companies)) {
+                return new ArrayList<Company>();
+            }
+            return  companies;
+        }
+        catch(Exception e){
+            throw new Exception();
+        }
+        finally{
+            //关闭主数据库连接，防止连接过多造成内存溢出
+            if(sqlSession != null)
+                sqlSession.close();
+        }
+    }
+
+    @Override
+    public Company findCompany(String companyNo) {
         Company company = null;
         try{
             //获取主数据库连接
@@ -31,9 +106,12 @@ public class CompanyServiceImpl implements CompanyService {
             CompanyMapper companyMapper =  sqlSession.getMapper(CompanyMapper.class);
             //创建查询条件对象
             CompanyExample companyExample = new CompanyExample();
-            companyExample.createCriteria().andCompanyidEqualTo(companyId);
+            companyExample.createCriteria().andCompanynoEqualTo(companyNo);
             //调用dao中方法进行数据查询
-            company = companyMapper.selectByExample(companyExample).get(0);
+            List<Company> companies = companyMapper.selectByExampleWithBLOBs(companyExample);
+            if( companies != null && companies.size() != 0) {
+                company = companies.get(0);
+            }
         }
         catch(Exception e){
             e.printStackTrace();
@@ -46,12 +124,86 @@ public class CompanyServiceImpl implements CompanyService {
         return company;
     }
 
-    /**
-     * 创建数据库
-     *
-     * @param dbName
-     */
-    public void createDataBase(String dbName) {
+    public PageResult getCompanyForPage(Integer pageNum, Integer pageSize) throws Exception {
+        if(pageNum == null || pageSize == null)
+            throw  new CustomException("参数缺失");
+        CompanyMapper companyMapper;
+        try{
+            //获取主数据库连接
+            sqlSession = MainDataSourceFactory.sqlSessionFactory.openSession();
+            //获取操作Company表的dao
+            companyMapper =  sqlSession.getMapper(CompanyMapper.class);
 
+            PageHelper.startPage(pageNum, pageSize);
+            CompanyExample teamExample = new CompanyExample();
+            List<Company> teams = companyMapper.selectByExampleWithBLOBs(teamExample);
+            PageInfo<Company> pageInfo = new PageInfo<Company>(teams);
+            PageResult pageResult = new PageResult();
+            pageResult.setRows(teams);
+            pageResult.setTotal(pageInfo.getTotal());
+            return pageResult;
+        }
+        catch(Exception e){
+            throw new Exception();
+        }
+        finally{
+            //关闭主数据库连接，防止连接过多造成内存溢出
+            if(sqlSession != null)
+                sqlSession.close();
+        }
+    }
+
+    @Override
+    public boolean deleteCompany(List<String> companyIds) throws Exception {
+        CompanyMapper companyMapper;
+        try{
+            //获取主数据库连接
+            sqlSession = MainDataSourceFactory.sqlSessionFactory.openSession();
+            //获取操作Company表的dao
+            companyMapper =  sqlSession.getMapper(CompanyMapper.class);
+
+            //创建查询条件对象
+            CompanyExample companyExample = new CompanyExample();
+            companyExample.createCriteria().andCompanyidIn(companyIds);
+
+            return companyMapper.deleteByExample(companyExample) != 0;
+        }
+        catch(Exception e){
+            throw new Exception();
+        }
+        finally{
+            sqlSession.commit();
+            //关闭主数据库连接，防止连接过多造成内存溢出
+            if(sqlSession != null)
+                sqlSession.close();
+        }
+    }
+
+    @Override
+    public boolean updateCompany(Company company) throws Exception {
+        CompanyMapper companyMapper;
+        try{
+            //获取主数据库连接
+            sqlSession = MainDataSourceFactory.sqlSessionFactory.openSession();
+            //获取操作Company表的dao
+            companyMapper =  sqlSession.getMapper(CompanyMapper.class);
+
+            //创建查询条件对象
+            CompanyExample companyExample = new CompanyExample();
+            companyExample.createCriteria().andCompanyidEqualTo(company.getCompanyid());
+
+            company.setCompanyid(null);
+            company.setCompanyno(null);
+            return companyMapper.updateByExampleSelective(company, companyExample) != 0;
+        }
+        catch(Exception e){
+            throw new Exception();
+        }
+        finally{
+            sqlSession.commit();
+            //关闭主数据库连接，防止连接过多造成内存溢出
+            if(sqlSession != null)
+                sqlSession.close();
+        }
     }
 }

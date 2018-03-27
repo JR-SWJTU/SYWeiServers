@@ -28,6 +28,8 @@
     <mappers>
         <!-- userMapper.xml装载进来  同等于把“dao”的实现装载进来 -->
         <mapper resource="mapper/CompanyMapper.xml"/>
+        <mapper resource="mapper/CompanyMapperCustom.xml"/>
+        <mapper resource="mapper/EmployeeMapper.xml"/>
         <mapper resource="mapper/UsersMapper.xml"/>
     </mappers>
 </configuration>

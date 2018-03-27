@@ -1,26 +1,18 @@
 package com.swjtu.SYWeiServers.mapper;
 
 import com.swjtu.SYWeiServers.entity.Employee;
-import com.swjtu.SYWeiServers.entity.EmployeeExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface EmployeeMapper {
-    int countByExample(EmployeeExample example);
 
-    int deleteByExample(EmployeeExample example);
+    int insert(@Param("dbName")String dbName, @Param("entity")Employee record);
 
-    int insert(Employee record);
+    List<Employee> selectByExampleWithBLOBs(@Param("dbName")String dbName, @Param("employeeNos")List<String> employeeNos);
 
-    int insertSelective(Employee record);
+    int deleteByExample(@Param("dbName")String dbName,  @Param("employeeIds")List<String> employeeIds);
 
-    List<Employee> selectByExampleWithBLOBs(EmployeeExample example);
+    int updateByExampleSelective(@Param("dbName")String dbName,@Param("record") Employee record);
 
-    List<Employee> selectByExample(EmployeeExample example);
-
-    int updateByExampleSelective(@Param("record") Employee record, @Param("example") EmployeeExample example);
-
-    int updateByExampleWithBLOBs(@Param("record") Employee record, @Param("example") EmployeeExample example);
-
-    int updateByExample(@Param("record") Employee record, @Param("example") EmployeeExample example);
 }

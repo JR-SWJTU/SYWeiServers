@@ -7,8 +7,11 @@
 <mapper namespace="com.swjtu.SYWeiServers.mapper.CompanyMapperCustom">
 
     <!--写自己的sql语句，其中id为xml对应的mapper中的方法名称-->
-    <select id="createDataBase" parameterType="java.lang.String">
-
+    <select id="findCompanyByCompanyNo" parameterType="Map" resultType="com.swjtu.SYWeiServers.entity.Company">
+        SELECT * FROM Company WHERE CompanyNo in
+        <foreach collection="companyNos" item="companyNo" open="(" separator="," close=")">
+            #{companyNo}
+        </foreach>
     </select>
 
 

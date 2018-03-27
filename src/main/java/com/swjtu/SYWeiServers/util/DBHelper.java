@@ -18,7 +18,7 @@ public class DBHelper {
             String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
             String url = "jdbc:sqlserver://127.0.0.1:1433;database=Main";
             String username = "sa";
-            String password = "Root123";
+            String password = "654321";
             String newSql = "E:/newsql.Sql";
 
             Class.forName(driver);

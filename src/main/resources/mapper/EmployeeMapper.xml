@@ -62,548 +62,101 @@
     <result column="PersonalAuthCode" property="personalauthcode" jdbcType="VARCHAR" />
     <result column="NativeT" property="nativet" jdbcType="NCHAR" />
   </resultMap>
+
   <resultMap id="ResultMapWithBLOBs" type="com.swjtu.SYWeiServers.entity.Employee" extends="BaseResultMap" >
     <result column="Brief" property="brief" jdbcType="LONGVARCHAR" />
     <result column="Remark" property="remark" jdbcType="LONGVARCHAR" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
+
   <sql id="Base_Column_List" >
-    EmpID, EmpNo, EmpName, DeptID, Password, Tel, ModDate, FlagTrashed, FlagDeleted, 
-    PropertyCols, InquiryCols, Status, RollIn, RollOut, PositionID, ExDate, Sex, Birthday, 
-    IDCard, Address, Education, Speciality, EMail, ContractCols, PwdDate, Signer, ACL3, 
-    ACL1, ACL2, ACL6, JoinDate, Folk, Polity, Graduate, TechTitle, Archives, ACL4, Idio, 
-    AwayDate, FlagSalary, Source, DeptIDS, EmpIDS, DeptIDZ, EmpIDZ, FlagRollRet, ArrDate, 
-    Arrange, Tiger, ACL3R, BankName, BankAcct, PhotoUrl, PassWordWeb, TargetD, TargetW, 
+    EmpID, EmpNo, EmpName, DeptID, Password, Tel, ModDate, FlagTrashed, FlagDeleted,
+    PropertyCols, InquiryCols, Status, RollIn, RollOut, PositionID, ExDate, Sex, Birthday,
+    IDCard, Address, Education, Speciality, EMail, ContractCols, PwdDate, Signer, ACL3,
+    ACL1, ACL2, ACL6, JoinDate, Folk, Polity, Graduate, TechTitle, Archives, ACL4, Idio,
+    AwayDate, FlagSalary, Source, DeptIDS, EmpIDS, DeptIDZ, EmpIDZ, FlagRollRet, ArrDate,
+    Arrange, Tiger, ACL3R, BankName, BankAcct, PhotoUrl, PassWordWeb, TargetD, TargetW,
     CellPhoneID, PersonalAuthCode, NativeT
   </sql>
+
   <sql id="Blob_Column_List" >
     Brief, Remark
   </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.swjtu.SYWeiServers.entity.EmployeeExample" >
+
+  <insert id="insert" parameterType="com.swjtu.SYWeiServers.entity.Employee"  >
+    use ${dbName} insert into Employee
+    (EmpID, EmpNo, EmpName,
+    DeptID, Password, Tel,
+    ModDate, FlagTrashed, FlagDeleted,
+    PropertyCols, InquiryCols, Status,
+    RollIn, RollOut, PositionID,
+    ExDate, Sex, Birthday,
+    IDCard, Address, Education,
+    Speciality, EMail, ContractCols,
+    PwdDate, Signer, ACL3,
+    ACL1, ACL2, ACL6, JoinDate,
+    Folk, Polity, Graduate,
+    TechTitle, Archives, ACL4,
+    Idio, AwayDate, FlagSalary,
+    Source, DeptIDS, EmpIDS,
+    DeptIDZ, EmpIDZ, FlagRollRet,
+    ArrDate, Arrange, Tiger,
+    ACL3R, BankName, BankAcct,
+    PhotoUrl, PassWordWeb, TargetD,
+    TargetW, CellPhoneID, PersonalAuthCode,
+    NativeT, Brief, Remark
+    )
+    values (#{entity.empid,jdbcType=CHAR}, #{entity.empno,jdbcType=VARCHAR}, #{entity.empname,jdbcType=NVARCHAR},
+    #{entity.deptid,jdbcType=CHAR}, #{entity.password,jdbcType=VARCHAR}, #{entity.tel,jdbcType=VARCHAR},
+    #{entity.moddate,jdbcType=TIMESTAMP}, #{entity.flagtrashed,jdbcType=BIT}, #{entity.flagdeleted,jdbcType=BIT},
+    #{entity.propertycols,jdbcType=VARCHAR}, #{entity.inquirycols,jdbcType=VARCHAR}, #{entity.status,jdbcType=VARCHAR},
+    #{entity.rollin,jdbcType=TIMESTAMP}, #{entity.rollout,jdbcType=TIMESTAMP}, #{entity.positionid,jdbcType=CHAR},
+    #{entity.exdate,jdbcType=TIMESTAMP}, #{entity.sex,jdbcType=CHAR}, #{entity.birthday,jdbcType=TIMESTAMP},
+    #{entity.idcard,jdbcType=VARCHAR}, #{entity.address,jdbcType=VARCHAR}, #{entity.education,jdbcType=VARCHAR},
+    #{entity.speciality,jdbcType=VARCHAR}, #{entity.email,jdbcType=VARCHAR}, #{entity.contractcols,jdbcType=VARCHAR},
+    #{entity.pwddate,jdbcType=TIMESTAMP}, #{entity.signer,jdbcType=CHAR}, #{entity.acl3,jdbcType=VARCHAR},
+    #{entity.acl1,jdbcType=VARCHAR}, #{entity.acl2,jdbcType=VARCHAR}, #{entity.acl6,jdbcType=VARCHAR}, #{entity.joindate,jdbcType=TIMESTAMP},
+    #{entity.folk,jdbcType=VARCHAR}, #{entity.polity,jdbcType=VARCHAR}, #{entity.graduate,jdbcType=VARCHAR},
+    #{entity.techtitle,jdbcType=VARCHAR}, #{entity.archives,jdbcType=VARCHAR}, #{entity.acl4,jdbcType=VARCHAR},
+    #{entity.idio,jdbcType=VARCHAR}, #{entity.awaydate,jdbcType=TIMESTAMP}, #{entity.flagsalary,jdbcType=BIT},
+    #{entity.source,jdbcType=VARCHAR}, #{entity.deptids,jdbcType=CHAR}, #{entity.empids,jdbcType=CHAR},
+    #{entity.deptidz,jdbcType=CHAR}, #{entity.empidz,jdbcType=CHAR}, #{entity.flagrollret,jdbcType=BIT},
+    #{entity.arrdate,jdbcType=TIMESTAMP}, #{entity.arrange,jdbcType=NVARCHAR}, #{entity.tiger,jdbcType=DOUBLE},
+    #{entity.acl3r,jdbcType=VARCHAR}, #{entity.bankname,jdbcType=NVARCHAR}, #{entity.bankacct,jdbcType=VARCHAR},
+    #{entity.photourl,jdbcType=NVARCHAR}, #{entity.passwordweb,jdbcType=NVARCHAR}, #{entity.targetd,jdbcType=CHAR},
+    #{entity.targetw,jdbcType=CHAR}, #{entity.cellphoneid,jdbcType=VARCHAR}, #{entity.personalauthcode,jdbcType=VARCHAR},
+    #{entity.nativet,jdbcType=NCHAR}, #{entity.brief,jdbcType=LONGVARCHAR}, #{entity.remark,jdbcType=LONGVARCHAR}
+    )
+  </insert>
+
+
+  <delete id="deleteByExample" >
+    delete from Employee
+    WHERE EmpNo IN
+    <foreach collection="employeeNos" item="employeeNo" open="(" separator="," close=")">
+      #{employeeNo}
+    </foreach>
+  </delete>
+
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"  parameterType="Map">
+    use ${dbName}
     select
-    <if test="distinct" >
-      distinct
-    </if>
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from Employee
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
+    <if test="employeeNos != null">
+    WHERE EmpNo IN
+    <foreach collection="employeeNos" item="employeeNo" open="(" separator="," close=")">
+      #{employeeNo}
+    </foreach>
     </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
+
   </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.swjtu.SYWeiServers.entity.EmployeeExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from Employee
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <delete id="deleteByExample" parameterType="com.swjtu.SYWeiServers.entity.EmployeeExample" >
-    delete from Employee
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.swjtu.SYWeiServers.entity.Employee" >
-    insert into Employee (EmpID, EmpNo, EmpName, 
-      DeptID, Password, Tel, 
-      ModDate, FlagTrashed, FlagDeleted, 
-      PropertyCols, InquiryCols, Status, 
-      RollIn, RollOut, PositionID, 
-      ExDate, Sex, Birthday, 
-      IDCard, Address, Education, 
-      Speciality, EMail, ContractCols, 
-      PwdDate, Signer, ACL3, 
-      ACL1, ACL2, ACL6, JoinDate, 
-      Folk, Polity, Graduate, 
-      TechTitle, Archives, ACL4, 
-      Idio, AwayDate, FlagSalary, 
-      Source, DeptIDS, EmpIDS, 
-      DeptIDZ, EmpIDZ, FlagRollRet, 
-      ArrDate, Arrange, Tiger, 
-      ACL3R, BankName, BankAcct, 
-      PhotoUrl, PassWordWeb, TargetD, 
-      TargetW, CellPhoneID, PersonalAuthCode, 
-      NativeT, Brief, Remark
-      )
-    values (#{empid,jdbcType=CHAR}, #{empno,jdbcType=VARCHAR}, #{empname,jdbcType=NVARCHAR}, 
-      #{deptid,jdbcType=CHAR}, #{password,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
-      #{moddate,jdbcType=TIMESTAMP}, #{flagtrashed,jdbcType=BIT}, #{flagdeleted,jdbcType=BIT}, 
-      #{propertycols,jdbcType=VARCHAR}, #{inquirycols,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
-      #{rollin,jdbcType=TIMESTAMP}, #{rollout,jdbcType=TIMESTAMP}, #{positionid,jdbcType=CHAR}, 
-      #{exdate,jdbcType=TIMESTAMP}, #{sex,jdbcType=CHAR}, #{birthday,jdbcType=TIMESTAMP}, 
-      #{idcard,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, 
-      #{speciality,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{contractcols,jdbcType=VARCHAR}, 
-      #{pwddate,jdbcType=TIMESTAMP}, #{signer,jdbcType=CHAR}, #{acl3,jdbcType=VARCHAR}, 
-      #{acl1,jdbcType=VARCHAR}, #{acl2,jdbcType=VARCHAR}, #{acl6,jdbcType=VARCHAR}, #{joindate,jdbcType=TIMESTAMP}, 
-      #{folk,jdbcType=VARCHAR}, #{polity,jdbcType=VARCHAR}, #{graduate,jdbcType=VARCHAR}, 
-      #{techtitle,jdbcType=VARCHAR}, #{archives,jdbcType=VARCHAR}, #{acl4,jdbcType=VARCHAR}, 
-      #{idio,jdbcType=VARCHAR}, #{awaydate,jdbcType=TIMESTAMP}, #{flagsalary,jdbcType=BIT}, 
-      #{source,jdbcType=VARCHAR}, #{deptids,jdbcType=CHAR}, #{empids,jdbcType=CHAR}, 
-      #{deptidz,jdbcType=CHAR}, #{empidz,jdbcType=CHAR}, #{flagrollret,jdbcType=BIT}, 
-      #{arrdate,jdbcType=TIMESTAMP}, #{arrange,jdbcType=NVARCHAR}, #{tiger,jdbcType=DOUBLE}, 
-      #{acl3r,jdbcType=VARCHAR}, #{bankname,jdbcType=NVARCHAR}, #{bankacct,jdbcType=VARCHAR}, 
-      #{photourl,jdbcType=NVARCHAR}, #{passwordweb,jdbcType=NVARCHAR}, #{targetd,jdbcType=CHAR}, 
-      #{targetw,jdbcType=CHAR}, #{cellphoneid,jdbcType=VARCHAR}, #{personalauthcode,jdbcType=VARCHAR}, 
-      #{nativet,jdbcType=NCHAR}, #{brief,jdbcType=LONGVARCHAR}, #{remark,jdbcType=LONGVARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.swjtu.SYWeiServers.entity.Employee" >
-    insert into Employee
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="empid != null" >
-        EmpID,
-      </if>
-      <if test="empno != null" >
-        EmpNo,
-      </if>
-      <if test="empname != null" >
-        EmpName,
-      </if>
-      <if test="deptid != null" >
-        DeptID,
-      </if>
-      <if test="password != null" >
-        Password,
-      </if>
-      <if test="tel != null" >
-        Tel,
-      </if>
-      <if test="moddate != null" >
-        ModDate,
-      </if>
-      <if test="flagtrashed != null" >
-        FlagTrashed,
-      </if>
-      <if test="flagdeleted != null" >
-        FlagDeleted,
-      </if>
-      <if test="propertycols != null" >
-        PropertyCols,
-      </if>
-      <if test="inquirycols != null" >
-        InquiryCols,
-      </if>
-      <if test="status != null" >
-        Status,
-      </if>
-      <if test="rollin != null" >
-        RollIn,
-      </if>
-      <if test="rollout != null" >
-        RollOut,
-      </if>
-      <if test="positionid != null" >
-        PositionID,
-      </if>
-      <if test="exdate != null" >
-        ExDate,
-      </if>
-      <if test="sex != null" >
-        Sex,
-      </if>
-      <if test="birthday != null" >
-        Birthday,
-      </if>
-      <if test="idcard != null" >
-        IDCard,
-      </if>
-      <if test="address != null" >
-        Address,
-      </if>
-      <if test="education != null" >
-        Education,
-      </if>
-      <if test="speciality != null" >
-        Speciality,
-      </if>
-      <if test="email != null" >
-        EMail,
-      </if>
-      <if test="contractcols != null" >
-        ContractCols,
-      </if>
-      <if test="pwddate != null" >
-        PwdDate,
-      </if>
-      <if test="signer != null" >
-        Signer,
-      </if>
-      <if test="acl3 != null" >
-        ACL3,
-      </if>
-      <if test="acl1 != null" >
-        ACL1,
-      </if>
-      <if test="acl2 != null" >
-        ACL2,
-      </if>
-      <if test="acl6 != null" >
-        ACL6,
-      </if>
-      <if test="joindate != null" >
-        JoinDate,
-      </if>
-      <if test="folk != null" >
-        Folk,
-      </if>
-      <if test="polity != null" >
-        Polity,
-      </if>
-      <if test="graduate != null" >
-        Graduate,
-      </if>
-      <if test="techtitle != null" >
-        TechTitle,
-      </if>
-      <if test="archives != null" >
-        Archives,
-      </if>
-      <if test="acl4 != null" >
-        ACL4,
-      </if>
-      <if test="idio != null" >
-        Idio,
-      </if>
-      <if test="awaydate != null" >
-        AwayDate,
-      </if>
-      <if test="flagsalary != null" >
-        FlagSalary,
-      </if>
-      <if test="source != null" >
-        Source,
-      </if>
-      <if test="deptids != null" >
-        DeptIDS,
-      </if>
-      <if test="empids != null" >
-        EmpIDS,
-      </if>
-      <if test="deptidz != null" >
-        DeptIDZ,
-      </if>
-      <if test="empidz != null" >
-        EmpIDZ,
-      </if>
-      <if test="flagrollret != null" >
-        FlagRollRet,
-      </if>
-      <if test="arrdate != null" >
-        ArrDate,
-      </if>
-      <if test="arrange != null" >
-        Arrange,
-      </if>
-      <if test="tiger != null" >
-        Tiger,
-      </if>
-      <if test="acl3r != null" >
-        ACL3R,
-      </if>
-      <if test="bankname != null" >
-        BankName,
-      </if>
-      <if test="bankacct != null" >
-        BankAcct,
-      </if>
-      <if test="photourl != null" >
-        PhotoUrl,
-      </if>
-      <if test="passwordweb != null" >
-        PassWordWeb,
-      </if>
-      <if test="targetd != null" >
-        TargetD,
-      </if>
-      <if test="targetw != null" >
-        TargetW,
-      </if>
-      <if test="cellphoneid != null" >
-        CellPhoneID,
-      </if>
-      <if test="personalauthcode != null" >
-        PersonalAuthCode,
-      </if>
-      <if test="nativet != null" >
-        NativeT,
-      </if>
-      <if test="brief != null" >
-        Brief,
-      </if>
-      <if test="remark != null" >
-        Remark,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="empid != null" >
-        #{empid,jdbcType=CHAR},
-      </if>
-      <if test="empno != null" >
-        #{empno,jdbcType=VARCHAR},
-      </if>
-      <if test="empname != null" >
-        #{empname,jdbcType=NVARCHAR},
-      </if>
-      <if test="deptid != null" >
-        #{deptid,jdbcType=CHAR},
-      </if>
-      <if test="password != null" >
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="tel != null" >
-        #{tel,jdbcType=VARCHAR},
-      </if>
-      <if test="moddate != null" >
-        #{moddate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="flagtrashed != null" >
-        #{flagtrashed,jdbcType=BIT},
-      </if>
-      <if test="flagdeleted != null" >
-        #{flagdeleted,jdbcType=BIT},
-      </if>
-      <if test="propertycols != null" >
-        #{propertycols,jdbcType=VARCHAR},
-      </if>
-      <if test="inquirycols != null" >
-        #{inquirycols,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null" >
-        #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="rollin != null" >
-        #{rollin,jdbcType=TIMESTAMP},
-      </if>
-      <if test="rollout != null" >
-        #{rollout,jdbcType=TIMESTAMP},
-      </if>
-      <if test="positionid != null" >
-        #{positionid,jdbcType=CHAR},
-      </if>
-      <if test="exdate != null" >
-        #{exdate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="sex != null" >
-        #{sex,jdbcType=CHAR},
-      </if>
-      <if test="birthday != null" >
-        #{birthday,jdbcType=TIMESTAMP},
-      </if>
-      <if test="idcard != null" >
-        #{idcard,jdbcType=VARCHAR},
-      </if>
-      <if test="address != null" >
-        #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="education != null" >
-        #{education,jdbcType=VARCHAR},
-      </if>
-      <if test="speciality != null" >
-        #{speciality,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null" >
-        #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="contractcols != null" >
-        #{contractcols,jdbcType=VARCHAR},
-      </if>
-      <if test="pwddate != null" >
-        #{pwddate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="signer != null" >
-        #{signer,jdbcType=CHAR},
-      </if>
-      <if test="acl3 != null" >
-        #{acl3,jdbcType=VARCHAR},
-      </if>
-      <if test="acl1 != null" >
-        #{acl1,jdbcType=VARCHAR},
-      </if>
-      <if test="acl2 != null" >
-        #{acl2,jdbcType=VARCHAR},
-      </if>
-      <if test="acl6 != null" >
-        #{acl6,jdbcType=VARCHAR},
-      </if>
-      <if test="joindate != null" >
-        #{joindate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="folk != null" >
-        #{folk,jdbcType=VARCHAR},
-      </if>
-      <if test="polity != null" >
-        #{polity,jdbcType=VARCHAR},
-      </if>
-      <if test="graduate != null" >
-        #{graduate,jdbcType=VARCHAR},
-      </if>
-      <if test="techtitle != null" >
-        #{techtitle,jdbcType=VARCHAR},
-      </if>
-      <if test="archives != null" >
-        #{archives,jdbcType=VARCHAR},
-      </if>
-      <if test="acl4 != null" >
-        #{acl4,jdbcType=VARCHAR},
-      </if>
-      <if test="idio != null" >
-        #{idio,jdbcType=VARCHAR},
-      </if>
-      <if test="awaydate != null" >
-        #{awaydate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="flagsalary != null" >
-        #{flagsalary,jdbcType=BIT},
-      </if>
-      <if test="source != null" >
-        #{source,jdbcType=VARCHAR},
-      </if>
-      <if test="deptids != null" >
-        #{deptids,jdbcType=CHAR},
-      </if>
-      <if test="empids != null" >
-        #{empids,jdbcType=CHAR},
-      </if>
-      <if test="deptidz != null" >
-        #{deptidz,jdbcType=CHAR},
-      </if>
-      <if test="empidz != null" >
-        #{empidz,jdbcType=CHAR},
-      </if>
-      <if test="flagrollret != null" >
-        #{flagrollret,jdbcType=BIT},
-      </if>
-      <if test="arrdate != null" >
-        #{arrdate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="arrange != null" >
-        #{arrange,jdbcType=NVARCHAR},
-      </if>
-      <if test="tiger != null" >
-        #{tiger,jdbcType=DOUBLE},
-      </if>
-      <if test="acl3r != null" >
-        #{acl3r,jdbcType=VARCHAR},
-      </if>
-      <if test="bankname != null" >
-        #{bankname,jdbcType=NVARCHAR},
-      </if>
-      <if test="bankacct != null" >
-        #{bankacct,jdbcType=VARCHAR},
-      </if>
-      <if test="photourl != null" >
-        #{photourl,jdbcType=NVARCHAR},
-      </if>
-      <if test="passwordweb != null" >
-        #{passwordweb,jdbcType=NVARCHAR},
-      </if>
-      <if test="targetd != null" >
-        #{targetd,jdbcType=CHAR},
-      </if>
-      <if test="targetw != null" >
-        #{targetw,jdbcType=CHAR},
-      </if>
-      <if test="cellphoneid != null" >
-        #{cellphoneid,jdbcType=VARCHAR},
-      </if>
-      <if test="personalauthcode != null" >
-        #{personalauthcode,jdbcType=VARCHAR},
-      </if>
-      <if test="nativet != null" >
-        #{nativet,jdbcType=NCHAR},
-      </if>
-      <if test="brief != null" >
-        #{brief,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="remark != null" >
-        #{remark,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.swjtu.SYWeiServers.entity.EmployeeExample" resultType="java.lang.Integer" >
-    select count(*) from Employee
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
+
   <update id="updateByExampleSelective" parameterType="map" >
+    use ${dbName}
     update Employee
     <set >
-      <if test="record.empid != null" >
-        EmpID = #{record.empid,jdbcType=CHAR},
-      </if>
-      <if test="record.empno != null" >
-        EmpNo = #{record.empno,jdbcType=VARCHAR},
-      </if>
       <if test="record.empname != null" >
         EmpName = #{record.empname,jdbcType=NVARCHAR},
       </if>
@@ -782,140 +335,8 @@
         Remark = #{record.remark,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
+    where EmpID = #{record.empid,jdbcType=CHAR}
+
   </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update Employee
-    set EmpID = #{record.empid,jdbcType=CHAR},
-      EmpNo = #{record.empno,jdbcType=VARCHAR},
-      EmpName = #{record.empname,jdbcType=NVARCHAR},
-      DeptID = #{record.deptid,jdbcType=CHAR},
-      Password = #{record.password,jdbcType=VARCHAR},
-      Tel = #{record.tel,jdbcType=VARCHAR},
-      ModDate = #{record.moddate,jdbcType=TIMESTAMP},
-      FlagTrashed = #{record.flagtrashed,jdbcType=BIT},
-      FlagDeleted = #{record.flagdeleted,jdbcType=BIT},
-      PropertyCols = #{record.propertycols,jdbcType=VARCHAR},
-      InquiryCols = #{record.inquirycols,jdbcType=VARCHAR},
-      Status = #{record.status,jdbcType=VARCHAR},
-      RollIn = #{record.rollin,jdbcType=TIMESTAMP},
-      RollOut = #{record.rollout,jdbcType=TIMESTAMP},
-      PositionID = #{record.positionid,jdbcType=CHAR},
-      ExDate = #{record.exdate,jdbcType=TIMESTAMP},
-      Sex = #{record.sex,jdbcType=CHAR},
-      Birthday = #{record.birthday,jdbcType=TIMESTAMP},
-      IDCard = #{record.idcard,jdbcType=VARCHAR},
-      Address = #{record.address,jdbcType=VARCHAR},
-      Education = #{record.education,jdbcType=VARCHAR},
-      Speciality = #{record.speciality,jdbcType=VARCHAR},
-      EMail = #{record.email,jdbcType=VARCHAR},
-      ContractCols = #{record.contractcols,jdbcType=VARCHAR},
-      PwdDate = #{record.pwddate,jdbcType=TIMESTAMP},
-      Signer = #{record.signer,jdbcType=CHAR},
-      ACL3 = #{record.acl3,jdbcType=VARCHAR},
-      ACL1 = #{record.acl1,jdbcType=VARCHAR},
-      ACL2 = #{record.acl2,jdbcType=VARCHAR},
-      ACL6 = #{record.acl6,jdbcType=VARCHAR},
-      JoinDate = #{record.joindate,jdbcType=TIMESTAMP},
-      Folk = #{record.folk,jdbcType=VARCHAR},
-      Polity = #{record.polity,jdbcType=VARCHAR},
-      Graduate = #{record.graduate,jdbcType=VARCHAR},
-      TechTitle = #{record.techtitle,jdbcType=VARCHAR},
-      Archives = #{record.archives,jdbcType=VARCHAR},
-      ACL4 = #{record.acl4,jdbcType=VARCHAR},
-      Idio = #{record.idio,jdbcType=VARCHAR},
-      AwayDate = #{record.awaydate,jdbcType=TIMESTAMP},
-      FlagSalary = #{record.flagsalary,jdbcType=BIT},
-      Source = #{record.source,jdbcType=VARCHAR},
-      DeptIDS = #{record.deptids,jdbcType=CHAR},
-      EmpIDS = #{record.empids,jdbcType=CHAR},
-      DeptIDZ = #{record.deptidz,jdbcType=CHAR},
-      EmpIDZ = #{record.empidz,jdbcType=CHAR},
-      FlagRollRet = #{record.flagrollret,jdbcType=BIT},
-      ArrDate = #{record.arrdate,jdbcType=TIMESTAMP},
-      Arrange = #{record.arrange,jdbcType=NVARCHAR},
-      Tiger = #{record.tiger,jdbcType=DOUBLE},
-      ACL3R = #{record.acl3r,jdbcType=VARCHAR},
-      BankName = #{record.bankname,jdbcType=NVARCHAR},
-      BankAcct = #{record.bankacct,jdbcType=VARCHAR},
-      PhotoUrl = #{record.photourl,jdbcType=NVARCHAR},
-      PassWordWeb = #{record.passwordweb,jdbcType=NVARCHAR},
-      TargetD = #{record.targetd,jdbcType=CHAR},
-      TargetW = #{record.targetw,jdbcType=CHAR},
-      CellPhoneID = #{record.cellphoneid,jdbcType=VARCHAR},
-      PersonalAuthCode = #{record.personalauthcode,jdbcType=VARCHAR},
-      NativeT = #{record.nativet,jdbcType=NCHAR},
-      Brief = #{record.brief,jdbcType=LONGVARCHAR},
-      Remark = #{record.remark,jdbcType=LONGVARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update Employee
-    set EmpID = #{record.empid,jdbcType=CHAR},
-      EmpNo = #{record.empno,jdbcType=VARCHAR},
-      EmpName = #{record.empname,jdbcType=NVARCHAR},
-      DeptID = #{record.deptid,jdbcType=CHAR},
-      Password = #{record.password,jdbcType=VARCHAR},
-      Tel = #{record.tel,jdbcType=VARCHAR},
-      ModDate = #{record.moddate,jdbcType=TIMESTAMP},
-      FlagTrashed = #{record.flagtrashed,jdbcType=BIT},
-      FlagDeleted = #{record.flagdeleted,jdbcType=BIT},
-      PropertyCols = #{record.propertycols,jdbcType=VARCHAR},
-      InquiryCols = #{record.inquirycols,jdbcType=VARCHAR},
-      Status = #{record.status,jdbcType=VARCHAR},
-      RollIn = #{record.rollin,jdbcType=TIMESTAMP},
-      RollOut = #{record.rollout,jdbcType=TIMESTAMP},
-      PositionID = #{record.positionid,jdbcType=CHAR},
-      ExDate = #{record.exdate,jdbcType=TIMESTAMP},
-      Sex = #{record.sex,jdbcType=CHAR},
-      Birthday = #{record.birthday,jdbcType=TIMESTAMP},
-      IDCard = #{record.idcard,jdbcType=VARCHAR},
-      Address = #{record.address,jdbcType=VARCHAR},
-      Education = #{record.education,jdbcType=VARCHAR},
-      Speciality = #{record.speciality,jdbcType=VARCHAR},
-      EMail = #{record.email,jdbcType=VARCHAR},
-      ContractCols = #{record.contractcols,jdbcType=VARCHAR},
-      PwdDate = #{record.pwddate,jdbcType=TIMESTAMP},
-      Signer = #{record.signer,jdbcType=CHAR},
-      ACL3 = #{record.acl3,jdbcType=VARCHAR},
-      ACL1 = #{record.acl1,jdbcType=VARCHAR},
-      ACL2 = #{record.acl2,jdbcType=VARCHAR},
-      ACL6 = #{record.acl6,jdbcType=VARCHAR},
-      JoinDate = #{record.joindate,jdbcType=TIMESTAMP},
-      Folk = #{record.folk,jdbcType=VARCHAR},
-      Polity = #{record.polity,jdbcType=VARCHAR},
-      Graduate = #{record.graduate,jdbcType=VARCHAR},
-      TechTitle = #{record.techtitle,jdbcType=VARCHAR},
-      Archives = #{record.archives,jdbcType=VARCHAR},
-      ACL4 = #{record.acl4,jdbcType=VARCHAR},
-      Idio = #{record.idio,jdbcType=VARCHAR},
-      AwayDate = #{record.awaydate,jdbcType=TIMESTAMP},
-      FlagSalary = #{record.flagsalary,jdbcType=BIT},
-      Source = #{record.source,jdbcType=VARCHAR},
-      DeptIDS = #{record.deptids,jdbcType=CHAR},
-      EmpIDS = #{record.empids,jdbcType=CHAR},
-      DeptIDZ = #{record.deptidz,jdbcType=CHAR},
-      EmpIDZ = #{record.empidz,jdbcType=CHAR},
-      FlagRollRet = #{record.flagrollret,jdbcType=BIT},
-      ArrDate = #{record.arrdate,jdbcType=TIMESTAMP},
-      Arrange = #{record.arrange,jdbcType=NVARCHAR},
-      Tiger = #{record.tiger,jdbcType=DOUBLE},
-      ACL3R = #{record.acl3r,jdbcType=VARCHAR},
-      BankName = #{record.bankname,jdbcType=NVARCHAR},
-      BankAcct = #{record.bankacct,jdbcType=VARCHAR},
-      PhotoUrl = #{record.photourl,jdbcType=NVARCHAR},
-      PassWordWeb = #{record.passwordweb,jdbcType=NVARCHAR},
-      TargetD = #{record.targetd,jdbcType=CHAR},
-      TargetW = #{record.targetw,jdbcType=CHAR},
-      CellPhoneID = #{record.cellphoneid,jdbcType=VARCHAR},
-      PersonalAuthCode = #{record.personalauthcode,jdbcType=VARCHAR},
-      NativeT = #{record.nativet,jdbcType=NCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
+
 </mapper>
