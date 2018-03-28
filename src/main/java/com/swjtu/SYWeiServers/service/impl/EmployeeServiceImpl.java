@@ -66,9 +66,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<String> employeeNos = new ArrayList<String>();
         employeeNos.add(employeeNo);
         //调用dao中方法进行数据查询
-        List<Employee> companies = employeeMapper.selectByExampleWithBLOBs(dbName, employeeNos);
-        if( companies != null && companies.size() != 0) {
-            employee = companies.get(0);
+        List<Employee> employees = employeeMapper.selectByExampleWithBLOBs(dbName, employeeNos);
+        if( employees != null && employees.size() != 0) {
+            employee = employees.get(0);
         }
 
         return employee;

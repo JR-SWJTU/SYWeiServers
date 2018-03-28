@@ -1,26 +1,21 @@
 package com.swjtu.SYWeiServers.mapper;
 
 import com.swjtu.SYWeiServers.entity.Estate;
-import com.swjtu.SYWeiServers.entity.EstateExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface EstateMapper {
-    int countByExample(EstateExample example);
+    int countByExample(@Param("dbName")String dbName);
 
-    int deleteByExample(EstateExample example);
+    int insert(@Param("dbName")String dbName, @Param("entity")Estate record);
 
-    int insert(Estate record);
+    List<Estate> selectByExampleWithBLOBs(@Param("dbName")String dbName, @Param("estateIds")List<String> estateIds);
 
-    int insertSelective(Estate record);
+    Estate selectEstate(@Param("dbName")String dbName, @Param("estateName")String estateName, @Param("address")String address);
 
-    List<Estate> selectByExampleWithBLOBs(EstateExample example);
+    int deleteByExample(@Param("dbName")String dbName,  @Param("estateIds")List<String> estateIds);
 
-    List<Estate> selectByExample(EstateExample example);
-
-    int updateByExampleSelective(@Param("record") Estate record, @Param("example") EstateExample example);
-
-    int updateByExampleWithBLOBs(@Param("record") Estate record, @Param("example") EstateExample example);
-
-    int updateByExample(@Param("record") Estate record, @Param("example") EstateExample example);
+    int updateByExampleSelective(@Param("dbName")String dbName,@Param("record") Estate record);
+    
 }

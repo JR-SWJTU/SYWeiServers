@@ -130,10 +130,11 @@
 
 
   <delete id="deleteByExample" >
+    use ${dbName}
     delete from Employee
-    WHERE EmpNo IN
-    <foreach collection="employeeNos" item="employeeNo" open="(" separator="," close=")">
-      #{employeeNo}
+    WHERE EmpID IN
+    <foreach collection="employeeIds" item="employeeId" open="(" separator="," close=")">
+      #{employeeId}
     </foreach>
   </delete>
 
