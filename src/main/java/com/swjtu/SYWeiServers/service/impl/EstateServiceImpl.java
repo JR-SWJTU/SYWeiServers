@@ -1,12 +1,9 @@
 package com.swjtu.SYWeiServers.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.swjtu.SYWeiServers.entity.Estate;
 import com.swjtu.SYWeiServers.mapper.EstateMapper;
 import com.swjtu.SYWeiServers.service.EstateService;
 import com.swjtu.SYWeiServers.util.DataSourceFactory;
-import com.swjtu.SYWeiServers.util.PageResult;
 import com.swjtu.SYWeiServers.util.ToolHelper;
 import com.swjtu.SYWeiServers.web.exception.CustomException;
 import org.springframework.stereotype.Service;
@@ -52,16 +49,11 @@ public class EstateServiceImpl implements EstateService {
         return estate;
     }
 
-    public PageResult getEstateForPage(String companyId, String dbName, Integer pageNum, Integer pageSize) throws Exception {
+    public List<Estate> getEstateForPage(String companyId, String dbName, Integer pageNum, Integer pageSize) throws Exception {
         estateMapper =  DataSourceFactory.getMapper(companyId, dbName, EstateMapper.class);
 
-        PageHelper.startPage(pageNum, pageSize);
-        List<Estate> estates = estateMapper.selectByExampleWithBLOBs(dbName, null);
-        PageInfo<Estate> pageInfo = new PageInfo<Estate>(estates);
-        PageResult pageResult = new PageResult();
-        pageResult.setRows(estates);
-        pageResult.setTotal(pageInfo.getTotal());
-        return pageResult;
+        List<Estate> estates = estateMapper.selectForPage(dbName, pageSize * (pageNum -1), pageSize);
+        return estates;
     }
 
     @Override

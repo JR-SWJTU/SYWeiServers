@@ -10,6 +10,8 @@ public interface EstateMapper {
 
     int insert(@Param("dbName")String dbName, @Param("entity")Estate record);
 
+    List<Estate> selectForPage(@Param("dbName")String dbName, @Param("start")int start, @Param("pageSize")int pageSize);
+
     List<Estate> selectByExampleWithBLOBs(@Param("dbName")String dbName, @Param("estateIds")List<String> estateIds);
 
     Estate selectEstate(@Param("dbName")String dbName, @Param("estateName")String estateName, @Param("address")String address);
