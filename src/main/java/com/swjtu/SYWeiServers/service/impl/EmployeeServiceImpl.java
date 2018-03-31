@@ -1,12 +1,9 @@
 package com.swjtu.SYWeiServers.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.swjtu.SYWeiServers.entity.Employee;
 import com.swjtu.SYWeiServers.mapper.EmployeeMapper;
 import com.swjtu.SYWeiServers.service.EmployeeService;
 import com.swjtu.SYWeiServers.util.DataSourceFactory;
-import com.swjtu.SYWeiServers.util.PageResult;
 import com.swjtu.SYWeiServers.util.ToolHelper;
 import com.swjtu.SYWeiServers.web.exception.CustomException;
 import org.springframework.stereotype.Service;
@@ -74,16 +71,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
 
-    public PageResult getEmployeeForPage(String companyId, String dbName, Integer pageNum, Integer pageSize) throws Exception {
+    public List<Employee> getEmployeeForPage(String companyId, String dbName, Integer pageNum, Integer pageSize) throws Exception {
         employeeMapper =  DataSourceFactory.getMapper(companyId, dbName, EmployeeMapper.class);
 
-        PageHelper.startPage(pageNum, pageSize);
-        List<Employee> employees = employeeMapper.selectByExampleWithBLOBs(dbName, null);
-        PageInfo<Employee> pageInfo = new PageInfo<Employee>(employees);
-        PageResult pageResult = new PageResult();
-        pageResult.setRows(employees);
-        pageResult.setTotal(pageInfo.getTotal());
-        return pageResult;
+        List<Employee> employees = employeeMapper.selectForPage(dbName, (pageNum - 1) * pageSize, pageSize);
+        return employees;
     }
 
     @Override

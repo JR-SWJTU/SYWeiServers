@@ -151,7 +151,13 @@
       #{employeeNo}
     </foreach>
     </if>
+  </select>
 
+  <select id="selectForPage" resultMap="ResultMapWithBLOBs"  parameterType="Map">
+    use ${dbName}
+    select top ${pageSize} *  from Employee where EmpID NOT IN  (
+    select top ${start} EmpID from Employee
+    )
   </select>
 
   <update id="updateByExampleSelective" parameterType="map" >

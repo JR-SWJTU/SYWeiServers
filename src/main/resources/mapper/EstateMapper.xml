@@ -107,7 +107,7 @@
 
   <delete id="deleteByExample" parameterType="com.swjtu.SYWeiServers.entity.EstateExample" >
     use ${dbName}
-    delete from Estate
+    delete from Estate WHERE EstateID IN
     <foreach collection="estateIds" item="estateId" open="(" separator="," close=")">
       #{estateId}
     </foreach>
@@ -161,9 +161,6 @@
     use ${dbName}
     update Estate
     <set >
-      <if test="record.estateid != null" >
-        EstateID = #{record.estateid,jdbcType=CHAR},
-      </if>
       <if test="record.estatename != null" >
         EstateName = #{record.estatename,jdbcType=NVARCHAR},
       </if>

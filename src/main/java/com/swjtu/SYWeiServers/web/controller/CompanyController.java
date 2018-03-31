@@ -4,7 +4,6 @@ import com.swjtu.SYWeiServers.entity.Company;
 import com.swjtu.SYWeiServers.service.CompanyService;
 import com.swjtu.SYWeiServers.util.DBHelper;
 import com.swjtu.SYWeiServers.util.JsonResult;
-import com.swjtu.SYWeiServers.util.PageResult;
 import com.swjtu.SYWeiServers.util.enums.StatusCode;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -70,7 +69,7 @@ public class CompanyController {
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
     public JsonResult queryCompanys(Integer pageNum, Integer pageSize) throws Exception {
-        PageResult companys = companyService.getCompanyForPage(pageNum, pageSize);
+        List<Company> companys = companyService.getCompanyForPage(pageNum, pageSize);
         return JsonResult.build(StatusCode.SUCCESS, companys);
     }
 

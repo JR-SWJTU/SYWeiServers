@@ -1,7 +1,6 @@
 package com.swjtu.SYWeiServers.service;
 
 import com.swjtu.SYWeiServers.entity.Employee;
-import com.swjtu.SYWeiServers.util.PageResult;
 import com.swjtu.SYWeiServers.web.exception.CustomException;
 
 import java.util.List;
@@ -45,7 +44,7 @@ public interface EmployeeService {
      * @param pageSize
      * @return
      */
-    PageResult getEmployeeForPage(String companyId, String dbName, Integer pageNum, Integer pageSize) throws Exception;
+    List<Employee> getEmployeeForPage(String companyId, String dbName, Integer pageNum, Integer pageSize) throws Exception;
 
     /**
      * 根据员工id批量删除员工信息

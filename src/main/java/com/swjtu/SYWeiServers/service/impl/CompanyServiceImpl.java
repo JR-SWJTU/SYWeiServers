@@ -1,14 +1,11 @@
 package com.swjtu.SYWeiServers.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.swjtu.SYWeiServers.entity.Company;
 import com.swjtu.SYWeiServers.entity.CompanyExample;
 import com.swjtu.SYWeiServers.mapper.CompanyMapper;
 import com.swjtu.SYWeiServers.mapper.CompanyMapperCustom;
 import com.swjtu.SYWeiServers.service.CompanyService;
 import com.swjtu.SYWeiServers.util.MainDataSourceFactory;
-import com.swjtu.SYWeiServers.util.PageResult;
 import com.swjtu.SYWeiServers.util.ToolHelper;
 import com.swjtu.SYWeiServers.web.exception.CustomException;
 import org.apache.commons.collections.CollectionUtils;
@@ -124,7 +121,7 @@ public class CompanyServiceImpl implements CompanyService {
         return company;
     }
 
-    public PageResult getCompanyForPage(Integer pageNum, Integer pageSize) throws Exception {
+    public List<Company> getCompanyForPage(Integer pageNum, Integer pageSize) throws Exception {
         if(pageNum == null || pageSize == null)
             throw  new CustomException("参数缺失");
         CompanyMapper companyMapper;
@@ -134,16 +131,11 @@ public class CompanyServiceImpl implements CompanyService {
             //获取操作Company表的dao
             companyMapper =  sqlSession.getMapper(CompanyMapper.class);
 
-            PageHelper.startPage(pageNum, pageSize);
-            CompanyExample teamExample = new CompanyExample();
-            List<Company> teams = companyMapper.selectByExampleWithBLOBs(teamExample);
-            PageInfo<Company> pageInfo = new PageInfo<Company>(teams);
-            PageResult pageResult = new PageResult();
-            pageResult.setRows(teams);
-            pageResult.setTotal(pageInfo.getTotal());
-            return pageResult;
+            List<Company> companies = companyMapper.selectForPage( (pageNum - 1) * pageSize, pageSize);
+            return companies;
         }
         catch(Exception e){
+            e.printStackTrace();
             throw new Exception();
         }
         finally{

@@ -3,7 +3,6 @@ package com.swjtu.SYWeiServers.web.controller;
 import com.swjtu.SYWeiServers.entity.Employee;
 import com.swjtu.SYWeiServers.service.EmployeeService;
 import com.swjtu.SYWeiServers.util.JsonResult;
-import com.swjtu.SYWeiServers.util.PageResult;
 import com.swjtu.SYWeiServers.util.enums.StatusCode;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -58,7 +57,7 @@ public class EmployeeController {
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
     public JsonResult queryEmployees(Integer pageNum, Integer pageSize, String companyId, String dbName) throws Exception {
-        PageResult employees = employeeService.getEmployeeForPage(companyId, dbName, pageNum, pageSize);
+        List<Employee> employees = employeeService.getEmployeeForPage(companyId, dbName, pageNum, pageSize);
         return JsonResult.build(StatusCode.SUCCESS, employees);
     }
 

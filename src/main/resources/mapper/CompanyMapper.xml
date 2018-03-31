@@ -91,6 +91,7 @@
   <sql id="Blob_Column_List" >
     Remark
   </sql>
+
   <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.swjtu.SYWeiServers.entity.CompanyExample" >
     select
     <if test="distinct" >
@@ -107,6 +108,13 @@
       order by ${orderByClause}
     </if>
   </select>
+
+  <select id="selectForPage" resultMap="ResultMapWithBLOBs" parameterType="com.swjtu.SYWeiServers.entity.CompanyExample" >
+    select top ${pageSize} *  from Company where CompanyID NOT IN  (
+        select top ${start} CompanyID from Company
+    )
+  </select>
+
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.swjtu.SYWeiServers.entity.CompanyExample" >
     select
     <if test="distinct" >
@@ -121,6 +129,7 @@
       order by ${orderByClause}
     </if>
   </select>
+
   <delete id="deleteByExample" parameterType="com.swjtu.SYWeiServers.entity.CompanyExample" >
     delete from Company
     <if test="_parameter != null" >

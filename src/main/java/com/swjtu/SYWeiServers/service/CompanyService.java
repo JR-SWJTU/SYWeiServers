@@ -1,7 +1,6 @@
 package com.swjtu.SYWeiServers.service;
 
 import com.swjtu.SYWeiServers.entity.Company;
-import com.swjtu.SYWeiServers.util.PageResult;
 import com.swjtu.SYWeiServers.web.exception.CustomException;
 
 import java.util.List;
@@ -45,7 +44,7 @@ public interface CompanyService {
      * @param pageSize
      * @return
      */
-    PageResult getCompanyForPage(Integer pageNum, Integer pageSize) throws Exception;
+    List<Company> getCompanyForPage(Integer pageNum, Integer pageSize) throws Exception;
 
     /**
      * 根据公司id批量删除公司信息
