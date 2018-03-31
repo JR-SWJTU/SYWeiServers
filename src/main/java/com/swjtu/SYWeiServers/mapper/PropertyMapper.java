@@ -1,36 +1,22 @@
 package com.swjtu.SYWeiServers.mapper;
 
 import com.swjtu.SYWeiServers.entity.Property;
-import com.swjtu.SYWeiServers.entity.PropertyExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface PropertyMapper {
-    int countByExample(PropertyExample example);
+    int countByExample(@Param("dbName")String dbName);
 
-    int deleteByExample(PropertyExample example);
+    int insert(@Param("dbName")String dbName, @Param("entity")Property record);
 
-    int deleteByPrimaryKey(String propertyid);
+    List<Property> selectForPage(@Param("dbName")String dbName, @Param("start")int start, @Param("pageSize")int pageSize);
 
-    int insert(Property record);
+    List<Property> selectByExampleWithBLOBs(@Param("dbName")String dbName, @Param("propertyIds")List<String> propertyIds);
 
-    int insertSelective(Property record);
+    Property selectProperty(@Param("dbName")String dbName, @Param("roomNo")String roomNo);
 
-    List<Property> selectByExampleWithBLOBs(PropertyExample example);
+    int deleteByExample(@Param("dbName")String dbName,  @Param("propertyIds")List<String> propertyIds);
 
-    List<Property> selectByExample(PropertyExample example);
-
-    Property selectByPrimaryKey(String propertyid);
-
-    int updateByExampleSelective(@Param("record") Property record, @Param("example") PropertyExample example);
-
-    int updateByExampleWithBLOBs(@Param("record") Property record, @Param("example") PropertyExample example);
-
-    int updateByExample(@Param("record") Property record, @Param("example") PropertyExample example);
-
-    int updateByPrimaryKeySelective(Property record);
-
-    int updateByPrimaryKeyWithBLOBs(Property record);
-
-    int updateByPrimaryKey(Property record);
+    int updateByExampleSelective(@Param("dbName")String dbName,@Param("record") Property record);
 }
