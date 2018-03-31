@@ -8,6 +8,7 @@ import com.swjtu.SYWeiServers.util.ToolHelper;
 import com.swjtu.SYWeiServers.web.exception.CustomException;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class EstateServiceImpl implements EstateService {
     }
 
     @Override
-    public Estate findEstate(String companyId, String dbName, String eatateName, String address) {
+    public Estate findEstate(String companyId, String dbName, String eatateName, String address) throws IOException {
         estateMapper = DataSourceFactory.getMapper(companyId, dbName, EstateMapper.class);
         //调用dao中方法进行数据查询
         Estate estate = estateMapper.selectEstate(dbName, eatateName, address);

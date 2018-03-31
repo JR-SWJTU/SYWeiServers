@@ -3,6 +3,7 @@ package com.swjtu.SYWeiServers.service;
 import com.swjtu.SYWeiServers.entity.Employee;
 import com.swjtu.SYWeiServers.web.exception.CustomException;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ public interface EmployeeService {
      * @param employee
      * @return
      */
-    Employee login(String companyId, String dbName, Employee employee) throws CustomException;
+    Employee login(String companyId, String dbName, Employee employee) throws CustomException, IOException;
 
     /**
      * 根据员工No批量查找员工信息
@@ -36,7 +37,7 @@ public interface EmployeeService {
      * @param employeeNo
      * @return
      */
-    Employee findEmployee(String companyId, String dbName, String employeeNo);
+    Employee findEmployee(String companyId, String dbName, String employeeNo) throws IOException;
 
     /**
      * 分页获取员工信息

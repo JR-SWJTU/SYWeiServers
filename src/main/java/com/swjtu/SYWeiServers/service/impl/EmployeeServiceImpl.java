@@ -8,6 +8,7 @@ import com.swjtu.SYWeiServers.util.ToolHelper;
 import com.swjtu.SYWeiServers.web.exception.CustomException;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee login(String companyId, String dbName, Employee employee) throws CustomException {
+    public Employee login(String companyId, String dbName, Employee employee) throws CustomException, IOException {
         Employee employee1 = findEmployee(companyId, dbName, employee.getEmpno());
 
         if(employee1 == null) {
@@ -57,7 +58,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee findEmployee(String companyId, String dbName, String employeeNo) {
+    public Employee findEmployee(String companyId, String dbName, String employeeNo) throws IOException {
         employeeMapper = DataSourceFactory.getMapper(companyId, dbName, EmployeeMapper.class);
         Employee employee = null;
         List<String> employeeNos = new ArrayList<String>();

@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import java.io.IOException;
 import java.io.Reader;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -80,28 +81,21 @@ public class DataSourceFactory {
      * @param dbName
      * @return
      */
-    private static SqlSessionFactory createSqlSessionFactory(String dbName){
+    private static SqlSessionFactory createSqlSessionFactory(String dbName) throws IOException {
         SqlSessionFactory _sqlSessionFactory = null;
-        try{
-            //拼接连接
-            String dataSourceUrl = url + dbName;
-            //初始化数据库属性
-            Properties properties = new Properties();
-            properties.setProperty("jdbc.driver",driver);
-            properties.setProperty("jdbc.url", url);
-            properties.setProperty("jdbc.username", userName);
-            properties.setProperty("jdbc.password", password);
-            Reader reader = Resources.getResourceAsReader(MainDataSourceFactory.configuration);
-            //创建数据工厂
-            SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
-            _sqlSessionFactory = builder.build(reader, properties);
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-        finally{
-            return _sqlSessionFactory;
-        }
+        //拼接连接
+        String dataSourceUrl = url + dbName;
+        //初始化数据库属性
+        Properties properties = new Properties();
+        properties.setProperty("jdbc.driver",driver);
+        properties.setProperty("jdbc.url", url);
+        properties.setProperty("jdbc.username", userName);
+        properties.setProperty("jdbc.password", password);
+        Reader reader = Resources.getResourceAsReader(MainDataSourceFactory.configuration);
+        //创建数据工厂
+        SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
+        _sqlSessionFactory = builder.build(reader, properties);
+        return _sqlSessionFactory;
     }
 
     /**
@@ -112,7 +106,7 @@ public class DataSourceFactory {
      * @return
      */
     @SuppressWarnings("unchecked")
-    public static <T> T getMapper(String companyId, String dbName, Class<?> clazz){
+    public static <T> T getMapper(String companyId, String dbName, Class<?> clazz) throws IOException {
         SqlSessionFactory sqlSessionFactory = dataSoruce.get(companyId);
         if(sqlSessionFactory==null){
             //创建数据工厂

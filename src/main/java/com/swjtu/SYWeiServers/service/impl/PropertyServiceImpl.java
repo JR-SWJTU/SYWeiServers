@@ -8,6 +8,7 @@ import com.swjtu.SYWeiServers.util.ToolHelper;
 import com.swjtu.SYWeiServers.web.exception.CustomException;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public Property findProperty(String companyId, String dbName, String roomno) {
+    public Property findProperty(String companyId, String dbName, String roomno) throws IOException {
         propertyMapper = DataSourceFactory.getMapper(companyId, dbName, PropertyMapper.class);
         //调用dao中方法进行数据查询
         Property property = propertyMapper.selectProperty(dbName, roomno);

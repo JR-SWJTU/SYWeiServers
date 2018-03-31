@@ -3,6 +3,7 @@ package com.swjtu.SYWeiServers.service;
 import com.swjtu.SYWeiServers.entity.Property;
 import com.swjtu.SYWeiServers.web.exception.CustomException;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -31,7 +32,7 @@ public interface PropertyService {
      * @param roomno 房源编号
      * @return
      */
-    Property findProperty(String companyId, String dbName, String roomno);
+    Property findProperty(String companyId, String dbName, String roomno) throws IOException;
 
     /**
      * 分页获取房源信息

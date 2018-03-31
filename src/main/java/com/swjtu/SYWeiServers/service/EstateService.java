@@ -3,6 +3,7 @@ package com.swjtu.SYWeiServers.service;
 import com.swjtu.SYWeiServers.entity.Estate;
 import com.swjtu.SYWeiServers.web.exception.CustomException;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public interface EstateService {
      * @param address  地址
      * @return
      */
-    Estate findEstate(String companyId, String dbName, String eatateName, String address);
+    Estate findEstate(String companyId, String dbName, String eatateName, String address) throws IOException;
 
     /**
      * 分页获取楼盘信息

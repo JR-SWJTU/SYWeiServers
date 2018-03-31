@@ -6,6 +6,7 @@ import com.swjtu.SYWeiServers.service.UsersService;
 import com.swjtu.SYWeiServers.util.DataSourceFactory;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ public class UsersServiceImpl implements UsersService {
 
     private UsersMapper usersMapper = null;
 
-    public Users loadUsers(String companyId, String dbName, int id) {
+    public Users loadUsers(String companyId, String dbName, int id) throws IOException {
         //根据公司id获取数据库连接并获取相应的dao：UsersMapper
         usersMapper = DataSourceFactory.getMapper(companyId, dbName, UsersMapper.class);
         //由于查询返回一个list，所以取第一个
@@ -27,7 +28,7 @@ public class UsersServiceImpl implements UsersService {
         return usersList.get(0);
     }
 
-    public boolean addUser(String companyId, String dbName, Users user) {
+    public boolean addUser(String companyId, String dbName, Users user) throws IOException {
         //根据公司id获取数据库连接并获取相应的dao：UsersMapper
         usersMapper = DataSourceFactory.getMapper(companyId, dbName, UsersMapper.class);
         //添加成功返回影响的行数1,，则整个方法返回true
