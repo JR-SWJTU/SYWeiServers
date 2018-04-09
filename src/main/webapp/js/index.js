@@ -1,4 +1,23 @@
 /**
+ * 获取当前系统公司用户量
+ */
+axios.get('/companies/total')
+    .then(function (response) {
+        if(response.data.code == 200){
+            var companyNumber = document.getElementById('company_number');
+            companyNumber.innerHTML = response.data.data;
+        }
+        else{
+            console.log(response.data.message);
+            // console.log(response.data.message);
+        }
+    })
+    .catch(function (error) {
+        // console.log(error);
+        console.log(error);
+    });
+
+/**
  * 显示登录注册层
  * @param type login/register
  */
@@ -10,20 +29,46 @@ function showForm(type) {
     type.style.display = '';
     var form = document.getElementsByClassName('form')[0];
     var formStyle = getComputedStyle(form);
-    console.log()
-    form.style.marginTop = ( parseInt(fixedStyle.height) / 2 - parseInt(formStyle.height) / 2 ) - 100 + 'px';
+    var outheight = parseInt(fixedStyle.height) / 2;
+    var inheight = parseInt(formStyle.height) / 2;
+    (function(obj, outheight, inheight){
+        obj.style.marginTop = '-' + inheight + 'px';
+        var start = -inheight;
+        var end = outheight - inheight - 100;
+        var intervalId = setInterval(function () {
+            start += 5;
+            if(start > end){
+                clearInterval(intervalId);
+            }
+            else{
+                obj.style.marginTop = start + 'px';
+            }
+        }, 7);
+    }(form, outheight, inheight));
 }
 
 /**
  * 隐藏登录注册层
  */
 function hiddenForm() {
-    var fixed = document.getElementsByClassName('fixed-contain')[0];
-    fixed.style.display = 'none';
+    var form = document.getElementsByClassName('form')[0];
+    var formMarginTop = parseInt(form.style.marginTop.substring(0, form.style.marginTop.length - 2));
     var login = document.getElementsByClassName('login-form')[0];
-    login.style.display = 'none';
     var register = document.getElementsByClassName('register-form')[0];
-    register.style.display = 'none';
+    var fixed = document.getElementsByClassName('fixed-contain')[0];
+
+    var intervalId = setInterval(function () {
+        formMarginTop -= 5;
+        if(formMarginTop < -300){
+            clearInterval(intervalId);
+            login.style.display = 'none';
+            register.style.display = 'none';
+            fixed.style.display = 'none';
+        }
+        else{
+            form.style.marginTop = formMarginTop + 'px';
+        }
+    }, 7);
 }
 
 /**
@@ -65,11 +110,11 @@ loginForm.loginBtn.addEventListener('click', function (event) {
     var companyno = loginForm.companyNo.value;
     var password = loginForm.password.value;
     if(companyno == ''){
-        console.log('不可为空');
+        showToast(false, '用户名不可为空');
         return;
     }
     if(password == ''){
-        console.log('p不可为空');
+        showToast(false, '密码不可为空');
         return;
     }
     axios.post('/companies/login', {
@@ -79,14 +124,71 @@ loginForm.loginBtn.addEventListener('click', function (event) {
         .then(function (response) {
             if(response.data.code == 200){
                 sessionStorage.setItem('company', JSON.stringify(response.data.data));
+                // showToast(true, '登录成功');
                 location.assign('./company.jsp');
             }
             else{
-                console.log(response.data.message);
+                showToast(false, response.data.message);
+                // console.log(response.data.message);
             }
         })
         .catch(function (error) {
-            console.log(error);
+            // console.log(error);
+            showToast(false, error);
+        });
+});
+var registerForm = document.forms.register;
+registerForm.registerBtn.addEventListener('click', function (event) {
+    event.preventDefault();
+    var companyno = registerForm.companyNo.value;
+    var password = registerForm.password.value;
+    var repassword = registerForm.repassword.value;
+    var companyname = registerForm.companyName.value;
+    var dbname = registerForm.dbName.value;
+    if(companyno == ''){
+        showToast(false, '用户名不可为空');
+        return;
+    }
+    if(password == ''){
+        showToast(false, '密码不可为空');
+        return;
+    }
+    if(password != repassword){
+        showToast(false, '两次密码不一致');
+        return;
+    }
+    if(companyname == ''){
+        showToast(false, '公司名称不可为空');
+        return;
+    }
+    if(dbname == ''){
+        showToast(false, '独立数据库名不可为空');
+        return;
+    }
+    axios.post('/companies/register', {
+        companyno: companyno,
+        password: password,
+        companyname: companyname,
+        dbname: dbname
+    })
+        .then(function (response) {
+            if(response.data.code == 200){
+                // sessionStorage.setItem('company', JSON.stringify(response.data.data));
+                showToast(true, '注册成功，并创建独立数据库，转至登录');
+                hiddenForm();
+                showForm('login');
+                loginForm.companyno.value = companyno;
+                loginForm.password.value = password;
+                // location.assign('./company.jsp');
+            }
+            else{
+                showToast(false, response.data.message);
+                // console.log(response.data.message);
+            }
+        })
+        .catch(function (error) {
+            // console.log(error);
+            showToast(false, error);
         });
 });
 

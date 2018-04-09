@@ -29,6 +29,10 @@ public class CompanyServiceImpl implements CompanyService {
             throw  new CustomException("数据库名为空");
         }
 
+        if(findCompanyByDbName(company.getDbname()) != null){
+            throw new CustomException("数据库名称已经存在");
+        }
+
         if(findCompany(company.getCompanyno()) != null) {
             throw new CustomException("账号已经存在");
         }
@@ -121,6 +125,34 @@ public class CompanyServiceImpl implements CompanyService {
         return company;
     }
 
+    @Override
+    public Company findCompanyByDbName(String dbName) {
+        Company company = null;
+        try{
+            //获取主数据库连接
+            sqlSession = MainDataSourceFactory.sqlSessionFactory.openSession();
+            //获取操作Company表的dao
+            CompanyMapper companyMapper =  sqlSession.getMapper(CompanyMapper.class);
+            //创建查询条件对象
+            CompanyExample companyExample = new CompanyExample();
+            companyExample.createCriteria().andDbnameEqualTo(dbName);
+            //调用dao中方法进行数据查询
+            List<Company> companies = companyMapper.selectByExampleWithBLOBs(companyExample);
+            if( companies != null && companies.size() != 0) {
+                company = companies.get(0);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally{
+            //关闭主数据库连接，防止连接过多造成内存溢出
+            if(sqlSession != null)
+                sqlSession.close();
+        }
+        return company;
+    }
+
     public List<Company> getCompanyForPage(Integer pageNum, Integer pageSize) throws Exception {
         if(pageNum == null || pageSize == null)
             throw  new CustomException("参数缺失");
@@ -187,6 +219,31 @@ public class CompanyServiceImpl implements CompanyService {
             company.setCompanyid(null);
             company.setCompanyno(null);
             return companyMapper.updateByExampleSelective(company, companyExample) != 0;
+        }
+        catch(Exception e){
+            throw new Exception();
+        }
+        finally{
+            sqlSession.commit();
+            //关闭主数据库连接，防止连接过多造成内存溢出
+            if(sqlSession != null)
+                sqlSession.close();
+        }
+    }
+
+    @Override
+    public Integer getCommanyNumber() throws Exception {
+        CompanyMapperCustom companyMapperCustom;
+        try{
+            //获取主数据库连接
+            sqlSession = MainDataSourceFactory.sqlSessionFactory.openSession();
+            //获取操作Company表的dao
+            companyMapperCustom =  sqlSession.getMapper(CompanyMapperCustom.class);
+
+            //创建查询
+            Integer number = companyMapperCustom.getCompanyNumber();
+
+            return number;
         }
         catch(Exception e){
             throw new Exception();

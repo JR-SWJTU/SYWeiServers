@@ -39,6 +39,13 @@ public interface CompanyService {
     Company findCompany(String companyNo);
 
     /**
+     * 根据数据库名称获取一个公司信息
+     * @param dbName
+     * @return
+     */
+    Company findCompanyByDbName(String dbName);
+
+    /**
      * 分页获取公司信息
      * @param pageNum
      * @param pageSize
@@ -53,5 +60,18 @@ public interface CompanyService {
      */
     boolean deleteCompany(List<String> companyIds) throws Exception;
 
+    /**
+     * 更新公司信息
+     * @param company
+     * @return
+     * @throws Exception
+     */
     boolean updateCompany(Company company) throws Exception;
+
+    /**
+     * 获取当前用户量
+     * @return
+     * @throws Exception
+     */
+    Integer getCommanyNumber() throws Exception;
 }

@@ -83,4 +83,13 @@ public class CompanyController {
         return JsonResult.build(StatusCode.SUCCESS,  companyService.updateCompany(company) ? 1 : 0);
     }
 
+    /**
+     * 获取当前公司用户量
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/total", method = RequestMethod.GET)
+    public JsonResult total() throws  Exception{
+        return JsonResult.build(StatusCode.SUCCESS, companyService.getCommanyNumber());
+    }
 }

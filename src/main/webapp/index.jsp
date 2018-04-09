@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>房屋租赁微信公众号SAAS平台</title>
-    <link rel="shortcut icon" href="./icon.png" />
+    <link rel="shortcut icon" href="./source/icon.png" />
     <link rel="stylesheet" href="./css/cssreset.css" />
-    <link rel="stylesheet" href="./css/theme/main.css" />
+    <link rel="stylesheet" href="./css/share.css" />
     <link rel="stylesheet" href="./css/index.css"/>
 </head>
 <body>
@@ -42,7 +42,7 @@
 <!--describe start-->
     <div class="describe-contain">
         <div class="contain">
-            房屋租赁微信公众号SAAS平台，创新营销；注册商家 <span class="color-tomato">123</span> 家；服务客户 <span class="color-tomato">飞速增长</span>
+            房屋租赁微信公众号SAAS平台，创新营销；注册商家 <span id="company_number" class="color-tomato">0</span> 家；服务客户 <span class="color-tomato">飞速增长</span>
         </div>
     </div>
 <!--describe end-->
@@ -175,27 +175,27 @@
                 <form class="form-contain register-form-contain" name="register">
                     <p class="title">用户注册</p>
                     <div class="input-group">
-                        <input class="block" type="text" name="" placeholder="请输入用户名" />
+                        <input class="block" type="text" name="companyNo" placeholder="请输入用户名" />
                         <!--<span>1</span>-->
                     </div>
                     <div class="input-group">
-                        <input class="block" type="password" name="" placeholder="请输入密码" />
+                        <input class="block" type="password" name="password" placeholder="请输入密码" />
                         <!--<span>2</span>-->
                     </div>
                     <div class="input-group">
-                        <input class="block" type="password" placeholder="请再次输入密码" />
+                        <input class="block" type="password" name="repassword" placeholder="请再次输入密码" />
                         <!--<span>2</span>-->
                     </div>
                     <div class="input-group">
-                        <input class="block" type="password" placeholder="请输入公司全称" />
+                        <input class="block" type="text" name="companyName" placeholder="请输入公司全称" />
                         <!--<span>2</span>-->
                     </div>
                     <div class="input-group">
-                        <input class="block" type="password" placeholder="请输入独立数据库名称（英文）" />
+                        <input class="block" type="text" name="dbName" placeholder="请输入独立数据库名称（英文）" />
                         <!--<span>2</span>-->
                     </div>
                     <div style="height: 1px"></div>
-                    <button class="block">注册</button>
+                    <button name="registerBtn" class="block">注册</button>
                 </form>
             </div>
 
@@ -208,12 +208,13 @@
 <!--login-register end-->
 
 <!--toast start-->
-    <div class="toast">
-
+    <div class="toast" style="display: none">
+        <div></div>
     </div>
 <!--toast end-->
 
     <script src="./lib/axios/axios.min.js"></script>
+    <script src="./js/share.js"></script>
     <script src="./js/index.js"></script>
 </body>
 </html>

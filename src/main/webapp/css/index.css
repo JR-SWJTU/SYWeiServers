@@ -36,6 +36,9 @@ body{
     color: orange;
 }
 .color-tomato{
+    font-weight: bold;
+    font-family: 仿宋;
+    font-size: 1.3em;
     color: tomato;
 }
 

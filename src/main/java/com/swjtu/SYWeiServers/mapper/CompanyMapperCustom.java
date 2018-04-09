@@ -16,4 +16,6 @@ public interface CompanyMapperCustom {
 //    void createDataBase(@Param("dbName")String dbName);
 
     List<Company> findCompanyByCompanyNo(@Param("companyNos")List<String> companyNos);
+
+    Integer getCompanyNumber();
 }
