@@ -1,0 +1,364 @@
+body{
+    cursor: default;
+}
+.contain{
+    margin: 0 auto;
+    width: 80%;
+    min-width: 1025px;
+    max-width: 1224px;
+}
+.model-contain{
+    padding: 50px 0 60px;
+    text-align: center;
+}
+.model-contain .one-title{
+    font-size: 32px;
+}
+.model-contain .two-title{
+    margin-top: 10px;
+    font-size: 24px;
+    font-family: 宋体;
+}
+.vertical-bar{
+     display: inline-block;
+     border-left: 1px solid gray;
+     margin: 5px 12px;
+}
+.strong-text{
+    font-weight: bold;
+}
+.block{
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+}
+.color-orange{
+    color: orange;
+}
+.color-tomato{
+    color: tomato;
+}
+
+.advantage-animation{
+    -webkit-animation-name: rotate;
+    -moz-animation-name: rotate;
+    -o-animation-name: rotate;
+    animation-name: rotate;
+    -webkit-animation-duration: 1s;
+    -moz-animation-duration: 1s;
+    -o-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-timing-function: linear;
+    -o-animation-timing-function: linear;
+    animation-timing-function: linear;
+}
+@keyframes rotate {
+    form{
+        transform: rotateY(0deg);
+    }
+    to{
+        transform: rotateY(360deg);
+    }
+}
+/**
+页头
+ */
+header{
+    width: 100%;
+    height: 720px;
+    background: url('../source/image/head_baner.jpg') no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 970px;
+    overflow: hidden;
+    background-attachment: fixed;
+    background-position: left -250px;
+    position: relative;
+    min-width: 1025px;
+}
+.nav-contain{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 94px;
+    z-index: 888;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+.nav-contain .contain{
+    padding: 23px 0;
+    line-height: 48px;
+}
+.nav-contain .contain .logo{
+    display: flex;
+    margin-left: 96px;
+    float: left;
+}
+.nav-contain .contain .logo img{
+    vertical-align: middle;
+}
+.nav-contain .contain .logo .app-title{
+    font-size: 28px;
+    color: white;
+}
+.nav-contain .contain .nav-command{
+    float: right;
+    margin-right: 96px;
+    list-style: none;
+    font-size: 18px;
+}
+.nav-contain .contain .nav-command li{
+    display: inline-block;
+    margin: 0 7px;
+}
+.nav-contain .contain .nav-command li a{
+    text-decoration: none;
+    color: beige;
+}
+.nav-contain .contain .nav-command li a:hover{
+    color: #e34f43;
+    text-decoration: underline;
+}
+.title-contain{
+    position: absolute;
+    top: 46%;
+    width: 100%;
+    text-align: center;
+    font-size: 50px;
+    color: mediumseagreen;
+}
+/**
+平台描述
+ */
+.describe-contain{
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 18px 0;
+}
+.describe-contain .contain{
+    line-height: 33px;
+    font-size: 18px;
+    text-align: center;
+}
+/*
+平台优势
+*/
+.advantage-contain{
+    background-color: rgba(0, 0, 0, 0.01);
+}
+.advantage-contain .list{
+    display: flex;
+    margin-top: 30px;
+    height: 185px;
+    list-style: none;
+}
+.advantage-contain .list li{
+    flex-grow: 1;
+}
+.advantage-contain .list .item{
+    box-sizing: border-box;
+    width: 335px;
+    height: 100%;
+    padding: 0 40px;
+}
+.advantage-contain .list .item .name{
+    font-size: 18px;
+    font-weight: 700;
+    color: #2b2a28;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.advantage-contain .list .item .text{
+    font-size: 14px;
+    color: #666;
+}
+.advantage-contain .list .percent-vertical-bar{
+    height: 40%;
+    box-sizing: border-box;
+    border-left: 1px solid gray;
+    position: relative;
+    top: 30%;
+    margin: 0 4px;
+}
+/*
+案例
+*/
+.case-contain{
+    background: linear-gradient(to top, #ebebeb, #f6f3f3);
+}
+.case-contain .list{
+    display: flex;
+    margin-top: 30px;
+    height: 320px;
+    list-style: none;
+}
+.case-contain .list li{
+    flex-grow: 1;
+    margin: 0 15px 20px;
+}
+.case-contain .list .item .case-item{
+    margin: 0 auto;
+    width: 290px;
+    height: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: white;
+    padding: 10px 0 0;
+    position: relative;
+}
+.case-contain .list .item .case-item img{
+    z-index: 1;
+}
+.case-contain .list .item .case-item .name{
+    cursor: pointer;
+    position: relative;
+    z-index: 199;
+    margin-top: 15px;
+    font-size: 20px;
+}
+.case-contain .list .item .case-item .text{
+    position: relative;
+    z-index: 199;
+    padding: 20px;
+    font-size: 16px;
+    text-align: left;
+}
+.case-contain .list .item .case-item hr{
+    position: relative;
+    z-index: 199;
+}
+.case-contain .list .item .case-item .case-item-command{
+    cursor: pointer;
+    position: relative;
+    font-size: 14px;
+    z-index: 199;
+}
+.case-contain .list .item .case-item .case-item-hidden{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255, 94, 1, 0);
+    z-index: 99;
+}
+/*
+页脚
+*/
+.connection-contain{
+    padding: 35px 0;
+    background-color: #2e2e2e;
+    border-bottom: 1px solid #e34f43;
+}
+.connection-contain .connection-ul{
+    list-style: none;
+}
+.connection-contain .connection-ul li{
+    display: inline-block;
+    margin: 0 15px;
+}
+.connection-contain .connection-ul a{
+    color: gray;
+    text-decoration: none;
+}
+.connection-contain .connection-ul a:hover{
+    color: #e34f43;
+    text-decoration: underline;
+}
+.foot-contain{
+    padding: 20px 0;
+    background-color: #2e2e2e;
+    font-size: 12px;
+    color: gray;
+}
+/*
+登录 注册
+*/
+.fixed-contain{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    background-color: rgba(230, 230, 255, 0.9);
+}
+.fixed-contain .form{
+    margin: 0 auto;
+    width: 330px;
+    border: 0.1px solid transparent;
+    border-radius: 3px;
+}
+.fixed-contain .form .text{
+    margin-top: 15px;
+    text-align: center;
+    font-size: 16px;
+    color: #656565;
+}
+.fixed-contain .form .top{
+    box-sizing: border-box;
+    height: 54px;
+    padding: 10px 15px;
+    border: 1px solid transparent;
+    border-radius: 3px 3px 0 0;
+    background-color: #3a3f51;
+    text-align: center;
+}
+.fixed-contain .form .top img{
+    cursor: pointer;
+    height: 34px;
+}
+.fixed-contain .form .form-contain{
+    padding: 15px;
+    border: 1px solid transparent;
+    border-radius: 0 0 3px 3px;
+    background-color: white;
+}
+.fixed-contain .form .form-contain .title{
+    padding: 10px 0;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #656565;
+}
+.fixed-contain .form .form-contain .input-group{
+    width: 100%;
+    height: 38px;
+    margin-bottom: 20px;
+    position: relative;
+}
+.fixed-contain .form .form-contain .input-group input{
+    height: 100%;
+    padding: 6px 43px 6px 16px;
+    border: 1px solid #dde6e9;
+    border-radius: 3px;
+    font-size: 16px;
+}
+.fixed-contain .form .form-contain .input-group span{
+    position: absolute;
+    right: 5px;
+    top: 0;
+}
+.fixed-contain .form .form-contain button{
+    margin: 15px 0;
+    height: 35px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    color: #ffffff;
+    background-color: #5d9cec;
+    cursor: pointer;
+}
+.fixed-contain .form .login-form{
+    width: 100%;
+}
+.fixed-contain .form .login-form .check-group{
+    height: 31px;
+}
+.fixed-contain .form .login-form input[type=checkbox]{
+    cursor: pointer;
+    width: 21px;
+    height: 21px;
+    margin: 0 5px;
+}
+.fixed-contain .form .login-form label{
+    cursor: pointer;
+    vertical-align: top;
+    color: #666;
+}
