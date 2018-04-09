@@ -6,6 +6,12 @@
     <title>Title</title>
 </head>
 <body>
+    company
 
+    <script>
+        var company = sessionStorage.getItem('company');
+        company = JSON.parse(company);
+        console.log(company);
+    </script>
 </body>
 </html>

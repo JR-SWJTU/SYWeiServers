@@ -77,8 +77,13 @@ loginForm.loginBtn.addEventListener('click', function (event) {
             password: password
         })
         .then(function (response) {
-            console.log(response);
-            location.assign('./company.jsp');
+            if(response.data.code == 200){
+                sessionStorage.setItem('company', JSON.stringify(response.data.data));
+                location.assign('./company.jsp');
+            }
+            else{
+                console.log(response.data.message);
+            }
         })
         .catch(function (error) {
             console.log(error);
