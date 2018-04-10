@@ -1,6 +1,9 @@
 [v-cloak]{
     display: none;
 }
+.one-title, .two-title{
+    cursor: default;
+}
 /*
 appbar
  */
@@ -43,6 +46,37 @@ drawer
     overflow: auto;
     -webkit-overflow-scrolling: touch;
 }
+.user-info-box{
+    text-align: center;
+    margin: 10px 5px;
+    padding: 5px 20px;
+    background-color: lightblue;
+    border: 0.1px solid lightgreen;
+    border-radius: 5px;
+}
+.user-info-box .box-icon{
+    cursor: pointer;
+}
+.user-info-box .one-title{
+    margin: 10px 0 0;
+    border-top: 1px solid white;
+    padding: 3px 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+.user-info-box .two-title{
+    padding-bottom: 10px;
+    font-size: 12px;
+}
+.mu-item-title{
+    font-size: 18px;
+}
+.active-color {
+    color: #7e57c2;
+}
+/*
+content
+ */
 .example-content {
     padding-top: 56px;
     padding-left: 256px;
@@ -58,5 +92,68 @@ drawer
     padding-left: 0;
 }
 .content-wrapper {
-    padding: 48px 72px;
+    padding: 10px;
+}
+/*
+主页
+ */
+.home .bc-title{
+    height: 420px;
+    background: url("../source/image/company_case_logo.png") no-repeat center 30px, rgb(0, 188, 212);
+    position: relative;
+    top: 0;
+    left: 0;
+}
+.home .bc-title .title{
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    top: 230px;
+}
+.home .bc-title .title .one-title{
+    cursor: pointer;
+    font-size: 46px;
+    font-family: 楷体;
+    font-weight: bold;
+    padding: 32px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.home .bc-title .title .two-title{
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.4);
+}
+.home .content-box, .home .content-top, .home .content-bottom{
+    cursor: default;
+    text-align: center;
+    padding: 40px 24px;
+}
+.home .content-top, .home .content-bottom{
+    background-color: rgb(238, 238, 238);
+}
+.home .content-top p, .home .content-bottom p{
+    max-width: 700px;
+    margin: 0 auto;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 28px;
+    letter-spacing: 0px;
+    color: rgba(0, 0, 0, 0.87);
+}
+.home .content-box ul{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    list-style: none;
+}
+.home .content-box ul li{
+    width: 300px;
+    height: 360px;
+    padding: 10px;
+}
+.home .foot{
+    background-color: rgb(0, 0, 0);
+    height: 200px;
 }
