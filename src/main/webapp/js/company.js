@@ -1,55 +1,59 @@
 /**
- * 获取url自带参数
- * @param name 参数名
- * @returns {*}
- * @constructor
+ * vue app
  */
-function getQueryString(name)
-{
-    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-    var r = window.location.search.substr(1).match(reg);
-    if(r!=null)return  unescape(r[2]); return null;
-}
-
-/**
- * 获取session中company记录，或根据url确定公司用户
- */
-var companyNo = getQueryString('no');
-var company = null;
-if(companyNo == '' || companyNo == null){
-    testSessionCompany();
-}
-else{
-    axios.get('/companies/find', {
-        params: {
-            companyno: companyNo
+var app = new Vue({
+    el: '#app',
+    data: {
+        openFlag: true,
+        company: null
+    },
+    methods: {
+        navChange: function () {
+            this.openFlag = !this.openFlag;
+        },
+        testSessionCompany: function () {
+            this.company = sessionStorage.getItem('company');
+            if(this.company == null || this.company == ''){
+                console.log('无法确定公司网页');
+                location.assign('./error.jsp')
+            }
+            else{
+                this.company = JSON.parse(this.company);
+                document.title = this.company.companyname;
+            }
         }
-    }).then(function (response) {
-        if(response.data.code == 200){
-            sessionStorage.setItem('company', JSON.stringify(response.data.data));
-            company = response.data.data;
-            document.title = company.companyname;
+    },
+    computed: {
+
+    },
+    mounted: function () {
+        /**
+         * 获取session中company记录，或根据url确定公司用户
+         */
+        var companyNo = getQueryString('no');
+        if(companyNo == '' || companyNo == null){
+            this.testSessionCompany();
         }
         else{
-            console.log(response.data.message);
-            testSessionCompany();
+            axios.get('/companies/find', {
+                params: {
+                    companyno: companyNo
+                }
+            }).then(function (response) {
+                if(response.data.code == 200){
+                    sessionStorage.setItem('company', JSON.stringify(response.data.data));
+                    this.company = response.data.data;
+                    document.title = this.company.companyname;
+                }
+                else{
+                    console.log(response.data.message);
+                    this.testSessionCompany();
+                }
+            }).catch(function (error) {
+                // console.log(error);
+                console.log(error);
+                this.testSessionCompany();
+            });
         }
-    })
-        .catch(function (error) {
-            // console.log(error);
-            console.log(error);
-            testSessionCompany();
-        });
-}
-function testSessionCompany() {
-    company = sessionStorage.getItem('company');
-    if(company == null || company == ''){
-        console.log('无法确定公司网页');
-        location.assign('./error.jsp')
     }
-    else{
-        company = JSON.parse(company);
-        console.log(company);
-        document.title = company.companyname;
-    }
-}
+})

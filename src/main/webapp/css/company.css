@@ -1,0 +1,62 @@
+[v-cloak]{
+    display: none;
+}
+/*
+appbar
+ */
+.example-appbar {
+    position: fixed;
+    left: 256px;
+    right: 0;
+    top: 0;
+    width: auto;
+    -webkit-transition: all .45s cubic-bezier(.23,1,.32,1);
+    transition: all .45s cubic-bezier(.23,1,.32,1);
+}
+.exmaples-nav-appbar.mu-appbar {
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+}
+.example-appbar.nav-hide {
+    left: 0;
+}
+/*
+drawer
+ */
+.app-drawer {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+.exmaple-drawer-content {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.example-content {
+    padding-top: 56px;
+    padding-left: 256px;
+    -webkit-transition: all .45s cubic-bezier(.23,1,.32,1);
+    transition: all .45s cubic-bezier(.23,1,.32,1);
+}
+@media (min-width: 480px){
+    .example-content {
+        padding-top: 64px;
+    }
+}
+.example-content.nav-hide {
+    padding-left: 0;
+}
+.content-wrapper {
+    padding: 48px 72px;
+}

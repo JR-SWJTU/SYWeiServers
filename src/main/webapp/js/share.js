@@ -1,3 +1,8 @@
+/**
+ * toast展示
+ * @param type
+ * @param message
+ */
 function showToast( type, message ) {
     var toast = document.getElementsByClassName('toast')[0];
     var toastMes = toast.getElementsByTagName('div')[0];
@@ -12,4 +17,16 @@ function showToast( type, message ) {
     setTimeout(function () {
         toast.style.display = 'none';
     }, 1500);
+}
+
+/**
+ * 获取url自带参数
+ * @param name 参数名
+ * @returns {*}
+ * @constructor
+ */
+function getQueryString(name) {
+    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if(r!=null)return  unescape(r[2]); return null;
 }
