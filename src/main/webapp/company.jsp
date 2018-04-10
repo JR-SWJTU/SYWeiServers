@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="./css/company.css"/>
 </head>
 <body>
-    company
+
 
     <script src="./lib/axios/axios.min.js"></script>
     <script src="./js/share.js"></script>

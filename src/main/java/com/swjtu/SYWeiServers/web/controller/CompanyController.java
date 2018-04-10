@@ -84,6 +84,21 @@ public class CompanyController {
     }
 
     /**
+     * 通过id获取公司信息
+     * @param companyno
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/find", method = RequestMethod.GET)
+    public JsonResult findCompany(String companyno) throws Exception{
+        Company company1 = companyService.findCompany(companyno);
+        JSONObject jsonObject = JSONObject.fromObject(company1);
+        jsonObject.remove("password");
+        company1 = (Company) JSONObject.toBean(jsonObject, Company.class);
+        return JsonResult.build(StatusCode.SUCCESS, company1);
+    }
+
+    /**
      * 获取当前公司用户量
      * @return
      * @throws Exception
