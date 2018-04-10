@@ -98,13 +98,22 @@
             <div class="content-box">
                 <ul>
                     <li>
-
+                        <a class="item">
+                            <h2 class="top">员工</h2>
+                            <img src="./source/image/case_1.png" alt="case_1" class="item-contain"></img>
+                        </a>
                     </li>
                     <li>
-
+                        <a class="item">
+                            <h2 class="top">楼盘</h2>
+                            <img src="./source/image/case_2.png" alt="case_2" class="item-contain"></img>
+                        </a>
                     </li>
                     <li>
-
+                        <a class="item">
+                            <h2 class="top">房源</h2>
+                            <img src="./source/image/case_3.png" alt="case_3" class="item-contain"></img>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -112,7 +121,9 @@
                 <p><a href="http://bestleo.top">房屋租赁微信公众号SAAS平台</a> 方便快捷</p>
             </div>
             <div class="foot">
-
+                <p class="one-p">由工程师和我们出色的<a>贡献者</a>手工制作的手工制作的手工制作。</p>
+                <a href="http://bestleo.top"><img src="./source/image/logo.png" alt="logo" /></a>
+                <p class="two-p">&copy;2018 - 房屋租赁微信公众号SAAS平台</p>
             </div>
         </div>
     </div>
