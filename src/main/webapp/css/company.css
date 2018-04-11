@@ -50,8 +50,8 @@ drawer
     text-align: center;
     margin: 10px 5px;
     padding: 5px 20px;
-    background-color: lightblue;
-    border: 0.1px solid lightgreen;
+    background-color: black;
+    border: 1px solid transparent;
     border-radius: 5px;
 }
 .user-info-box .box-icon{
@@ -63,10 +63,12 @@ drawer
     padding: 3px 0;
     font-size: 18px;
     font-weight: bold;
+    color: white;
 }
 .user-info-box .two-title{
     padding-bottom: 10px;
     font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
 }
 .mu-item-title{
     font-size: 18px;
@@ -194,4 +196,127 @@ content
     color: rgba(255, 255, 255, 0.54);
     line-height: 25px;
     font-size: 12px;
+}
+/*
+员工
+ */
+.employee .head{
+    height: 250px;
+    background: url("../source/image/employee_back.jpg") no-repeat center/Cover;
+    padding-top: 170px;
+}
+.head .input-box{
+    display: flex;
+    margin: 0 auto;
+    width: 40%;
+    max-width: 760px;
+    min-width: 400px;
+    height: 40px;
+}
+.head .input-box input{
+    outline: none;
+    flex-grow: 1;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 6px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-right: none;
+    border-radius: 20px 0 0;
+    font-size: 15px;
+}
+.head .input-box input:focus {
+    border: 1px solid rgb(99, 180, 200);
+    border-right: none;
+}
+.head .input-box button{
+    outline: none;
+    cursor: pointer;
+    width: 80px;
+    background-color: rgba(0, 200, 200, 0.7);
+    border: 1px solid rgba(0, 200, 200, 0.4);
+    border-left: none;
+    border-radius: 0 0 20px;
+    color: mintcream;
+    font-size: 14px;
+    font-weight: bold;
+}
+.head .input-box button:hover{
+    background-color: rgb(0, 180, 255);
+}
+.control-box{
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 5px 20px;
+}
+.control-box .type-select-ul{
+    list-style: none;
+    display: flex;
+    justify-self: flex-start;
+    line-height: 30px;
+    padding: 5px;
+}
+.control-box .type-select-ul li{
+    cursor: default;
+    padding: 0 10px;
+}
+.control-box .type-select-ul.border-bottom{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.control-box .type-select-ul input, .control-box .type-select-ul label{
+    cursor: pointer;
+}
+.control-box .type-control-div{
+    line-height: 20px;
+    padding: 10px;
+    display: flex;
+    justify-content: flex-start;
+}
+.control-box .type-control-div .ul-left{
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-start;
+}
+.control-box .type-control-div .ul-right{
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+.control-box .type-control-div li{
+    padding: 0 5px;
+}
+.control-box .type-control-div li input{
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.mu-table{
+    /*background-color: transparent;*/
+}
+.mu-th .mu-checkbox{
+    display: none;
+}
+.mu-tr.hover, .mu-tr.selected{
+    /*background-color: rgba(0, 200, 150, 0.1);*/
+}
+.mu-th, .mu-td{
+    cursor: default;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.table-box{
+    /*background-color: rgba(0, 200, 150, 0.1);*/
+    height: 600px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.table-box .page-select{
+    display: flex;
+    padding: 12px 30px;
+    justify-content: flex-end;
+    border-top: 1px solid rgba(0, 200, 200, 0.2);
+}
+.table-box .page-select .mu-pagination{
+    overflow: hidden;
+    border: 1px solid rgb(255, 255, 255);
+    border-radius: 30px;
+    padding: 3px;
+    background-color: ghostwhite;
 }

@@ -54,5 +54,20 @@ public interface EmployeeService {
      */
     boolean deleteEmployee(String companyId, String dbName, List<String> employeeIds) throws Exception;
 
+    /**
+     * 更新当前员工信息
+     * @param companyId
+     * @param dbName
+     * @param employee
+     * @return
+     * @throws Exception
+     */
     boolean updateEmployee(String companyId, String dbName, Employee employee) throws Exception;
+
+    /**
+     * 获取员工量
+     * @return
+     * @throws Exception
+     */
+    Integer getEmployeeNumber(String companyId, String dbName) throws Exception;
 }

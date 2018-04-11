@@ -10,7 +10,16 @@ var app = new Vue({
         userInfoSrc: './source/image/info_icon_0.png',
         user: null,
         loginFlag: false,
-        permissionFlag: false
+        permissionFlag: false,
+
+        employeeList: [],
+        employeeCondition: {
+            sex: '全部',
+            status: '全部',
+            input: ''
+        },
+        employeeTotal: 5,
+        employeePageCurrent: 1,
     },
     methods: {
         /**
@@ -110,6 +119,7 @@ var app = new Vue({
         employeePage: function () {
             console.log('employeePage');
             this.pageState = 'employee';
+            this.getEmployeeList(1);
         },
         /**
          * 楼盘页切换
@@ -125,6 +135,57 @@ var app = new Vue({
             console.log('propertyPage');
             this.pageState = 'property';
         },
+
+        /**
+         * 获取员工总页数
+         */
+        getEmployeeTotal: function(){
+            var that = this;
+            axios.get('/employees/total').then(function (response) {
+                if(response.data.code == 200){
+                    that.employeeTotal = parseInt(response.data.data);
+                }
+                else{
+                    console.log(response.data.message);
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        /**
+         *  获取employeeList
+         */
+        getEmployeeList: function (num) {
+            this.getEmployeeTotal();
+            var that = this;
+            axios.get('/employees', {
+                params: {
+                    pageNum: num,
+                    pageSize: 10
+                }
+            }).then(function (response) {
+                if(response.data.code == 200){
+                    if(response.data.data.length > 0){
+                        that.employeeList = response.data.data;
+                        that.employeePageCurrent = num;
+                    }
+                    else{
+                        console.log("下一页无数据");
+                    }
+                }
+                else{
+                    console.log(response.data.message);
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        /**
+         * 员工页码改变
+         */
+        employeePageChange: function () {
+            this.getEmployeeList(arguments[0]);
+        }
     },
     computed: {
 
@@ -133,11 +194,14 @@ var app = new Vue({
         /**
          * 获取session中company记录，或根据url确定公司用户
          */
+        var that = this;
         var companyNo = getQueryString('no');
         if(companyNo == '' || companyNo == null){
             this.testSessionCompany();
         }
         else{
+            sessionStorage.removeItem('user');
+            sessionStorage.removeItem('permission');
             axios.get('/companies/find', {
                 params: {
                     companyno: companyNo
@@ -145,20 +209,21 @@ var app = new Vue({
             }).then(function (response) {
                 if(response.data.code == 200){
                     sessionStorage.setItem('company', JSON.stringify(response.data.data));
-                    this.company = response.data.data;
+                    // sessionStorage.setItem('dbname', JSON.stringify(response.data.data.dbname));
+                    that.company = response.data.data;
                     document.title = this.company.companyname;
-                    this.randomUserIcon();
-                    this.testSessionUser();
+                    that.randomUserIcon();
+                    // that.testSessionUser();
                     console.log(this.company);
                 }
                 else{
                     console.log(response.data.message);
-                    this.testSessionCompany();
+                    that.testSessionCompany();
                 }
             }).catch(function (error) {
                 // console.log(error);
                 console.log(error);
-                this.testSessionCompany();
+                that.testSessionCompany();
             });
         }
     }

@@ -47,6 +47,7 @@ public class CompanyController {
     @RequestMapping(value="/login", method = RequestMethod.POST)
     public JsonResult login(HttpServletRequest request, @RequestBody Company company) throws  Exception{
         Company company1 = companyService.login(company);
+        request.getSession().setAttribute("company", company1);
         JSONObject jsonObject = JSONObject.fromObject(company1);
         jsonObject.remove("password");
         company1 = (Company) JSONObject.toBean(jsonObject, Company.class);
@@ -90,8 +91,9 @@ public class CompanyController {
      * @throws Exception
      */
     @RequestMapping(value = "/find", method = RequestMethod.GET)
-    public JsonResult findCompany(String companyno) throws Exception{
+    public JsonResult findCompany(HttpServletRequest request, String companyno) throws Exception{
         Company company1 = companyService.findCompany(companyno);
+        request.getSession().setAttribute("company", company1);
         JSONObject jsonObject = JSONObject.fromObject(company1);
         jsonObject.remove("password");
         company1 = (Company) JSONObject.toBean(jsonObject, Company.class);

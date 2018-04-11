@@ -124,6 +124,7 @@ loginForm.loginBtn.addEventListener('click', function (event) {
         .then(function (response) {
             if(response.data.code == 200){
                 sessionStorage.setItem('company', JSON.stringify(response.data.data));
+                // sessionStorage.setItem('dbname', JSON.stringify(response.data.data.dbname));
                 var user = {
                     name: '管理员',
                     email: response.data.data.email,
@@ -131,7 +132,7 @@ loginForm.loginBtn.addEventListener('click', function (event) {
                 }
                 sessionStorage.setItem('user', JSON.stringify(user));
                 sessionStorage.setItem('permission', true);
-                // showToast(true, '登录成功');
+                showToast(true, '登录成功');
                 location.assign('./company.jsp');
             }
             else{

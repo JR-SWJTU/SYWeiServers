@@ -2,6 +2,7 @@ package com.swjtu.SYWeiServers.service.impl;
 
 import com.swjtu.SYWeiServers.entity.Employee;
 import com.swjtu.SYWeiServers.mapper.EmployeeMapper;
+import com.swjtu.SYWeiServers.mapper.EmployeeMapperCustom;
 import com.swjtu.SYWeiServers.service.EmployeeService;
 import com.swjtu.SYWeiServers.util.DataSourceFactory;
 import com.swjtu.SYWeiServers.util.ToolHelper;
@@ -19,6 +20,8 @@ import java.util.List;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private EmployeeMapper employeeMapper = null;
+
+    private EmployeeMapperCustom employeeMapperCustom = null;
 
     @Override
     public boolean addEmployee(String companyId, String dbName,Employee employee) throws Exception {
@@ -91,5 +94,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeMapper =  DataSourceFactory.getMapper(companyId, dbName, EmployeeMapper.class);
 
         return employeeMapper.updateByExampleSelective(dbName, employee) != 0;
+    }
+
+    @Override
+    public Integer getEmployeeNumber(String companyId, String dbName) throws Exception {
+        employeeMapperCustom = DataSourceFactory.getMapper(companyId, dbName, EmployeeMapperCustom.class);
+        return employeeMapperCustom.getEmployeeNumber();
     }
 }

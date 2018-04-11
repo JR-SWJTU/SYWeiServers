@@ -1,5 +1,6 @@
 package com.swjtu.SYWeiServers.web.controller;
 
+import com.swjtu.SYWeiServers.entity.Company;
 import com.swjtu.SYWeiServers.entity.Employee;
 import com.swjtu.SYWeiServers.service.EmployeeService;
 import com.swjtu.SYWeiServers.util.JsonResult;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +59,11 @@ public class EmployeeController {
      * @return
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public JsonResult queryEmployees(Integer pageNum, Integer pageSize, String companyId, String dbName) throws Exception {
+    public JsonResult queryEmployees(HttpServletRequest request, Integer pageNum, Integer pageSize) throws Exception {
+        HttpSession session = request.getSession();
+        Company company = (Company) session.getAttribute("company");
+        String companyId = company.getCompanyid();
+        String dbName = company.getDbname();
         List<Employee> employees = employeeService.getEmployeeForPage(companyId, dbName, pageNum, pageSize);
         return JsonResult.build(StatusCode.SUCCESS, employees);
     }
@@ -71,4 +78,17 @@ public class EmployeeController {
         return JsonResult.build(StatusCode.SUCCESS,  employeeService.updateEmployee(companyId, dbName, employee) ? 1 : 0);
     }
 
+    /**
+     * 获取当前公司员工量
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/total", method = RequestMethod.GET)
+    public JsonResult total(HttpServletRequest request) throws  Exception{
+        HttpSession session = request.getSession();
+        Company company = (Company) session.getAttribute("company");
+        String companyId = company.getCompanyid();
+        String dbName = company.getDbname();
+        return JsonResult.build(StatusCode.SUCCESS, employeeService.getEmployeeNumber(companyId, dbName));
+    }
 }
