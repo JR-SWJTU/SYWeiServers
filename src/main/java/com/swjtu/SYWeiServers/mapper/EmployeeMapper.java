@@ -1,5 +1,6 @@
 package com.swjtu.SYWeiServers.mapper;
 
+import com.swjtu.SYWeiServers.dto.EmployeeSearchRequest;
 import com.swjtu.SYWeiServers.entity.Employee;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,7 +12,8 @@ public interface EmployeeMapper {
 
     List<Employee> selectByExampleWithBLOBs(@Param("dbName")String dbName, @Param("employeeNos")List<String> employeeNos);
 
-    List<Employee> selectForPage(@Param("dbName")String dbName, @Param("start")int start, @Param("pageSize")int pageSize);
+    List<Employee> selectForPage(@Param("dbName")String dbName, @Param("start")int start, @Param("pageSize")int pageSize,
+                                 @Param("request")EmployeeSearchRequest request);
 
     int deleteByExample(@Param("dbName")String dbName,  @Param("employeeIds")List<String> employeeIds);
 

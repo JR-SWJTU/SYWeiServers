@@ -1,5 +1,6 @@
 package com.swjtu.SYWeiServers.web.controller;
 
+import com.swjtu.SYWeiServers.dto.EmployeeSearchRequest;
 import com.swjtu.SYWeiServers.entity.Company;
 import com.swjtu.SYWeiServers.entity.Employee;
 import com.swjtu.SYWeiServers.service.EmployeeService;
@@ -59,13 +60,25 @@ public class EmployeeController {
      * @return
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public JsonResult queryEmployees(HttpServletRequest request, Integer pageNum, Integer pageSize, String sex, String status, String tel, String empName) throws Exception {
+    public JsonResult queryEmployees(HttpServletRequest request, Integer pageNum, Integer pageSize,
+                                     String sex, String status, String tel, String empName) throws Exception {
         HttpSession session = request.getSession();
         Company company = (Company) session.getAttribute("company");
         String companyId = company.getCompanyid();
         String dbName = company.getDbname();
-        List<Employee> employees = employeeService.getEmployeeForPage(companyId, dbName, pageNum, pageSize);
+
+        EmployeeSearchRequest searchRequest = buildEmployeeSearchRequest(sex, status, tel, empName);
+        List<Employee> employees = employeeService.getEmployeeForPage(companyId, dbName, pageNum, pageSize, searchRequest);
         return JsonResult.build(StatusCode.SUCCESS, employees);
+    }
+
+    private EmployeeSearchRequest buildEmployeeSearchRequest(String sex, String status, String tel, String empName) {
+        EmployeeSearchRequest searchRequest = new EmployeeSearchRequest();
+        searchRequest.setStatus(status);
+        searchRequest.setSex(sex);
+        searchRequest.setEmpname(empName);
+        searchRequest.setTel(tel);
+        return searchRequest;
     }
 
     /**

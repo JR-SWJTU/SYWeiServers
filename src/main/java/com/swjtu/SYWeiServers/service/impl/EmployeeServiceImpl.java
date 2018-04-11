@@ -1,5 +1,6 @@
 package com.swjtu.SYWeiServers.service.impl;
 
+import com.swjtu.SYWeiServers.dto.EmployeeSearchRequest;
 import com.swjtu.SYWeiServers.entity.Employee;
 import com.swjtu.SYWeiServers.mapper.EmployeeMapper;
 import com.swjtu.SYWeiServers.mapper.EmployeeMapperCustom;
@@ -75,10 +76,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
 
-    public List<Employee> getEmployeeForPage(String companyId, String dbName, Integer pageNum, Integer pageSize) throws Exception {
+    @Override
+    public List<Employee> getEmployeeForPage(String companyId, String dbName, Integer pageNum,
+                                      Integer pageSize, EmployeeSearchRequest request) throws Exception {
         employeeMapper =  DataSourceFactory.getMapper(companyId, dbName, EmployeeMapper.class);
 
-        List<Employee> employees = employeeMapper.selectForPage(dbName, (pageNum - 1) * pageSize, pageSize);
+        List<Employee> employees = employeeMapper.selectForPage(dbName, (pageNum - 1) * pageSize, pageSize, request);
         return employees;
     }
 

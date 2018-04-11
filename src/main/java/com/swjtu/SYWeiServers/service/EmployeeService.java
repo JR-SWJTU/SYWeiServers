@@ -1,5 +1,6 @@
 package com.swjtu.SYWeiServers.service;
 
+import com.swjtu.SYWeiServers.dto.EmployeeSearchRequest;
 import com.swjtu.SYWeiServers.entity.Employee;
 import com.swjtu.SYWeiServers.web.exception.CustomException;
 
@@ -45,7 +46,8 @@ public interface EmployeeService {
      * @param pageSize
      * @return
      */
-    List<Employee> getEmployeeForPage(String companyId, String dbName, Integer pageNum, Integer pageSize) throws Exception;
+    List<Employee> getEmployeeForPage(String companyId, String dbName, Integer pageNum,
+                                      Integer pageSize, EmployeeSearchRequest request) throws Exception;
 
     /**
      * 根据员工id批量删除员工信息
