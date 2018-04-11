@@ -13,11 +13,9 @@ var app = new Vue({
         permissionFlag: false,
 
         employeeList: [],
-        employeeCondition: {
-            sex: '全部',
-            status: '全部',
-            input: ''
-        },
+        employee_sex: '全部',
+        employee_status: '全部',
+        employee_input: '',
         employeeTotal: 5,
         employeePageCurrent: 1,
     },
@@ -119,7 +117,7 @@ var app = new Vue({
         employeePage: function () {
             console.log('employeePage');
             this.pageState = 'employee';
-            this.getEmployeeList(1);
+            this.employeeSearch();
         },
         /**
          * 楼盘页切换
@@ -139,9 +137,11 @@ var app = new Vue({
         /**
          * 获取员工总页数
          */
-        getEmployeeTotal: function(){
+        getEmployeeTotal: function(res){
             var that = this;
-            axios.get('/employees/total').then(function (response) {
+            axios.get('/employees/total', {
+                params: res
+            }).then(function (response) {
                 if(response.data.code == 200){
                     that.employeeTotal = parseInt(response.data.data);
                 }
@@ -155,11 +155,16 @@ var app = new Vue({
         /**
          *  获取employeeList
          */
-        getEmployeeList: function (num) {
-            this.getEmployeeTotal();
+        getEmployeeList: function (num, res) {
+            console.log(res);
+            this.getEmployeeTotal(res);
             var that = this;
             axios.get('/employees', {
                 params: {
+                    sex: res.sex,
+                    status: res.status,
+                    tel: res.tel,
+                    empName: res.empName,
                     pageNum: num,
                     pageSize: 10
                 }
@@ -181,14 +186,56 @@ var app = new Vue({
             });
         },
         /**
+         * 员工信息查询
+         */
+        employeeSearch: function(){
+            var input = this.employee_input.trim();
+            var res = {
+                sex: this.employee_sex == '全部' ? null : this.employee_sex,
+                status: this.employee_status == '全部' ? null : this.employee_status,
+                tel: input == '' ? null : input,
+                empName: input == '' ? null : input
+            };
+            this.getEmployeeList(1, res);
+        },
+        /**
          * 员工页码改变
          */
         employeePageChange: function () {
-            this.getEmployeeList(arguments[0]);
+            var input = this.employee_input.trim();
+            var res = {
+                sex: this.employee_sex == '全部' ? null : this.employee_sex,
+                status: this.employee_status == '全部' ? null : this.employee_status,
+                tel: input == '' ? null : input,
+                empName: input == '' ? null : input
+            };
+            this.getEmployeeList(arguments[0], res);
         }
     },
     computed: {
 
+    },
+    watch: {
+        employee_sex: function (val, oldVal) {
+            var input = this.employee_input.trim();
+            var res = {
+                sex: val == '全部' ? null : val,
+                status: this.employee_status == '全部' ? null : this.employee_status,
+                tel: input == '' ? null : input,
+                empName: input == '' ? null : input
+            };
+            this.getEmployeeList(1, res);
+        },
+        employee_status: function (val, oldVal) {
+            var input = this.employee_input.trim();
+            var res = {
+                status: val == '全部' ? null : val,
+                sex: this.employee_sex == '全部' ? null : this.employee_sex,
+                tel: input == '' ? null : input,
+                empName: input == '' ? null : input
+            };
+            this.getEmployeeList(1, res);
+        }
     },
     mounted: function () {
         /**

@@ -132,22 +132,22 @@
         <div class="content-wrapper">
             <div class="head">
                 <div class="input-box">
-                    <input type="text" placeholder="员工姓名或手机号" v-model="employeeCondition.input" /><button class="">查询</button>
+                    <input type="text" placeholder="员工姓名或手机号" v-model="employee_input" /><button @click="employeeSearch">查询</button>
                 </div>
             </div>
             <form class="control-box">
                 <ul class="type-select-ul border-bottom">
                     <li class="type-select-name">性别：</li>
-                    <li><input id="sex_all" type="radio" name="sex" value="全部" v-model="employeeCondition.sex" /><label for="sex_all">全部</label></li>
-                    <li><input id="sex_male" type="radio" name="sex" value="男" v-model="employeeCondition.sex" /><label for="sex_male">男</label></li>
-                    <li><input id="sex_female" type="radio" name="sex" value="女" v-model="employeeCondition.sex" /><label for="sex_female">女</label></li>
+                    <li><input id="sex_all" type="radio" name="sex" value="全部" v-model="employee_sex" /><label for="sex_all">全部</label></li>
+                    <li><input id="sex_male" type="radio" name="sex" value="男" v-model="employee_sex" /><label for="sex_male">男</label></li>
+                    <li><input id="sex_female" type="radio" name="sex" value="女" v-model="employee_sex" /><label for="sex_female">女</label></li>
                 </ul>
                 <ul class="type-select-ul border-bottom">
                     <li class="type-select-name">入职状态：</li>
-                    <li><input id="status_all" type="radio" name="status" value="全部" checked /><label for="status_all">全部</label></li>
-                    <li><input id="status_internship" type="radio" name="status" value="实习" /><label for="status_internship">实习</label></li>
-                    <li><input id="status_official" type="radio" name="status" value="正式" /><label for="status_official">正式</label></li>
-                    <li><input id="status_dimission" type="radio" name="status" value="离职" /><label for="status_dimission">离职</label></li>
+                    <li><input id="status_all" type="radio" name="status" value="全部" v-model="employee_status" /><label for="status_all">全部</label></li>
+                    <li><input id="status_internship" type="radio" name="status" value="实习" v-model="employee_status" /><label for="status_internship">实习</label></li>
+                    <li><input id="status_official" type="radio" name="status" value="正式" v-model="employee_status" /><label for="status_official">正式</label></li>
+                    <li><input id="status_dimission" type="radio" name="status" value="离职" v-model="employee_status" /><label for="status_dimission">离职</label></li>
                 </ul>
                 <div class="type-control-div">
                     <ul class="ul-left">

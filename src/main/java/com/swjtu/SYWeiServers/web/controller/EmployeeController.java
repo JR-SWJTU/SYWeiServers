@@ -59,7 +59,7 @@ public class EmployeeController {
      * @return
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public JsonResult queryEmployees(HttpServletRequest request, Integer pageNum, Integer pageSize) throws Exception {
+    public JsonResult queryEmployees(HttpServletRequest request, Integer pageNum, Integer pageSize, String sex, String status, String tel, String empName) throws Exception {
         HttpSession session = request.getSession();
         Company company = (Company) session.getAttribute("company");
         String companyId = company.getCompanyid();
@@ -84,7 +84,7 @@ public class EmployeeController {
      * @throws Exception
      */
     @RequestMapping(value="/total", method = RequestMethod.GET)
-    public JsonResult total(HttpServletRequest request) throws  Exception{
+    public JsonResult total(HttpServletRequest request, String sex, String status, String tel, String empName) throws  Exception{
         HttpSession session = request.getSession();
         Company company = (Company) session.getAttribute("company");
         String companyId = company.getCompanyid();
