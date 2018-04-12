@@ -68,6 +68,7 @@ var app = new Vue({
             if(this.user == null || this.user == ''){
                 showToast(false, '未登录');
                 this.loginFlag = false;
+                this.openFlag = false;
             }
             else{
                 this.user = JSON.parse(this.user);
@@ -110,6 +111,7 @@ var app = new Vue({
          */
         logoutConfirm: function () {
             this.loginFlag = false;
+            this.openFlag = false;
             this.permissionFlag = false;
             this.user = null;
             sessionStorage.removeItem('user');
