@@ -154,12 +154,16 @@
   </select>
 
   <select id="selectForPage" resultMap="ResultMapWithBLOBs"  parameterType="Map">
-    <bind name="empname" value="'%' + request.empname + '%'" />
-    <bind name="tel" value="'%' + request.tel + '%'" />
+    <if test="request.empname != null">
+        <bind name="empname" value="'%' + request.empname + '%'" />
+    </if>
+    <if test="request.tel != null">
+        <bind name="tel" value="'%' + request.tel + '%'" />
+    </if>
     use ${dbName}
     select top ${pageSize} *  from Employee where EmpID NOT IN  (
         select top ${start} EmpID from Employee
-        WHERE
+        <where>
             <if test="request.sex != null">
               Sex = #{request.sex}
             </if>
@@ -172,6 +176,7 @@
             <if test="request.tel != null">
               AND Tel like #{tel}
             </if>
+        </where>
     )
     <if test="request.sex != null">
       AND Sex = #{request.sex}

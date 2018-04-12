@@ -149,7 +149,7 @@ public class DataSourceFactory {
                 object = method.invoke(idal, args);
             } catch(Exception e) {
                 sqlSession.rollback();
-                e.printStackTrace();
+                throw e;
 
             } finally {
                 sqlSession.commit();
