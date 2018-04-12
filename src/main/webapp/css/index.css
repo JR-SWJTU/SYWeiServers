@@ -1,6 +1,8 @@
 body{
     cursor: default;
-    display: inline-block;
+}
+.describe-contain, .model-contain, .connection-contain, .foot-contain{
+    min-width: 1025px;
 }
 .contain{
     margin: 0 auto;
