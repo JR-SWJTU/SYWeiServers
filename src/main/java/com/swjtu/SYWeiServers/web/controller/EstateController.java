@@ -1,5 +1,6 @@
 package com.swjtu.SYWeiServers.web.controller;
 
+import com.swjtu.SYWeiServers.entity.Company;
 import com.swjtu.SYWeiServers.entity.Estate;
 import com.swjtu.SYWeiServers.service.EstateService;
 import com.swjtu.SYWeiServers.util.JsonResult;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -26,14 +29,22 @@ public class EstateController {
     private EstateService estateService;
 
     @RequestMapping(value="/addEstate", method = RequestMethod.POST)
-    public JsonResult register(@RequestBody Estate estate, String companyId, String dbName) throws  Exception{
+    public JsonResult register(HttpServletRequest request, @RequestBody Estate estate) throws  Exception{
+        HttpSession session = request.getSession();
+        Company company = (Company) session.getAttribute("company");
+        String companyId = company.getCompanyid();
+        String dbName = company.getDbname();
         boolean res = estateService.addEstate(companyId, dbName, estate);
         return JsonResult.build(StatusCode.SUCCESS, res ? 1 : 0);
     }
 
     /**批量删除楼盘*/
     @RequestMapping(value = "/deleteEstate", method = RequestMethod.POST)
-    public JsonResult deleteEstate(@RequestBody Map map, String companyId, String dbName) throws Exception {
+    public JsonResult deleteEstate(HttpServletRequest request, @RequestBody Map map) throws Exception {
+        HttpSession session = request.getSession();
+        Company company = (Company) session.getAttribute("company");
+        String companyId = company.getCompanyid();
+        String dbName = company.getDbname();
         List ids =  (List)map.get("ids");
         boolean res = estateService.deleteEstate(companyId, dbName, ids);
         return JsonResult.build(StatusCode.SUCCESS, res ? 1 : 0);
@@ -46,7 +57,11 @@ public class EstateController {
      * @return
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public JsonResult queryEstates(Integer pageNum, Integer pageSize, String companyId, String dbName) throws Exception {
+    public JsonResult queryEstates(HttpServletRequest request, Integer pageNum, Integer pageSize) throws Exception {
+        HttpSession session = request.getSession();
+        Company company = (Company) session.getAttribute("company");
+        String companyId = company.getCompanyid();
+        String dbName = company.getDbname();
         List<Estate> estates = estateService.getEstateForPage(companyId, dbName, pageNum, pageSize);
         return JsonResult.build(StatusCode.SUCCESS, estates);
     }
@@ -57,8 +72,25 @@ public class EstateController {
      * @return
      */
     @RequestMapping(value = "/updateEstate", method = RequestMethod.POST)
-    public JsonResult updateEstate(@RequestBody Estate estate, String companyId, String dbName) throws Exception{
+    public JsonResult updateEstate(HttpServletRequest request, @RequestBody Estate estate) throws Exception{
+        HttpSession session = request.getSession();
+        Company company = (Company) session.getAttribute("company");
+        String companyId = company.getCompanyid();
+        String dbName = company.getDbname();
         return JsonResult.build(StatusCode.SUCCESS,  estateService.updateEstate(companyId, dbName, estate) ? 1 : 0);
     }
 
+    /**
+     * 获取当前楼盘工量
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/total", method = RequestMethod.GET)
+    public JsonResult total(HttpServletRequest request/*, String sex, String status, String tel, String empName*/) throws  Exception{
+        HttpSession session = request.getSession();
+        Company company = (Company) session.getAttribute("company");
+        String companyId = company.getCompanyid();
+        String dbName = company.getDbname();
+        return JsonResult.build(StatusCode.SUCCESS, estateService.getEstateNumber(companyId, dbName));
+    }
 }

@@ -59,4 +59,11 @@ public interface EstateService {
      * @throws Exception
      */
     boolean updateEstate(String companyId, String dbName, Estate estate) throws Exception;
+
+    /**
+     * 获取楼盘量
+     * @return
+     * @throws Exception
+     */
+    Integer getEstateNumber(String companyId, String dbName) throws Exception;
 }

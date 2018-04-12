@@ -32,7 +32,9 @@
         <mapper resource="mapper/EmployeeMapper.xml"/>
         <mapper resource="mapper/EmployeeMapperCustom.xml"/>
         <mapper resource="mapper/EstateMapper.xml"/>
+        <mapper resource="mapper/EstateMapperCustom.xml"/>
         <mapper resource="mapper/PropertyMapper.xml"/>
+        <mapper resource="mapper/PropertyMapperCustom.xml"/>
         <mapper resource="mapper/UsersMapper.xml"/>
     </mappers>
 </configuration>

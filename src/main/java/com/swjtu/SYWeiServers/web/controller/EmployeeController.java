@@ -31,13 +31,21 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @RequestMapping(value="/register", method = RequestMethod.POST)
-    public JsonResult register(@RequestBody Employee employee, String companyId, String dbName) throws  Exception{
+    public JsonResult register(HttpServletRequest request, @RequestBody Employee employee) throws  Exception{
+        HttpSession session = request.getSession();
+        Company company = (Company) session.getAttribute("company");
+        String companyId = company.getCompanyid();
+        String dbName = company.getDbname();
         boolean res = employeeService.addEmployee(companyId, dbName, employee);
         return JsonResult.build(StatusCode.SUCCESS, res ? 1 : 0);
     }
 
     @RequestMapping(value="/login", method = RequestMethod.POST)
-    public JsonResult login( @RequestBody Employee employee, String companyId, String dbName) throws  Exception{
+    public JsonResult login(HttpServletRequest request, @RequestBody Employee employee) throws  Exception{
+        HttpSession session = request.getSession();
+        Company company = (Company) session.getAttribute("company");
+        String companyId = company.getCompanyid();
+        String dbName = company.getDbname();
         Employee employee1 = employeeService.login(companyId, dbName, employee);
         JSONObject jsonObject = JSONObject.fromObject(employee1);
         jsonObject.remove("password");
@@ -47,7 +55,11 @@ public class EmployeeController {
 
     /**批量删除员工*/
     @RequestMapping(value = "/deleteEmployee", method = RequestMethod.POST)
-    public JsonResult deleteEmployee(@RequestBody Map map, String companyId, String dbName) throws Exception {
+    public JsonResult deleteEmployee(HttpServletRequest request, @RequestBody Map map) throws Exception {
+        HttpSession session = request.getSession();
+        Company company = (Company) session.getAttribute("company");
+        String companyId = company.getCompanyid();
+        String dbName = company.getDbname();
         List ids =  (List)map.get("ids");
         boolean res = employeeService.deleteEmployee(companyId, dbName, ids);
         return JsonResult.build(StatusCode.SUCCESS, res ? 1 : 0);
@@ -67,7 +79,8 @@ public class EmployeeController {
         String companyId = company.getCompanyid();
         String dbName = company.getDbname();
 
-        EmployeeSearchRequest searchRequest = buildEmployeeSearchRequest(sex, status, tel, empName);
+//        EmployeeSearchRequest searchRequest = buildEmployeeSearchRequest(sex, status, tel, empName);
+        EmployeeSearchRequest searchRequest = buildEmployeeSearchRequest("null", "null", "null", "null");
         List<Employee> employees = employeeService.getEmployeeForPage(companyId, dbName, pageNum, pageSize, searchRequest);
         return JsonResult.build(StatusCode.SUCCESS, employees);
     }
@@ -87,7 +100,11 @@ public class EmployeeController {
      * @return
      */
     @RequestMapping(value = "/updateEmployee", method = RequestMethod.POST)
-    public JsonResult updateEmployee(@RequestBody Employee employee, String companyId, String dbName) throws Exception{
+    public JsonResult updateEmployee(HttpServletRequest request, @RequestBody Employee employee) throws Exception{
+        HttpSession session = request.getSession();
+        Company company = (Company) session.getAttribute("company");
+        String companyId = company.getCompanyid();
+        String dbName = company.getDbname();
         return JsonResult.build(StatusCode.SUCCESS,  employeeService.updateEmployee(companyId, dbName, employee) ? 1 : 0);
     }
 

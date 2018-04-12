@@ -1,5 +1,6 @@
 package com.swjtu.SYWeiServers.web.controller;
 
+import com.swjtu.SYWeiServers.entity.Company;
 import com.swjtu.SYWeiServers.entity.Property;
 import com.swjtu.SYWeiServers.service.PropertyService;
 import com.swjtu.SYWeiServers.util.JsonResult;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -26,14 +29,22 @@ public class PropertyController {
     private PropertyService propertyService;
 
     @RequestMapping(value="/addProperty", method = RequestMethod.POST)
-    public JsonResult register(@RequestBody Property property, String companyId, String dbName) throws  Exception{
+    public JsonResult register(HttpServletRequest request, @RequestBody Property property) throws  Exception{
+        HttpSession session = request.getSession();
+        Company company = (Company) session.getAttribute("company");
+        String companyId = company.getCompanyid();
+        String dbName = company.getDbname();
         boolean res = propertyService.addProperty(companyId, dbName, property);
         return JsonResult.build(StatusCode.SUCCESS, res ? 1 : 0);
     }
 
     /**批量删除房源*/
     @RequestMapping(value = "/deleteProperty", method = RequestMethod.POST)
-    public JsonResult deleteProperty(@RequestBody Map map, String companyId, String dbName) throws Exception {
+    public JsonResult deleteProperty(HttpServletRequest request, @RequestBody Map map) throws Exception {
+        HttpSession session = request.getSession();
+        Company company = (Company) session.getAttribute("company");
+        String companyId = company.getCompanyid();
+        String dbName = company.getDbname();
         List ids =  (List)map.get("ids");
         boolean res = propertyService.deleteProperty(companyId, dbName, ids);
         return JsonResult.build(StatusCode.SUCCESS, res ? 1 : 0);
@@ -46,7 +57,11 @@ public class PropertyController {
      * @return
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public JsonResult queryPropertys(Integer pageNum, Integer pageSize, String companyId, String dbName) throws Exception {
+    public JsonResult queryPropertys(HttpServletRequest request, Integer pageNum, Integer pageSize) throws Exception {
+        HttpSession session = request.getSession();
+        Company company = (Company) session.getAttribute("company");
+        String companyId = company.getCompanyid();
+        String dbName = company.getDbname();
         List<Property> propertys = propertyService.getPropertyForPage(companyId, dbName, pageNum, pageSize);
         return JsonResult.build(StatusCode.SUCCESS, propertys);
     }
@@ -57,8 +72,25 @@ public class PropertyController {
      * @return
      */
     @RequestMapping(value = "/updateProperty", method = RequestMethod.POST)
-    public JsonResult updateProperty(@RequestBody Property property, String companyId, String dbName) throws Exception{
+    public JsonResult updateProperty(HttpServletRequest request, @RequestBody Property property) throws Exception{
+        HttpSession session = request.getSession();
+        Company company = (Company) session.getAttribute("company");
+        String companyId = company.getCompanyid();
+        String dbName = company.getDbname();
         return JsonResult.build(StatusCode.SUCCESS,  propertyService.updateProperty(companyId, dbName, property) ? 1 : 0);
     }
 
+    /**
+     * 获取当前房源量
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/total", method = RequestMethod.GET)
+    public JsonResult total(HttpServletRequest request/*, String sex, String status, String tel, String empName*/) throws  Exception{
+        HttpSession session = request.getSession();
+        Company company = (Company) session.getAttribute("company");
+        String companyId = company.getCompanyid();
+        String dbName = company.getDbname();
+        return JsonResult.build(StatusCode.SUCCESS, propertyService.getPropertyNumber(companyId, dbName));
+    }
 }

@@ -2,6 +2,7 @@ package com.swjtu.SYWeiServers.service.impl;
 
 import com.swjtu.SYWeiServers.entity.Estate;
 import com.swjtu.SYWeiServers.mapper.EstateMapper;
+import com.swjtu.SYWeiServers.mapper.EstateMapperCustom;
 import com.swjtu.SYWeiServers.service.EstateService;
 import com.swjtu.SYWeiServers.util.DataSourceFactory;
 import com.swjtu.SYWeiServers.util.ToolHelper;
@@ -19,6 +20,7 @@ import java.util.List;
 public class EstateServiceImpl implements EstateService {
 
     private EstateMapper estateMapper = null;
+    private EstateMapperCustom estateMapperCustom = null;
 
     @Override
     public boolean addEstate(String companyId, String dbName,Estate estate) throws Exception {
@@ -69,5 +71,11 @@ public class EstateServiceImpl implements EstateService {
         estateMapper =  DataSourceFactory.getMapper(companyId, dbName, EstateMapper.class);
 
         return estateMapper.updateByExampleSelective(dbName, estate) != 0;
+    }
+
+    @Override
+    public Integer getEstateNumber(String companyId, String dbName) throws Exception {
+        estateMapperCustom = DataSourceFactory.getMapper(companyId, dbName, EstateMapperCustom.class);
+        return estateMapperCustom.getEstateNumber();
     }
 }

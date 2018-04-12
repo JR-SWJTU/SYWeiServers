@@ -80,6 +80,15 @@
                     <mu-icon slot="right" value="keyboard_arrow_right" :class="{ 'active-color': pageState == 'property' }"></mu-icon>
                 </mu-list-item>
             </mu-list>
+            <div v-if="permissionFlag">
+                <mu-divider></mu-divider>
+                <mu-list >
+                    <mu-list-item title="公众号链接" @click="weiXinLink">
+                        <mu-icon slot="left" value="link"></mu-icon>
+                        <mu-icon slot="right" value="reply"></mu-icon>
+                    </mu-list-item>
+                </mu-list>
+            </div>
         </div>
     </div>
 
@@ -138,30 +147,30 @@
             <form class="control-box">
                 <ul class="type-select-ul border-bottom">
                     <li class="type-select-name">性别：</li>
-                    <li><input id="sex_all" type="radio" name="sex" value="全部" v-model="employee_sex" /><label for="sex_all">全部</label></li>
-                    <li><input id="sex_male" type="radio" name="sex" value="男" v-model="employee_sex" /><label for="sex_male">男</label></li>
-                    <li><input id="sex_female" type="radio" name="sex" value="女" v-model="employee_sex" /><label for="sex_female">女</label></li>
+                    <li><input id="sex_0" type="radio" name="sex" value="全部" v-model="employee_sex" /><label for="sex_0">全部</label></li>
+                    <li><input id="sex_1" type="radio" name="sex" value="男" v-model="employee_sex" /><label for="sex_1">男</label></li>
+                    <li><input id="sex_2" type="radio" name="sex" value="女" v-model="employee_sex" /><label for="sex_2">女</label></li>
                 </ul>
                 <ul class="type-select-ul border-bottom">
                     <li class="type-select-name">入职状态：</li>
-                    <li><input id="status_all" type="radio" name="status" value="全部" v-model="employee_status" /><label for="status_all">全部</label></li>
-                    <li><input id="status_internship" type="radio" name="status" value="实习" v-model="employee_status" /><label for="status_internship">实习</label></li>
-                    <li><input id="status_official" type="radio" name="status" value="正式" v-model="employee_status" /><label for="status_official">正式</label></li>
-                    <li><input id="status_dimission" type="radio" name="status" value="离职" v-model="employee_status" /><label for="status_dimission">离职</label></li>
+                    <li><input id="status_0" type="radio" name="status" value="全部" v-model="employee_status" /><label for="status_0">全部</label></li>
+                    <li><input id="status_1" type="radio" name="status" value="实习" v-model="employee_status" /><label for="status_1">实习</label></li>
+                    <li><input id="status_2" type="radio" name="status" value="正式" v-model="employee_status" /><label for="status_2">正式</label></li>
+                    <li><input id="status_3" type="radio" name="status" value="离职" v-model="employee_status" /><label for="status_3">离职</label></li>
                 </ul>
                 <div class="type-control-div">
                     <ul class="ul-left">
-                        <li><input type="button" value="全选" /></li>
-                        <li><input type="button" value="取消全选" /></li>
+                        <li><input type="button" value="全选" @click="employeeSelectAll"/></li>
+                        <li><input type="button" value="取消全选" @click="employeeNotSelectAll"/></li>
                     </ul>
                     <ul class="ul-right">
-                        <li><input type="button" value="删除" /></li>
-                        <li><input type="button" value="添加" /></li>
+                        <li><input type="button" value="删除" @click="employeeDelete"/></li>
+                        <li><input type="button" value="添加" @click="employeeAdd"/></li>
                     </ul>
                 </div>
             </form>
             <div class="table-box">
-                <mu-table multi-selectable enable-select-all ref="table">
+                <mu-table multi-selectable enable-select-all ref="employee_table" @row-selection="employeeSelectChange">
                     <mu-thead>
                         <mu-tr>
                             <mu-th>账号</mu-th>
@@ -172,6 +181,7 @@
                             <mu-th>手机号</mu-th>
                             <mu-th>状态</mu-th>
                             <mu-th>备注</mu-th>
+                            <mu-th class="control-col">编辑</mu-th>
                         </mu-tr>
                     </mu-thead>
                     <mu-tbody>
@@ -184,6 +194,9 @@
                             <mu-td @click.stop="">{{item.tel}}</mu-td>
                             <mu-td @click.stop="">{{item.status}}</mu-td>
                             <mu-td @click.stop="">{{item.remark}}</mu-td>
+                            <mu-td @click.stop="">
+                                <mu-icon-button icon="edit" background-color="#a4c639" color="#FFF" @click.stop="employeeEdit(item)"></mu-icon-button>
+                            </mu-td>
                         </mu-tr>
                     </mu-tbody>
                 </mu-table>
@@ -196,16 +209,175 @@
 
     <div v-if="pageState == 'estate'" class="example-content estate" :class="{ 'nav-hide': !openFlag}" v-cloak>
         <div class="content-wrapper">
-            estate
+            <div class="head">
+                <div class="input-box">
+                    <input type="text" placeholder="楼盘名、物业公司或地址" v-model="estate_input" /><button @click="estateSearch">查询</button>
+                </div>
+            </div>
+            <form class="control-box">
+                <ul class="type-select-ul border-bottom">
+                    <li class="type-select-name">使用类型：</li>
+                    <li><input id="usage_0" type="radio" name="usage" value="全部" v-model="estate_usage" /><label for="usage_0">全部</label></li>
+                    <li><input id="usage_1" type="radio" name="usage" value="住宅" v-model="estate_usage" /><label for="usage_1">住宅</label></li>
+                    <li><input id="usage_2" type="radio" name="usage" value="商铺" v-model="estate_usage" /><label for="usage_2">商铺</label></li>
+                    <li><input id="usage_3" type="radio" name="usage" value="商住" v-model="estate_usage" /><label for="usage_3">商住</label></li>
+                    <li><input id="usage_4" type="radio" name="usage" value="写字楼" v-model="estate_usage" /><label for="usage_4">写字楼</label></li>
+                </ul>
+                <ul class="type-select-ul border-bottom">
+                    <li class="type-select-name">房产类型：</li>
+                    <li><input id="type_0" type="radio" name="type" value="全部" v-model="estate_type" /><label for="type_0">全部</label></li>
+                    <%--<li><input id="status_internship" type="radio" name="type" value="实习" v-model="employee_status" /><label for="status_internship">实习</label></li>--%>
+                    <%--<li><input id="status_official" type="radio" name="type" value="正式" v-model="employee_status" /><label for="status_official">正式</label></li>--%>
+                    <%--<li><input id="status_dimission" type="radio" name="status" value="离职" v-model="employee_status" /><label for="status_dimission">离职</label></li>--%>
+                </ul>
+                <div class="type-control-div">
+                    <ul class="ul-left">
+                        <li><input type="button" value="全选" @click="estateSelectAll"/></li>
+                        <li><input type="button" value="取消全选" @click="estateNotSelectAll"/></li>
+                    </ul>
+                    <ul class="ul-right">
+                        <li><input type="button" value="删除" @click="estateDelete"/></li>
+                        <li><input type="button" value="添加" @click="estateAdd"/></li>
+                    </ul>
+                </div>
+            </form>
+            <div class="table-box">
+                <mu-table multi-selectable enable-select-all ref="estate_table" @row-selection="estateSelectChange">
+                    <mu-thead>
+                        <mu-tr>
+                            <mu-th>楼盘名</mu-th>
+                            <mu-th>建成年份</mu-th>
+                            <mu-th>使用类型</mu-th>
+                            <mu-th>房产类型</mu-th>
+                            <mu-th>物业公司</mu-th>
+                            <mu-th>地址</mu-th>
+                            <mu-th>备注</mu-th>
+                            <mu-th class="control-col">编辑</mu-th>
+                        </mu-tr>
+                    </mu-thead>
+                    <mu-tbody>
+                        <mu-tr v-for="item, index in estateList"  :key="index" :selected="item.selected">
+                            <mu-td @click.stop="">{{item.estatename}}</mu-td>
+                            <mu-td @click.stop="">{{item.completeyear}}</mu-td>
+                            <mu-td @click.stop="">{{item.propertyusage}}</mu-td>
+                            <mu-td @click.stop="">{{item.propertytype}}</mu-td>
+                            <mu-td @click.stop="">{{item.mgtcompany}}</mu-td>
+                            <mu-td @click.stop="">{{item.address}}</mu-td>
+                            <mu-td @click.stop="">{{item.remark}}</mu-td>
+                            <mu-td @click.stop="">
+                                <mu-icon-button icon="edit" background-color="#a4c639" color="#FFF" @click.stop="estateEdit(item)"></mu-icon-button>
+                            </mu-td>
+                        </mu-tr>
+                    </mu-tbody>
+                </mu-table>
+                <div class="page-select">
+                    <mu-pagination :total="estateTotal" page-size="10" :current="estatePageCurrent" @page-change="estatePageChange"></mu-pagination>
+                </div>
+            </div>
         </div>
     </div>
 
     <div v-if="pageState == 'property'" class="example-content property" :class="{ 'nav-hide': !openFlag}" v-cloak>
         <div class="content-wrapper">
-            property
+            <div class="head">
+                <div class="input-box">
+                    <input type="text" placeholder="房源编号、户主姓名或户主电话" v-model="property_input" /><button @click="propertySearch">查询</button>
+                </div>
+            </div>
+            <form class="control-box">
+                <ul class="type-select-ul border-bottom">
+                    <li class="type-select-name">装修：</li>
+                    <li><input id="decoration_0" type="radio" name="decoration" value="全部" v-model="property_decoration" /><label for="decoration_0">全部</label></li>
+                    <li><input id="decoration_1" type="radio" name="decoration" value="毛坯" v-model="property_decoration" /><label for="decoration_1">毛坯</label></li>
+                    <li><input id="decoration_2" type="radio" name="decoration" value="清水" v-model="property_decoration" /><label for="decoration_2">清水</label></li>
+                    <li><input id="decoration_3" type="radio" name="decoration" value="简装" v-model="property_decoration" /><label for="decoration_3">简装</label></li>
+                    <li><input id="decoration_4" type="radio" name="decoration" value="中装" v-model="property_decoration" /><label for="decoration_4">中装</label></li>
+                    <li><input id="decoration_5" type="radio" name="decoration" value="精装" v-model="property_decoration" /><label for="decoration_5">精装</label></li>
+                </ul>
+                <ul class="type-select-ul border-bottom">
+                    <li class="type-select-name">朝向：</li>
+                    <li><input id="direction_0" type="radio" name="direction" value="全部" v-model="property_direction" /><label for="direction_0">全部</label></li>
+                    <li><input id="direction_1" type="radio" name="direction" value="东" v-model="property_direction" /><label for="direction_1">东</label></li>
+                    <%--<li><input id="status_official" type="radio" name="status" value="正式" v-model="employee_status" /><label for="status_official">正式</label></li>--%>
+                    <%--<li><input id="status_dimission" type="radio" name="status" value="离职" v-model="employee_status" /><label for="status_dimission">离职</label></li>--%>
+                </ul>
+                <div class="type-control-div">
+                    <ul class="ul-left">
+                        <li><input type="button" value="全选" @click="propertySelectAll"/></li>
+                        <li><input type="button" value="取消全选" @click="propertyNotSelectAll"/></li>
+                    </ul>
+                    <ul class="ul-right">
+                        <li><input type="button" value="删除" @click="propertyDelete"/></li>
+                        <li><input type="button" value="添加" @click="propertyAdd"/></li>
+                    </ul>
+                </div>
+            </form>
+            <div class="table-box">
+                <mu-table multi-selectable enable-select-all ref="property_table" @row-selection="propertySelectChange">
+                    <mu-thead>
+                        <mu-tr>
+                            <mu-th>房源编号</mu-th>
+                            <mu-th>网络标题</mu-th>
+                            <mu-th>装修</mu-th>
+                            <mu-th>朝向</mu-th>
+                            <mu-th>楼层</mu-th>
+                            <mu-th>房型</mu-th>
+                            <mu-th>面积（平方米）</mu-th>
+                            <mu-th>租/售</mu-th>
+                            <mu-th>租赁状态</mu-th>
+                            <mu-th>出售价格（万元）</mu-th>
+                            <mu-th>出租价格（元/月）</mu-th>
+                            <mu-th>户主姓名</mu-th>
+                            <mu-th>户主电话</mu-th>
+                            <mu-th class="control-col">地址</mu-th>
+                            <mu-th class="control-col">图片</mu-th>
+                            <mu-th class="control-col">录入者</mu-th>
+                            <mu-th class="control-col">编辑</mu-th>
+                        </mu-tr>
+                    </mu-thead>
+                    <mu-tbody>
+                        <mu-tr v-for="item, index in propertyList"  :key="index" :selected="item.selected">
+                            <mu-td @click.stop="">{{item.propertyno}}</mu-td>
+                            <mu-td @click.stop="">{{item.webtitle}}</mu-td>
+                            <mu-td @click.stop="">{{item.propertydecoration}}</mu-td>
+                            <mu-td @click.stop="">{{item.propertydirection}}</mu-td>
+                            <mu-td @click.stop="">{{item.floor + '/' + item.floorall}}</mu-td>
+                            <mu-td @click.stop="">{{(item.countf == '' ? 0 : item.countf) + '室' + (item.countt == '' ? 0 : item.countt) + '厅' + (item.countw == '' ? 0 : item.countw) + '卫' + (item.county == '' ? 0 : item.county) + '阳台'}}</mu-td>
+                            <mu-td @click.stop="">{{item.square}}</mu-td>
+                            <mu-td @click.stop="">{{item.trade}}</mu-td>
+                            <mu-td @click.stop="">{{item.status}}</mu-td>
+                            <mu-td @click.stop="">{{item.price}}</mu-td>
+                            <mu-td @click.stop="">{{item.rentprice}}</mu-td>
+                            <mu-td @click.stop="">{{item.ownername}}</mu-td>
+                            <mu-td @click.stop="">{{item.ownermobile}}</mu-td>
+                            <mu-td @click.stop="">
+                                <mu-icon-button icon="place" background-color="#a4c639" color="#FFF" @click.stop="propertyEdit(item)"></mu-icon-button>
+                            </mu-td>
+                            <mu-td @click.stop="">
+                                <mu-icon-button icon="palette" background-color="#a4c639" color="#FFF" @click.stop="propertyEdit(item)"></mu-icon-button>
+                            </mu-td>
+                            <mu-td @click.stop="">
+                                <mu-icon-button icon="account_circle" background-color="#a4c639" color="#FFF" @click.stop="propertyEdit(item)"></mu-icon-button>
+                            </mu-td>
+                            <mu-td @click.stop="">
+                                <mu-icon-button icon="edit" background-color="#a4c639" color="#FFF" @click.stop="propertyEdit(item)"></mu-icon-button>
+                            </mu-td>
+                        </mu-tr>
+                    </mu-tbody>
+                </mu-table>
+                <div class="page-select">
+                    <mu-pagination :total="propertyTotal" page-size="10" :current="propertyPageCurrent" @page-change="propertyPageChange"></mu-pagination>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<!--toast start-->
+<div class="toast" style="display: none">
+    <div></div>
+</div>
+<!--toast end-->
 
 <script src="./lib/vue/vue.min.js"></script>
 <script src="./lib/muse/muse-ui.js"></script>

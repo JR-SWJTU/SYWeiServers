@@ -58,4 +58,11 @@ public interface PropertyService {
      * @throws Exception
      */
     boolean updateProperty(String companyId, String dbName, Property property) throws Exception;
+
+    /**
+     * 获取房源量
+     * @return
+     * @throws Exception
+     */
+    Integer getPropertyNumber(String companyId, String dbName) throws Exception;
 }

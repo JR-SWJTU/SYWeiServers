@@ -2,6 +2,7 @@ package com.swjtu.SYWeiServers.service.impl;
 
 import com.swjtu.SYWeiServers.entity.Property;
 import com.swjtu.SYWeiServers.mapper.PropertyMapper;
+import com.swjtu.SYWeiServers.mapper.PropertyMapperCustom;
 import com.swjtu.SYWeiServers.service.PropertyService;
 import com.swjtu.SYWeiServers.util.DataSourceFactory;
 import com.swjtu.SYWeiServers.util.ToolHelper;
@@ -19,6 +20,7 @@ import java.util.List;
 public class PropertyServiceImpl implements PropertyService {
 
     private PropertyMapper propertyMapper = null;
+    private PropertyMapperCustom propertyMapperCustom = null;
 
     @Override
     public boolean addProperty(String companyId, String dbName,Property property) throws Exception {
@@ -68,5 +70,11 @@ public class PropertyServiceImpl implements PropertyService {
     public boolean updateProperty(String companyId, String dbName, Property property) throws Exception {
         propertyMapper =  DataSourceFactory.getMapper(companyId, dbName, PropertyMapper.class);
         return propertyMapper.updateByExampleSelective(dbName, property) != 0;
+    }
+
+    @Override
+    public Integer getPropertyNumber(String companyId, String dbName) throws Exception {
+        propertyMapperCustom = DataSourceFactory.getMapper(companyId, dbName, PropertyMapperCustom.class);
+        return propertyMapperCustom.getPropertyNumber();
     }
 }
