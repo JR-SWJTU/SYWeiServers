@@ -133,24 +133,30 @@ var app = new Vue({
          */
         employeePage: function () {
             console.log('employeePage');
-            this.pageState = 'employee';
-            this.employeeSearch();
+            if(this.loginFlag){
+                this.pageState = 'employee';
+                this.employeeSearch();
+            }
         },
         /**
          * 楼盘页切换
          */
         estatePage: function () {
             console.log('estatePage');
-            this.pageState = 'estate';
-            this.estateSearch();
+            if(this.loginFlag){
+                this.pageState = 'estate';
+                this.estateSearch();
+            }
         },
         /**
          * 房源页切换
          */
         propertyPage: function () {
             console.log('propertyPage');
-            this.pageState = 'property';
-            this.propertySearch();
+            if(this.loginFlag){
+                this.pageState = 'property';
+                this.propertySearch();
+            }
         },
         /**
          * 公众号链接获取

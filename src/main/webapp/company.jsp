@@ -65,7 +65,7 @@
                 </mu-list-item>
             </mu-list>
             <mu-divider></mu-divider>
-            <mu-list>
+            <mu-list v-if="loginFlag">
                 <mu-sub-header>信息管理</mu-sub-header>
                 <mu-list-item v-if="permissionFlag" title="员工" @click="employeePage" :title-class="{ 'active-color': pageState == 'employee' }">
                     <mu-icon slot="left" value="group" :class="{ 'active-color': pageState == 'employee' }"></mu-icon>
@@ -80,7 +80,7 @@
                     <mu-icon slot="right" value="keyboard_arrow_right" :class="{ 'active-color': pageState == 'property' }"></mu-icon>
                 </mu-list-item>
             </mu-list>
-            <div v-if="permissionFlag">
+            <div v-if="loginFlag && permissionFlag">
                 <mu-divider></mu-divider>
                 <mu-list >
                     <mu-list-item title="公众号链接" @click="weiXinLink">
