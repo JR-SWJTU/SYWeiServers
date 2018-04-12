@@ -1,7 +1,7 @@
 /**
  * 获取当前系统公司用户量
  */
-axios.get('/companies/total')
+axios.get('/SYWeiServers/companies/total')
     .then(function (response) {
         if(response.data.code == 200){
             var companyNumber = document.getElementById('company_number');
@@ -117,7 +117,7 @@ loginForm.loginBtn.addEventListener('click', function (event) {
         showToast(false, '密码不可为空');
         return;
     }
-    axios.post('/companies/login', {
+    axios.post('/SYWeiServers/companies/login', {
         companyno: companyno,
         password: password
     })
@@ -173,7 +173,7 @@ registerForm.registerBtn.addEventListener('click', function (event) {
         showToast(false, '独立数据库名不可为空');
         return;
     }
-    axios.post('/companies/register', {
+    axios.post('/SYWeiServers/companies/register', {
         companyno: companyno,
         password: password,
         companyname: companyname,

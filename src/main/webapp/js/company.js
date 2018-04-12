@@ -164,7 +164,7 @@ var app = new Vue({
          */
         getEmployeeTotal: function(res){
             var that = this;
-            axios.get('/employees/total', {
+            axios.get('/SYWeiServers/employees/total', {
                 params: res
             }).then(function (response) {
                 if(response.data.code == 200){
@@ -185,7 +185,7 @@ var app = new Vue({
             this.employeePageCurrent = num;
             this.getEmployeeTotal(res);
             var that = this;
-            axios.get('/employees', {
+            axios.get('/SYWeiServers/employees', {
                 params: {
                     sex: res.sex,
                     status: res.status,
@@ -266,7 +266,7 @@ var app = new Vue({
             this.employeeSelectRowsIndex.forEach(function (item, index, arr) {
                 ids.push(that.employeeList[item].empid);
             });
-            axios.post('/employees/deleteEmployee', {
+            axios.post('/SYWeiServers/employees/deleteEmployee', {
                 ids: ids
             }).then(function (response) {
                 if(response.data.code == 200){
@@ -305,7 +305,7 @@ var app = new Vue({
          */
         getEstateTotal: function(res){
             var that = this;
-            axios.get('/estates/total', {
+            axios.get('/SYWeiServers/estates/total', {
                 params: res
             }).then(function (response) {
                 if(response.data.code == 200){
@@ -326,7 +326,7 @@ var app = new Vue({
             this.estatePageCurrent = num;
             this.getEstateTotal(res);
             var that = this;
-            axios.get('/estates', {
+            axios.get('/SYWeiServers/estates', {
                 params: {
                     // sex: res.sex,
                     // status: res.status,
@@ -407,7 +407,7 @@ var app = new Vue({
             this.estateSelectRowsIndex.forEach(function (item, index, arr) {
                 ids.push(that.estateList[item].estateid);
             });
-            axios.post('/estates/deleteEstate', {
+            axios.post('/SYWeiServers/estates/deleteEstate', {
                 ids: ids
             }).then(function (response) {
                 if(response.data.code == 200){
@@ -446,7 +446,7 @@ var app = new Vue({
          */
         getPropertyTotal: function(res){
             var that = this;
-            axios.get('/properties/total', {
+            axios.get('/SYWeiServers/properties/total', {
                 params: res
             }).then(function (response) {
                 if(response.data.code == 200){
@@ -467,7 +467,7 @@ var app = new Vue({
             this.propertyPageCurrent = num;
             this.getPropertyTotal(res);
             var that = this;
-            axios.get('/properties', {
+            axios.get('/SYWeiServers/properties', {
                 params: {
                     // sex: res.sex,
                     // status: res.status,
@@ -548,7 +548,7 @@ var app = new Vue({
             this.propertySelectRowsIndex.forEach(function (item, index, arr) {
                 ids.push(that.propertyList[item].propertyid);
             });
-            axios.post('/properties/deleteProperty', {
+            axios.post('/SYWeiServers/properties/deleteProperty', {
                 ids: ids
             }).then(function (response) {
                 if(response.data.code == 200){
@@ -619,7 +619,7 @@ var app = new Vue({
         else{
             sessionStorage.removeItem('user');
             sessionStorage.removeItem('permission');
-            axios.get('/companies/find', {
+            axios.get('/SYWeiServers/companies/find', {
                 params: {
                     companyno: companyNo
                 }
