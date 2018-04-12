@@ -79,8 +79,8 @@ public class EmployeeController {
         String companyId = company.getCompanyid();
         String dbName = company.getDbname();
 
-//        EmployeeSearchRequest searchRequest = buildEmployeeSearchRequest(sex, status, tel, empName);
-        EmployeeSearchRequest searchRequest = buildEmployeeSearchRequest("null", "null", "null", "null");
+        EmployeeSearchRequest searchRequest = buildEmployeeSearchRequest(sex, status, tel, empName);
+//        EmployeeSearchRequest searchRequest = buildEmployeeSearchRequest(null, null, null, null);
         List<Employee> employees = employeeService.getEmployeeForPage(companyId, dbName, pageNum, pageSize, searchRequest);
         return JsonResult.build(StatusCode.SUCCESS, employees);
     }

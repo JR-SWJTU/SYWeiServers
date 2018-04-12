@@ -159,32 +159,32 @@
     use ${dbName}
     select top ${pageSize} *  from Employee where EmpID NOT IN  (
         select top ${start} EmpID from Employee
-        <!--WHERE-->
-            <!--<if test="request.sex != null">-->
-              <!--Sex = #{request.sex}-->
-            <!--</if>-->
-            <!--<if test="request.status != null">-->
-              <!--AND Status = #{request.status}-->
-            <!--</if>-->
-            <!--<if test="request.empname != null">-->
-              <!--AND EmpName like #{empname}-->
-            <!--</if>-->
-            <!--<if test="request.tel != null">-->
-              <!--AND Tel like #{tel}-->
-            <!--</if>-->
+        WHERE
+            <if test="request.sex != null">
+              Sex = #{request.sex}
+            </if>
+            <if test="request.status != null">
+              AND Status = #{request.status}
+            </if>
+            <if test="request.empname != null">
+              AND EmpName like #{empname}
+            </if>
+            <if test="request.tel != null">
+              AND Tel like #{tel}
+            </if>
     )
-    <!--<if test="request.sex != null">-->
-      <!--AND Sex = #{request.sex}-->
-    <!--</if>-->
-    <!--<if test="request.status != null">-->
-      <!--AND Status = #{request.status}-->
-    <!--</if>-->
-    <!--<if test="request.empname != null">-->
-      <!--AND EmpName like #{empname}-->
-    <!--</if>-->
-    <!--<if test="request.tel != null">-->
-      <!--AND Tel like #{tel}-->
-    <!--</if>-->
+    <if test="request.sex != null">
+      AND Sex = #{request.sex}
+    </if>
+    <if test="request.status != null">
+      AND Status = #{request.status}
+    </if>
+    <if test="request.empname != null">
+      AND EmpName like #{empname}
+    </if>
+    <if test="request.tel != null">
+      AND Tel like #{tel}
+    </if>
   </select>
 
   <update id="updateByExampleSelective" parameterType="map" >
