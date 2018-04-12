@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>房屋租赁微信公众号SAAS平台</title>
+    <%--<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />--%>
     <link rel="shortcut icon" href="./source/icon.png" />
     <link rel="stylesheet" href="./css/cssreset.css" />
     <link rel="stylesheet" href="./css/share.css" />

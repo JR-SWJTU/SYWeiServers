@@ -1,5 +1,6 @@
 body{
     cursor: default;
+    display: inline-block;
 }
 .contain{
     margin: 0 auto;
