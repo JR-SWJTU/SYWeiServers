@@ -52,6 +52,7 @@ public class PropertyServiceImpl implements PropertyService {
         return property;
     }
 
+    @Override
     public List<Property> getPropertyForPage(String companyId, String dbName, Integer pageNum, Integer pageSize) throws Exception {
         propertyMapper =  DataSourceFactory.getMapper(companyId, dbName, PropertyMapper.class);
 
@@ -75,6 +76,32 @@ public class PropertyServiceImpl implements PropertyService {
     @Override
     public Integer getPropertyNumber(String companyId, String dbName) throws Exception {
         propertyMapperCustom = DataSourceFactory.getMapper(companyId, dbName, PropertyMapperCustom.class);
-        return propertyMapperCustom.getPropertyNumber();
+        return propertyMapperCustom.getPropertyNumber(dbName);
+    }
+
+    @Override
+    public Integer getSellPropertyNumber(String companyId, String dbName) throws Exception{
+        propertyMapperCustom = DataSourceFactory.getMapper(companyId, dbName, PropertyMapperCustom.class);
+        return propertyMapperCustom.getSellPropertyNumber(dbName);
+    }
+
+    @Override
+    public List<Property> getQualitySellProperty(String companyId, String dbName) throws Exception {
+        propertyMapperCustom = DataSourceFactory.getMapper(companyId, dbName, PropertyMapperCustom.class);
+        List<Property> propertys = propertyMapperCustom.getQualitySellProperty(dbName);
+        return propertys;
+    }
+
+    @Override
+    public Integer getRentPropertyNumber(String companyId, String dbName) throws Exception{
+        propertyMapperCustom = DataSourceFactory.getMapper(companyId, dbName, PropertyMapperCustom.class);
+        return propertyMapperCustom.getRentPropertyNumber(dbName);
+    }
+
+    @Override
+    public List<Property> getQualityRentProperty(String companyId, String dbName) throws Exception {
+        propertyMapperCustom = DataSourceFactory.getMapper(companyId, dbName, PropertyMapperCustom.class);
+        List<Property> propertys = propertyMapperCustom.getQualityRentProperty(dbName);
+        return propertys;
     }
 }

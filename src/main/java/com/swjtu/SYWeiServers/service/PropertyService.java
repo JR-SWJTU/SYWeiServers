@@ -65,4 +65,30 @@ public interface PropertyService {
      * @throws Exception
      */
     Integer getPropertyNumber(String companyId, String dbName) throws Exception;
+
+    /**
+     * 获取出售房源量
+     * @return
+     * @throws Exception
+     */
+    Integer getSellPropertyNumber(String companyId, String dbName) throws Exception;
+
+    /**
+     * 获取精品出售房源
+     * @return
+     */
+    List<Property> getQualitySellProperty(String companyId, String dbName) throws Exception;
+
+    /**
+     * 获取出租房源量
+     * @return
+     * @throws Exception
+     */
+    Integer getRentPropertyNumber(String companyId, String dbName) throws Exception;
+
+    /**
+     * 获取精品出租房源
+     * @return
+     */
+    List<Property> getQualityRentProperty(String companyId, String dbName) throws Exception;
 }

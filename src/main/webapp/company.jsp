@@ -371,6 +371,44 @@
             </div>
         </div>
     </div>
+
+    <%--wx dialog--%>
+    <mu-dialog :open="wxLinkDialog" title="微信公众号链接" @close="wxLinkClose" v-cloak>
+        <div class="dialog-contain">
+            <mu-table :show-checkbox="false" :selectable="false">
+                <mu-thead>
+                    <mu-tr>
+                        <mu-th style="width: 100px">编号</mu-th>
+                        <mu-th style="width: 100px">页面名</mu-th>
+                        <mu-th>页面链接</mu-th>
+                    </mu-tr>
+                </mu-thead>
+                <mu-tbody>
+                    <mu-tr>
+                        <mu-td>1</mu-td>
+                        <mu-td>主页</mu-td>
+                        <mu-td>{{'https://bestleo.top/SYWeiServers/wx_home.jsp?no=' + company.companyno}}</mu-td>
+                    </mu-tr>
+                    <mu-tr>
+                        <mu-td>2</mu-td>
+                        <mu-td>出售页</mu-td>
+                        <mu-td>{{'https://bestleo.top/SYWeiServers/wx_sell.jsp?no=' + company.companyno}}</mu-td>
+                    </mu-tr>
+                    <mu-tr>
+                        <mu-td>3</mu-td>
+                        <mu-td>出租页</mu-td>
+                        <mu-td>{{'https://bestleo.top/SYWeiServers/wx_rent.jsp?no=' + company.companyno}}</mu-td>
+                    </mu-tr>
+                    <mu-tr>
+                        <mu-td>4</mu-td>
+                        <mu-td>搜索页</mu-td>
+                        <mu-td>{{'https://bestleo.top/SYWeiServers/wx_search.jsp?no=' + company.companyno}}</mu-td>
+                    </mu-tr>
+                </mu-tbody>
+            </mu-table>
+        </div>
+        <mu-flat-button slot="actions" primary @click="wxLinkClose" label="确定"></mu-flat-button>
+    </mu-dialog>
 </div>
 
 <!--toast start-->

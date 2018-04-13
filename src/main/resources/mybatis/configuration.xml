@@ -35,6 +35,8 @@
         <mapper resource="mapper/EstateMapperCustom.xml"/>
         <mapper resource="mapper/PropertyMapper.xml"/>
         <mapper resource="mapper/PropertyMapperCustom.xml"/>
+        <mapper resource="mapper/PhotoMapper.xml"/>
+        <mapper resource="mapper/PhotoMapperCustom.xml"/>
         <mapper resource="mapper/UsersMapper.xml"/>
     </mappers>
 </configuration>

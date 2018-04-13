@@ -35,6 +35,8 @@ var app = new Vue({
         propertySelectRowsIndex: [],
         propertyTotal: 5,
         propertyPageCurrent: 1,
+
+        wxLinkDialog: false
     },
     methods: {
         /**
@@ -165,6 +167,13 @@ var app = new Vue({
          */
         weiXinLink: function(){
             console.log('weiXinLink');
+            this.wxLinkDialog = true;
+        },
+        /**
+         * wxLinkDialog关闭
+         */
+        wxLinkClose: function(){
+            this.wxLinkDialog = false;
         },
 
         /**
@@ -641,10 +650,10 @@ var app = new Vue({
                     sessionStorage.setItem('company', JSON.stringify(response.data.data));
                     // sessionStorage.setItem('dbname', JSON.stringify(response.data.data.dbname));
                     that.company = response.data.data;
-                    document.title = this.company.companyname;
+                    document.title = that.company.companyname;
                     that.randomUserIcon();
                     // that.testSessionUser();
-                    console.log(this.company);
+                    console.log(that.company);
                 }
                 else{
                     showToast(false, response.data.message);
@@ -657,4 +666,4 @@ var app = new Vue({
             });
         }
     }
-})
+});

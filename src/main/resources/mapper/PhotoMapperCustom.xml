@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--注意namespace中类与自己创建的类名称要一致-->
+<mapper namespace="com.swjtu.SYWeiServers.mapper.PhotoMapperCustom">
+    <resultMap id="BaseResultMap" type="com.swjtu.SYWeiServers.entity.Photo" >
+        <result column="PhotoID" property="photoid" jdbcType="CHAR" />
+        <result column="PropertyID" property="propertyid" jdbcType="CHAR" />
+        <result column="PhotoNo" property="photono" jdbcType="VARCHAR" />
+        <result column="PhotoName" property="photoname" jdbcType="VARCHAR" />
+        <result column="ModDate" property="moddate" jdbcType="TIMESTAMP" />
+        <result column="FlagTrashed" property="flagtrashed" jdbcType="BIT" />
+        <result column="FlagDeleted" property="flagdeleted" jdbcType="BIT" />
+        <result column="ExDate" property="exdate" jdbcType="TIMESTAMP" />
+        <result column="RegPerson" property="regperson" jdbcType="NVARCHAR" />
+        <result column="RegDate" property="regdate" jdbcType="TIMESTAMP" />
+        <result column="PhotoUrl" property="photourl" jdbcType="NVARCHAR" />
+        <result column="CheckStatus" property="checkstatus" jdbcType="NVARCHAR" />
+    </resultMap>
+
+    <!--写自己的sql语句，其中id为xml对应的mapper中的方法名称-->
+    <select id="selectByPropertyId" resultType="java.lang.String" parameterType="map" >
+        use ${dbName}
+        select top 1 PhotoUrl FROM Photo WHERE PropertyId=${propertyId}
+    </select>
+
+</mapper>

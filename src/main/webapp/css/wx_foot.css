@@ -1,0 +1,104 @@
+
+/*@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {*/
+
+/*}*/
+footer{
+    padding: 40px 0;
+    background: #212121;
+}
+footer .row{
+    margin: 0;
+}
+footer ul{
+    overflow: hidden;
+    padding-bottom: 10px;
+    margin-bottom: 0;
+}
+footer li{
+    list-style: none;
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+footer li a{
+    text-decoration: none;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #FFFFFF;
+}
+footer .col-lg-10{
+    padding-left: 0;
+}
+footer .code{
+    width: 98px;
+    height: 98px;
+    position: relative;
+    background: #FFFFFF;
+    margin-top: 78px;
+    float: right;
+    right: -15px;
+}
+footer .code img{
+    width: 90%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+footer .links{
+    border-top: 2px solid rgba(255,255,255,0.12);
+    padding-top: 40px;
+}
+footer .h3{
+    font-family: PingFangSC-Semibold;
+    font-size: 14px;
+    color: rgba(255,255,255,0.60);
+    margin: 0 0 20px 0;
+}
+footer .links li a{
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: rgba(255,255,255,0.60);
+}
+footer .owner{
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: rgba(255,255,255,0.60);
+    margin-top: 54px;
+}
+@media (max-width: 768px) {
+    footer .owner{
+        font-family: PingFangSC-Regular;
+        font-size: 14px;
+        color: rgba(255,255,255,0.60);
+        margin-top: 0px;
+        text-align: center;
+    }
+    footer .links{
+        padding-top: 20px;
+    }
+    footer li:nth-child(1){
+        /*margin-left: 12%;*/
+    }
+    footer li:nth-child(5){
+        /*margin-left: 22%;*/
+    }
+    .col-xs-0{
+        display: none;
+    }
+}
+a{
+    -webkit-transition: all 0.25s linear;
+    -moz-transition: all 0.25s linear;
+    -ms-transition: all 0.25s linear;
+    -o-transition: all 0.25s linear;
+    transition: all 0.25s linear;
+}
+a:hover,.img:hover,h3:hover,.pageBox span:hover,h1:hover,.content .quest .title span:hover,.content .quest .ask:hover,.viewAll:hover,header .col-lg-6 .address:hover{
+    cursor: pointer;
+}
+footer ul:nth-child(1) a:hover,header .box ul a:hover{
+    text-decoration: none;
+}

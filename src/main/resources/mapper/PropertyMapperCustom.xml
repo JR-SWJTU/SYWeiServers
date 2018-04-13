@@ -5,10 +5,120 @@
 
 <!--注意namespace中类与自己创建的类名称要一致-->
 <mapper namespace="com.swjtu.SYWeiServers.mapper.PropertyMapperCustom">
+    <resultMap id="BaseResultMap" type="com.swjtu.SYWeiServers.entity.Property" >
+        <id column="PropertyID" property="propertyid" jdbcType="CHAR" />
+        <result column="CityName" property="cityname" jdbcType="NVARCHAR" />
+        <result column="DistrictName" property="districtname" jdbcType="NVARCHAR" />
+        <result column="EstateID" property="estateid" jdbcType="CHAR" />
+        <result column="RoomNo" property="roomno" jdbcType="VARCHAR" />
+        <result column="Floor" property="floor" jdbcType="INTEGER" />
+        <result column="Trade" property="trade" jdbcType="NVARCHAR" />
+        <result column="Status" property="status" jdbcType="NVARCHAR" />
+        <result column="CountF" property="countf" jdbcType="VARCHAR" />
+        <result column="CountT" property="countt" jdbcType="CHAR" />
+        <result column="CountW" property="countw" jdbcType="CHAR" />
+        <result column="CountY" property="county" jdbcType="CHAR" />
+        <result column="Grade" property="grade" jdbcType="TINYINT" />
+        <result column="PropertyUsage" property="propertyusage" jdbcType="VARCHAR" />
+        <result column="PropertyType" property="propertytype" jdbcType="VARCHAR" />
+        <result column="PropertyDirection" property="propertydirection" jdbcType="VARCHAR" />
+        <result column="PropertyLook" property="propertylook" jdbcType="VARCHAR" />
+        <result column="PropertyBuy" property="propertybuy" jdbcType="VARCHAR" />
+        <result column="PropertyCommission" property="propertycommission" jdbcType="VARCHAR" />
+        <result column="PropertySource" property="propertysource" jdbcType="VARCHAR" />
+        <result column="Square" property="square" jdbcType="DOUBLE" />
+        <result column="PriceUnit" property="priceunit" jdbcType="DECIMAL" />
+        <result column="Price" property="price" jdbcType="DECIMAL" />
+        <result column="PriceBase" property="pricebase" jdbcType="DECIMAL" />
+        <result column="RentPriceUnit" property="rentpriceunit" jdbcType="DECIMAL" />
+        <result column="RentPrice" property="rentprice" jdbcType="DECIMAL" />
+        <result column="MgtPrice" property="mgtprice" jdbcType="DECIMAL" />
+        <result column="TrustDate" property="trustdate" jdbcType="TIMESTAMP" />
+        <result column="DeptID" property="deptid" jdbcType="CHAR" />
+        <result column="EmpID" property="empid" jdbcType="CHAR" />
+        <result column="PropertyDecoration" property="propertydecoration" jdbcType="VARCHAR" />
+        <result column="PropertyFloor" property="propertyfloor" jdbcType="VARCHAR" />
+        <result column="RegPerson" property="regperson" jdbcType="NVARCHAR" />
+        <result column="RegDate" property="regdate" jdbcType="TIMESTAMP" />
+        <result column="ModPerson" property="modperson" jdbcType="NVARCHAR" />
+        <result column="ModDate" property="moddate" jdbcType="TIMESTAMP" />
+        <result column="PropertyTrust" property="propertytrust" jdbcType="VARCHAR" />
+        <result column="KeyNo" property="keyno" jdbcType="VARCHAR" />
+        <result column="CompleteYear" property="completeyear" jdbcType="VARCHAR" />
+        <result column="PropertyOccupy" property="propertyoccupy" jdbcType="VARCHAR" />
+        <result column="PropertyOwn" property="propertyown" jdbcType="VARCHAR" />
+        <result column="SquareUse" property="squareuse" jdbcType="DOUBLE" />
+        <result column="LastFollowDate" property="lastfollowdate" jdbcType="TIMESTAMP" />
+        <result column="FlagTrashed" property="flagtrashed" jdbcType="BIT" />
+        <result column="FlagDeleted" property="flagdeleted" jdbcType="BIT" />
+        <result column="OwnerName" property="ownername" jdbcType="NVARCHAR" />
+        <result column="OwnerTel" property="ownertel" jdbcType="VARCHAR" />
+        <result column="ContactName" property="contactname" jdbcType="NVARCHAR" />
+        <result column="PropertyFurniture" property="propertyfurniture" jdbcType="VARCHAR" />
+        <result column="PropertyNo" property="propertyno" jdbcType="VARCHAR" />
+        <result column="PriceLine" property="priceline" jdbcType="DOUBLE" />
+        <result column="RentPriceLine" property="rentpriceline" jdbcType="DOUBLE" />
+        <result column="BuildNo" property="buildno" jdbcType="VARCHAR" />
+        <result column="PropertyCertificate" property="propertycertificate" jdbcType="VARCHAR" />
+        <result column="PropertyElectric" property="propertyelectric" jdbcType="VARCHAR" />
+        <result column="ExDate" property="exdate" jdbcType="TIMESTAMP" />
+        <result column="FloorAll" property="floorall" jdbcType="INTEGER" />
+        <result column="HandOverDate" property="handoverdate" jdbcType="TIMESTAMP" />
+        <result column="UnitName" property="unitname" jdbcType="VARCHAR" />
+        <result column="RentUnitName" property="rentunitname" jdbcType="VARCHAR" />
+        <result column="PhotoCount" property="photocount" jdbcType="INTEGER" />
+        <result column="Usage1" property="usage1" jdbcType="DOUBLE" />
+        <result column="Usage2" property="usage2" jdbcType="DOUBLE" />
+        <result column="TrustNo" property="trustno" jdbcType="VARCHAR" />
+        <result column="PropertyTax" property="propertytax" jdbcType="VARCHAR" />
+        <result column="OwnerMobile" property="ownermobile" jdbcType="VARCHAR" />
+        <result column="Country" property="country" jdbcType="VARCHAR" />
+        <result column="DeptID1" property="deptid1" jdbcType="CHAR" />
+        <result column="EmpID2" property="empid2" jdbcType="CHAR" />
+        <result column="DeptID2" property="deptid2" jdbcType="CHAR" />
+        <result column="EmpID1" property="empid1" jdbcType="CHAR" />
+        <result column="Usage" property="usage" jdbcType="VARCHAR" />
+        <result column="Privy" property="privy" jdbcType="SMALLINT" />
+        <result column="FlagWeb" property="flagweb" jdbcType="BIT" />
+        <result column="Word" property="word" jdbcType="NVARCHAR" />
+        <result column="IDCard" property="idcard" jdbcType="VARCHAR" />
+        <result column="PropertyDate" property="propertydate" jdbcType="TIMESTAMP" />
+        <result column="RegulatoryNo" property="regulatoryno" jdbcType="NVARCHAR" />
+        <result column="WebTitle" property="webtitle" jdbcType="NVARCHAR" />
+        <result column="PropertyBrief" property="propertybrief" jdbcType="NVARCHAR" />
+        <result column="DeptID3" property="deptid3" jdbcType="CHAR" />
+        <result column="EmpID3" property="empid3" jdbcType="CHAR" />
+    </resultMap>
+
+    <resultMap id="ResultMapWithBLOBs" type="com.swjtu.SYWeiServers.entity.Property" extends="BaseResultMap" >
+        <result column="Remark" property="remark" jdbcType="LONGVARCHAR" />
+        <result column="BusDatas" property="busdatas" jdbcType="LONGVARCHAR" />
+    </resultMap>
 
     <!--写自己的sql语句，其中id为xml对应的mapper中的方法名称-->
     <select id="getPropertyNumber" resultType="java.lang.Integer">
+        use ${dbName}
         SELECT COUNT(*) FROM Property
+    </select>
+
+    <select id="getSellPropertyNumber" resultType="java.lang.Integer">
+        use ${dbName}
+        SELECT COUNT(*) FROM Property WHERE Trade = '出售'
+    </select>
+
+    <select id="getQualitySellProperty" resultMap="ResultMapWithBLOBs">
+        use ${dbName}
+        select top 8 * from Property where Trade='出售' and PropertyDecoration='精装' and Status='有效'
+    </select>
+
+    <select id="getRentPropertyNumber" resultType="java.lang.Integer">
+        use ${dbName}
+        SELECT COUNT(*) FROM Property WHERE Trade = '出租'
+    </select>
+
+    <select id="getQualityRentProperty" resultMap="ResultMapWithBLOBs">
+        use ${dbName}
+        select top 8 * from Property where Trade='出租' and PropertyDecoration='精装' and Status='有效'
     </select>
 
 </mapper>
