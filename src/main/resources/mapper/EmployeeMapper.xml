@@ -160,35 +160,38 @@
     <if test="request.tel != null">
         <bind name="tel" value="'%' + request.tel + '%'" />
     </if>
+    <if test="request.empno != null">
+        <bind name="empno" value="'%' + request.empno + '%'" />
+    </if>
     use ${dbName}
     select top ${pageSize} *  from Employee where EmpID NOT IN  (
         select top ${start} EmpID from Employee
         <where>
+            <if test="request.empname != null">
+              (EmpName like #{empname} OR Tel like #{tel} OR EmpNo like #{empno})
+            </if>
             <if test="request.sex != null">
+              <if test="request.empname != null">
+                AND
+              </if>
               Sex = #{request.sex}
             </if>
             <if test="request.status != null">
-              AND Status = #{request.status}
-            </if>
-            <if test="request.empname != null">
-              AND EmpName like #{empname}
-            </if>
-            <if test="request.tel != null">
-              AND Tel like #{tel}
+              <if test="request.empname != null or request.sex != null">
+                AND
+              </if>
+              Status = #{request.status}
             </if>
         </where>
     )
+    <if test="request.empname != null">
+      AND (EmpName like #{empname} OR Tel like #{tel} OR EmpNo like #{empno})
+    </if>
     <if test="request.sex != null">
       AND Sex = #{request.sex}
     </if>
     <if test="request.status != null">
       AND Status = #{request.status}
-    </if>
-    <if test="request.empname != null">
-      AND EmpName like #{empname}
-    </if>
-    <if test="request.tel != null">
-      AND Tel like #{tel}
     </if>
   </select>
 

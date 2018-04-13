@@ -195,6 +195,7 @@ var app = new Vue({
             var that = this;
             axios.get('/SYWeiServers/employees', {
                 params: {
+                    empNo: res.empNo,
                     sex: res.sex,
                     status: res.status,
                     tel: res.tel,
@@ -229,7 +230,8 @@ var app = new Vue({
                 sex: this.employee_sex == '全部' ? null : this.employee_sex,
                 status: this.employee_status == '全部' ? null : this.employee_status,
                 tel: input == '' ? null : input,
-                empName: input == '' ? null : input
+                empName: input == '' ? null : input,
+                empNo: input == '' ? null : input
             };
             this.getEmployeeList(1, res);
         },
@@ -243,7 +245,8 @@ var app = new Vue({
                 sex: this.employee_sex == '全部' ? null : this.employee_sex,
                 status: this.employee_status == '全部' ? null : this.employee_status,
                 tel: input == '' ? null : input,
-                empName: input == '' ? null : input
+                empName: input == '' ? null : input,
+                empNo: input == '' ? null : input
             };
             this.getEmployeeList(parseInt(arguments[0]), res);
         },
@@ -600,7 +603,8 @@ var app = new Vue({
                 sex: val == '全部' ? null : val,
                 status: this.employee_status == '全部' ? null : this.employee_status,
                 tel: input == '' ? null : input,
-                empName: input == '' ? null : input
+                empName: input == '' ? null : input,
+                empNo: input == '' ? null : input
             };
             this.getEmployeeList(1, res);
         },
@@ -610,7 +614,8 @@ var app = new Vue({
                 status: val == '全部' ? null : val,
                 sex: this.employee_sex == '全部' ? null : this.employee_sex,
                 tel: input == '' ? null : input,
-                empName: input == '' ? null : input
+                empName: input == '' ? null : input,
+                empNo: input == '' ? null : input
             };
             this.getEmployeeList(1, res);
         }

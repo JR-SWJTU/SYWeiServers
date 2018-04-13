@@ -71,5 +71,5 @@ public interface EmployeeService {
      * @return
      * @throws Exception
      */
-    Integer getEmployeeNumber(String companyId, String dbName) throws Exception;
+    Integer getEmployeeNumber(String companyId, String dbName, EmployeeSearchRequest request) throws Exception;
 }

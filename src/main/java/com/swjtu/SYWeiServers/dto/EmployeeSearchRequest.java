@@ -13,6 +13,12 @@ public class EmployeeSearchRequest {
 
     private String tel;
 
+    private String empno;
+
+    public String getEmpno() { return empno; }
+
+    public void setEmpno(String empno) { this.empno = empno; }
+
     public String getEmpname() {
         return empname;
     }

@@ -100,8 +100,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Integer getEmployeeNumber(String companyId, String dbName) throws Exception {
+    public Integer getEmployeeNumber(String companyId, String dbName, EmployeeSearchRequest request) throws Exception {
         employeeMapperCustom = DataSourceFactory.getMapper(companyId, dbName, EmployeeMapperCustom.class);
-        return employeeMapperCustom.getEmployeeNumber();
+        return employeeMapperCustom.getEmployeeNumber(request);
     }
 }

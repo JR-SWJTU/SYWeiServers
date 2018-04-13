@@ -73,24 +73,24 @@ public class EmployeeController {
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
     public JsonResult queryEmployees(HttpServletRequest request, Integer pageNum, Integer pageSize,
-                                     String sex, String status, String tel, String empName) throws Exception {
+                                     String sex, String status, String tel, String empName, String empNo) throws Exception {
         HttpSession session = request.getSession();
         Company company = (Company) session.getAttribute("company");
         String companyId = company.getCompanyid();
         String dbName = company.getDbname();
 
-        EmployeeSearchRequest searchRequest = buildEmployeeSearchRequest(sex, status, tel, empName);
-//        EmployeeSearchRequest searchRequest = buildEmployeeSearchRequest(null, null, null, null);
+        EmployeeSearchRequest searchRequest = buildEmployeeSearchRequest(sex, status, tel, empName, empNo);
         List<Employee> employees = employeeService.getEmployeeForPage(companyId, dbName, pageNum, pageSize, searchRequest);
         return JsonResult.build(StatusCode.SUCCESS, employees);
     }
 
-    private EmployeeSearchRequest buildEmployeeSearchRequest(String sex, String status, String tel, String empName) {
+    private EmployeeSearchRequest buildEmployeeSearchRequest(String sex, String status, String tel, String empName, String empNo) {
         EmployeeSearchRequest searchRequest = new EmployeeSearchRequest();
         searchRequest.setStatus(status);
         searchRequest.setSex(sex);
         searchRequest.setEmpname(empName);
         searchRequest.setTel(tel);
+        searchRequest.setEmpno(empNo);
         return searchRequest;
     }
 
@@ -114,11 +114,13 @@ public class EmployeeController {
      * @throws Exception
      */
     @RequestMapping(value="/total", method = RequestMethod.GET)
-    public JsonResult total(HttpServletRequest request, String sex, String status, String tel, String empName) throws  Exception{
+    public JsonResult total(HttpServletRequest request, String sex, String status, String tel, String empName, String empNo) throws  Exception{
         HttpSession session = request.getSession();
         Company company = (Company) session.getAttribute("company");
         String companyId = company.getCompanyid();
         String dbName = company.getDbname();
-        return JsonResult.build(StatusCode.SUCCESS, employeeService.getEmployeeNumber(companyId, dbName));
+
+        EmployeeSearchRequest searchRequest = buildEmployeeSearchRequest(sex, status, tel, empName, empNo);
+        return JsonResult.build(StatusCode.SUCCESS, employeeService.getEmployeeNumber(companyId, dbName, searchRequest));
     }
 }

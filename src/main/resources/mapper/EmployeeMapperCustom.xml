@@ -7,8 +7,34 @@
 <mapper namespace="com.swjtu.SYWeiServers.mapper.EmployeeMapperCustom">
 
     <!--写自己的sql语句，其中id为xml对应的mapper中的方法名称-->
-    <select id="getEmployeeNumber" resultType="java.lang.Integer">
+    <select id="getEmployeeNumber" resultType="java.lang.Integer"  parameterType="Map">
+        <if test="request.empname != null">
+            <bind name="empname" value="'%' + request.empname + '%'" />
+        </if>
+        <if test="request.tel != null">
+            <bind name="tel" value="'%' + request.tel + '%'" />
+        </if>
+        <if test="request.empno != null">
+            <bind name="empno" value="'%' + request.empno + '%'" />
+        </if>
         SELECT COUNT(*) FROM Employee
+        <where>
+            <if test="request.empname != null">
+                (EmpName like #{empname} OR Tel like #{tel} OR EmpNo like #{empno})
+            </if>
+            <if test="request.sex != null">
+                <if test="request.empname != null">
+                    AND
+                </if>
+                Sex = #{request.sex}
+            </if>
+            <if test="request.status != null">
+                <if test="request.empname != null or request.sex != null">
+                    AND
+                </if>
+                Status = #{request.status}
+            </if>
+        </where>
     </select>
 
 </mapper>
