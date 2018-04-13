@@ -2,7 +2,6 @@ var app = new Vue({
     el: '#app',
     data: {
         company: null,
-
         sellNum: 2000,
         sellQualityProperties: [],
         rentNum: 2000,

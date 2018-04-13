@@ -46,11 +46,7 @@
                                     <ul class="nav navbar-nav">
                                         <li><a href="#">二手房</a></li>
                                         <li><a href="#">租房</a></li>
-                                        <%--<li><a href="#">短租公寓</a></li>--%>
-                                        <%--<li><a href="#">小区</a></li>--%>
-                                        <%--<li><a href="#">门店</a></li>--%>
                                         <li><a href="#">经纪人</a></li>
-                                        <%--<li><a href="#">加入房产联盟</a></li>--%>
                                     </ul>
                                 </div>
                             </div>
@@ -196,7 +192,7 @@
                         <p>经纪人</p>
                     </div>
                 </div>
-                <div class="part3">
+                <div class="part3" v-cloak>
                     <div class="title">
                         <span class="h3">热门房源</span> <span>（售房）</span>
                         <span class="viewAll">查看全部（{{ sellNum }}） ></span>

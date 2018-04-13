@@ -10,6 +10,7 @@ toast
     height: 36px;
     background-color: rgba(0, 0, 0, 0);
     animation: toastshow 500ms linear;
+    z-index: 20181228;
 }
 .toast div{
     margin: 0 auto;

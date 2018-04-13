@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="./source/icon.png" />
     <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="./lib/swiper/swiper-3.4.2.min.css" />
-    <link rel="stylesheet" href="./css/wx_home.css" />
+    <link rel="stylesheet" href="./css/wx_search.css" />
     <link rel="stylesheet" href="./css/wx_foot.css" />
 </head>
 <body>

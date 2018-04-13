@@ -36,7 +36,11 @@ var app = new Vue({
         propertyTotal: 5,
         propertyPageCurrent: 1,
 
-        wxLinkDialog: false
+        wxLinkDialog: false,
+
+        employeeNo: '',
+        webPassword: '',
+        loginDialog: false
     },
     methods: {
         /**
@@ -44,6 +48,47 @@ var app = new Vue({
          */
         navChange: function () {
             this.openFlag = !this.openFlag;
+        },
+        /**
+         * 登录取消
+         */
+        loginDialogClose: function(){
+            this.loginDialog = false;
+        },
+        /**
+         * 登录确定
+         */
+        loginDialogOk: function(){
+            var account = this.employeeNo.trim();
+            var password = this.webPassword.trim();
+            if(account == ''){
+                showToast(false, '账号不可为空');
+                return;
+            }
+            if(password == ''){
+                showToast(false, '密码不可为空');
+                return;
+            }
+            var that = this;
+            axios.post('/SYWeiServers/employees/login', {
+                empno: account,
+                passwordweb: password
+            }).then(function (response) {
+                if(response.data.code == 200){
+                    showToast(true, '登录成功');
+                    sessionStorage.setItem('permission', false);
+                    sessionStorage.setItem('user', JSON.stringify(response.data.data));
+                    that.user = response.data.data;
+                    that.loginDialog = false;
+                    that.loginFlag = true;
+                    that.permissionFlag = false;
+                }
+                else{
+                    showToast(false, response.data.message);
+                }
+            }).catch(function (error) {
+                showToast(false, error);
+            });
         },
         /**
          * 提取session公司信息
@@ -87,31 +132,32 @@ var app = new Vue({
         /**
          * 登录框显示
          */
-        loginDialog: function(){
+        loginDialogOpen: function(){
             console.log('loginDialog');
+            this.loginDialog = true;
         },
         /**
          * 注册框显示
          */
-        registerDialog: function(){
+        registerDialogOpen: function(){
             console.log('registerDialog');
         },
         /**
          * 个人信息框显示
          */
-        infoDialog: function () {
+        infoDialogOpen: function () {
             console.log('userinfo');
         },
         /**
          * 主题框显示
          */
-        themeDialog: function(){
+        themeDialogOpen: function(){
             console.log('themeDialog');
         },
         /**
          * 退出登录确认框显示
          */
-        logoutConfirm: function () {
+        logoutConfirmOpen: function () {
             this.loginFlag = false;
             this.openFlag = false;
             this.permissionFlag = false;
@@ -122,7 +168,7 @@ var app = new Vue({
         /**
          * 帮助框显示
          */
-        helpDialog: function () {
+        helpDialogOpen: function () {
             console.log('helpDialog');
         },
         /**

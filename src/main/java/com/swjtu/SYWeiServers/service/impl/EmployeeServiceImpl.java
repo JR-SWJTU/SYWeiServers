@@ -38,7 +38,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee login(String companyId, String dbName, Employee employee) throws CustomException, IOException {
         Employee employee1 = findEmployee(companyId, dbName, employee.getEmpno());
-
         if(employee1 == null) {
             throw new CustomException("账号不存在");
         }

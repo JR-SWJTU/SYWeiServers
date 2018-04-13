@@ -4,9 +4,12 @@
 .one-title, .two-title{
     cursor: default;
 }
-/*
-appbar
- */
+.mu-dialog-body{
+    padding-bottom: 0;
+}
+    /*
+    appbar
+     */
 .example-appbar {
     position: fixed;
     left: 256px;

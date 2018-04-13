@@ -23,8 +23,8 @@
         </div>
         <div class="right">
             <div v-if="!user" class="nologin">
-                <mu-icon-button tooltip="登录" icon="person" @click="loginDialog"></mu-icon-button>
-                <mu-icon-button tooltip="注册" icon="edit" @click="registerDialog"></mu-icon-button>
+                <mu-icon-button tooltip="登录" icon="person" @click="loginDialogOpen"></mu-icon-button>
+                <mu-icon-button tooltip="注册" icon="edit" @click="registerDialogOpen"></mu-icon-button>
             </div>
             <div v-if="user" class="login">
                 <mu-icon-menu
@@ -32,10 +32,10 @@
                         anchorOrigin="horizontal: 'right', vertical: 'top'"
                         targetOrigin="horizontal: 'right', vertical: 'top'"
                 >
-                    <mu-menu-item title="个人信息" @click="infoDialog"></mu-menu-item>
-                    <mu-menu-item title="主题" @click="themeDialog"></mu-menu-item>
-                    <mu-menu-item title="退出" @click="logoutConfirm"></mu-menu-item>
-                    <mu-menu-item title="帮助" @click="helpDialog"></mu-menu-item>
+                    <mu-menu-item title="个人信息" @click="infoDialogOpen"></mu-menu-item>
+                    <mu-menu-item title="主题" @click="themeDialogOpen"></mu-menu-item>
+                    <mu-menu-item title="退出" @click="logoutConfirmOpen"></mu-menu-item>
+                    <mu-menu-item title="帮助" @click="helpDialogOpen"></mu-menu-item>
                 </mu-icon-menu>
             </div>
         </div>
@@ -53,7 +53,7 @@
         <mu-divider></mu-divider>
         <div class="exmaple-drawer-content">
             <div class="user-info-box">
-                <span class="box-icon" @click="infoDialog"><img :src="userInfoSrc" alt="头像" class="user-icon" /></span>
+                <span class="box-icon" @click="infoDialogOpen"><img :src="userInfoSrc" alt="头像" class="user-icon" /></span>
                 <h2 class="one-title">{{ user ? user.name : 'no login' }}</h2>
                 <h2 class="two-title">{{ user ? user.email : 'no login' }}</h2>
             </div>
@@ -387,27 +387,36 @@
                     <mu-tr>
                         <mu-td>1</mu-td>
                         <mu-td>主页</mu-td>
-                        <mu-td>{{'https://bestleo.top/SYWeiServers/wx_home.jsp?no=' + company.companyno}}</mu-td>
+                        <mu-td>{{'https://bestleo.top/SYWeiServers/wx_home.jsp?no=' + (company ? company.companyno : '')}}</mu-td>
                     </mu-tr>
                     <mu-tr>
                         <mu-td>2</mu-td>
                         <mu-td>出售页</mu-td>
-                        <mu-td>{{'https://bestleo.top/SYWeiServers/wx_sell.jsp?no=' + company.companyno}}</mu-td>
+                        <mu-td>{{'https://bestleo.top/SYWeiServers/wx_sell.jsp?no=' + (company ? company.companyno : '')}}</mu-td>
                     </mu-tr>
                     <mu-tr>
                         <mu-td>3</mu-td>
                         <mu-td>出租页</mu-td>
-                        <mu-td>{{'https://bestleo.top/SYWeiServers/wx_rent.jsp?no=' + company.companyno}}</mu-td>
+                        <mu-td>{{'https://bestleo.top/SYWeiServers/wx_rent.jsp?no=' + (company ? company.companyno : '')}}</mu-td>
                     </mu-tr>
                     <mu-tr>
                         <mu-td>4</mu-td>
                         <mu-td>搜索页</mu-td>
-                        <mu-td>{{'https://bestleo.top/SYWeiServers/wx_search.jsp?no=' + company.companyno}}</mu-td>
+                        <mu-td>{{'https://bestleo.top/SYWeiServers/wx_search.jsp?no=' + (company ? company.companyno : '')}}</mu-td>
                     </mu-tr>
                 </mu-tbody>
             </mu-table>
         </div>
         <mu-flat-button slot="actions" primary @click="wxLinkClose" label="确定"></mu-flat-button>
+    </mu-dialog>
+
+    <%--login dialog--%>
+    <mu-dialog :open="loginDialog" title="登录" @close="loginDialogClose" v-cloak>
+        <div class="dialog-contain">
+            <mu-text-field hint-text="账号" type="text" icon="person" full-width v-model="employeeNo" ></mu-text-field>
+            <mu-text-field hint-text="密码" type="password" icon="password" full-width v-model="webPassword"></mu-text-field>
+        </div>
+        <mu-flat-button slot="actions" primary @click="loginDialogOk" label="登录"></mu-flat-button>
     </mu-dialog>
 </div>
 
