@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.swjtu.SYWeiServers.mapper.PropertyMapper" >
-  <resultMap id="BaseResultMap" type="com.swjtu.SYWeiServers.entity.Property" >
+  <resultMap id="BaseResultMap" type="com.swjtu.SYWeiServers.dto.property.PropertyDTO" >
     <id column="PropertyID" property="propertyid" jdbcType="CHAR" />
     <result column="CityName" property="cityname" jdbcType="NVARCHAR" />
     <result column="DistrictName" property="districtname" jdbcType="NVARCHAR" />
@@ -86,7 +86,7 @@
     <result column="EmpID3" property="empid3" jdbcType="CHAR" />
   </resultMap>
   
-  <resultMap id="ResultMapWithBLOBs" type="com.swjtu.SYWeiServers.entity.Property" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.swjtu.SYWeiServers.dto.property.PropertyDTO" extends="BaseResultMap" >
     <result column="Remark" property="remark" jdbcType="LONGVARCHAR" />
     <result column="BusDatas" property="busdatas" jdbcType="LONGVARCHAR" />
   </resultMap>
@@ -123,11 +123,66 @@
     </if>
   </select>
 
+  <sql id="selectCondition">
+    <if test="request.cityname != null" >
+      AND CityName = #{request.cityname}
+    </if>
+    <if test="request.districtname != null" >
+      AND DistrictName = #{request.districtname}
+    </if>
+    <if test="request.floorMin != null" >
+      AND Floor <![CDATA[ >= ]]> #{request.floorMin}
+    </if>
+    <if test="request.floorMax != null" >
+      AND Floor <![CDATA[ <= ]]> #{request.floorMax}
+    </if>
+    <if test="request.trade != null" >
+      AND Trade = #{request.trade,jdbcType=NVARCHAR}
+    </if>
+    <if test="request.status != null" >
+      AND Status = #{request.status,jdbcType=NVARCHAR}
+    </if>
+    <if test="request.countf != null" >
+      AND CountF = #{request.countf,jdbcType=VARCHAR}
+    </if>
+    <if test="request.countt != null" >
+      AND CountT = #{request.countt,jdbcType=CHAR}
+    </if>
+    <if test="request.countw != null" >
+      AND CountW = #{request.countw,jdbcType=CHAR}
+    </if>
+    <if test="request.county != null" >
+      AND CountY = #{request.county,jdbcType=CHAR}
+    </if>
+    <if test="request.propertydirection != null" >
+      AND PropertyDirection = #{request.propertydirection}
+    </if>
+    <if test="request.squareMax != null" >
+      AND Square <![CDATA[ <= ]]> #{request.squareMax}
+    </if>
+    <if test="request.squareMin != null" >
+      AND Square <![CDATA[ >= ]]> #{request.squareMin}
+    </if>
+    <if test="request.rentpriceMax != null" >
+      AND RentPrice <![CDATA[ <= ]]> #{request.rentpriceMax}
+    </if>
+    <if test="request.rentpriceMin != null" >
+      AND RentPrice <![CDATA[ >= ]]> #{request.rentpriceMin}
+    </if>
+    <if test="request.propertydecoration != null" >
+      AND PropertyDecoration = #{request.propertydecoration}
+    </if>
+  </sql>
+
   <select id="selectForPage" resultMap="ResultMapWithBLOBs"  parameterType="Map" >
     use ${dbName}
     select top ${pageSize} *  from Property where PropertyID NOT IN  (
-    select top ${start} PropertyID from Property
+      select top ${start} PropertyID from Property
+      <where>
+          <include refid="selectCondition"/>
+      </where>
     )
+      <include refid="selectCondition"/>
   </select>
 
   <select id="selectProperty" resultMap="ResultMapWithBLOBs"  >

@@ -1,6 +1,8 @@
 package com.swjtu.SYWeiServers.web.controller;
 
-import com.swjtu.SYWeiServers.dto.PropertyRequest;
+import com.swjtu.SYWeiServers.dto.property.PropertyDTO;
+import com.swjtu.SYWeiServers.dto.property.PropertyRequest;
+import com.swjtu.SYWeiServers.dto.property.PropertySearchRequest;
 import com.swjtu.SYWeiServers.entity.Company;
 import com.swjtu.SYWeiServers.entity.Photo;
 import com.swjtu.SYWeiServers.entity.Property;
@@ -9,6 +11,7 @@ import com.swjtu.SYWeiServers.service.PropertyService;
 import com.swjtu.SYWeiServers.util.JsonResult;
 import com.swjtu.SYWeiServers.util.enums.StatusCode;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,7 +20,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Propertyistrator on 2017/10/18.
@@ -56,18 +62,52 @@ public class PropertyController {
 
     /**
      * 分页查询房源信息
-     * @param pageNum
-     * @param pageSize
      * @return
      */
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public JsonResult queryPropertys(HttpServletRequest request, Integer pageNum, Integer pageSize) throws Exception {
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public JsonResult queryPropertys(HttpServletRequest request, @RequestBody PropertySearchRequest propertySearchRequest) throws Exception {
         HttpSession session = request.getSession();
-        Company company = (Company) session.getAttribute("company");
-        String companyId = company.getCompanyid();
-        String dbName = company.getDbname();
-        List<Property> propertys = propertyService.getPropertyForPage(companyId, dbName, pageNum, pageSize);
+//        Company company = (Company) session.getAttribute("company");
+//        String companyId = company.getCompanyid();
+//        String dbName = company.getDbname();
+
+        String companyId = "1";
+        String dbName = "WZDC";
+
+        List<PropertyDTO> propertys = propertyService.getPropertyForPage(companyId, dbName, propertySearchRequest.getPageNum()
+                                                                        , propertySearchRequest.getPageSize(), propertySearchRequest);
+        List<String> propertyIds = buildPropertyIdList(propertys);
+        List<Photo> photos = photoService.findPhotosByPropertyIds(companyId, dbName, propertyIds);
+        Map<String, List<String>> propertyIdAndPhotoUrlMap = groupPhotoUrlsByPropertyId(propertyIds, photos);
+
+        for (PropertyDTO propertyDTO : propertys) {
+            propertyDTO.setPhotourls(propertyIdAndPhotoUrlMap.get(propertyDTO.getPropertyid()));
+        }
         return JsonResult.build(StatusCode.SUCCESS, propertys);
+    }
+
+    private List<String> buildPropertyIdList(List<PropertyDTO> propertys) {
+        List<String> propertyIds = new ArrayList<String>();
+        for (PropertyDTO property : propertys) {
+            propertyIds.add(property.getPropertyid());
+        }
+        return propertyIds;
+    }
+
+    private Map<String, List<String>> groupPhotoUrlsByPropertyId(List<String> propertyIds,  List<Photo> photos) {
+        Map<String, List<String>> propertyIdAndPhotoUrlMap = new HashMap<String, List<String>>();
+        for (Photo photo : photos) {
+            if (!StringUtils.isEmpty(photo.getPropertyid()) ) {
+                if ( propertyIdAndPhotoUrlMap.get(photo.getPropertyid()) == null) {
+                    List<String> photoUrls = new ArrayList<String>();
+                    photoUrls.add(photo.getPhotourl());
+                    propertyIdAndPhotoUrlMap.put(photo.getPropertyid(), photoUrls);
+                    continue;
+                }
+                propertyIdAndPhotoUrlMap.get(photo.getPropertyid()).add(photo.getPhotourl());
+            }
+        }
+        return propertyIdAndPhotoUrlMap;
     }
 
     /**

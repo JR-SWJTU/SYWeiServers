@@ -73,24 +73,24 @@
       </foreach>
     </where>
   </sql>
+
   <sql id="Base_Column_List" >
     PhotoID, PropertyID, PhotoNo, PhotoName, ModDate, FlagTrashed, FlagDeleted, ExDate, 
     RegPerson, RegDate, PhotoUrl, CheckStatus
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.swjtu.SYWeiServers.entity.PhotoExample" >
+
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="map" >
     select
-    <if test="distinct" >
-      distinct
-    </if>
     <include refid="Base_Column_List" />
     from Photo
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
+    <if test="propertyIds != null and propertyIds.size() != 0">
+      WHERE PropertyID IN
+      <foreach collection="propertyIds" item="propertyId" open="(" separator="," close=")">
+        #{propertyId}
+      </foreach>
     </if>
   </select>
+
   <delete id="deleteByExample" parameterType="com.swjtu.SYWeiServers.entity.PhotoExample" >
     delete from Photo
     <if test="_parameter != null" >

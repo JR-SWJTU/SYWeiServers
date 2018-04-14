@@ -1,5 +1,7 @@
 package com.swjtu.SYWeiServers.service.impl;
 
+import com.swjtu.SYWeiServers.dto.property.PropertyDTO;
+import com.swjtu.SYWeiServers.dto.property.PropertySearchRequest;
 import com.swjtu.SYWeiServers.entity.Property;
 import com.swjtu.SYWeiServers.mapper.PropertyMapper;
 import com.swjtu.SYWeiServers.mapper.PropertyMapperCustom;
@@ -34,29 +36,28 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public List<Property> findPropertyByPropertyId(String companyId, String dbName, List<String> propertyIds) throws Exception {
+    public List<PropertyDTO> findPropertyByPropertyId(String companyId, String dbName, List<String> propertyIds) throws Exception {
         propertyMapper = DataSourceFactory.getMapper(companyId, dbName, PropertyMapper.class);
 
-        List<Property> propertys = propertyMapper.selectByExampleWithBLOBs(dbName, propertyIds);
+        List<PropertyDTO> propertys = propertyMapper.selectByExampleWithBLOBs(dbName, propertyIds);
         if(propertys == null || propertys.size() == 0) {
-            return new ArrayList<Property>();
+            return new ArrayList<PropertyDTO>();
         }
         return propertys;
     }
 
     @Override
-    public Property findProperty(String companyId, String dbName, String roomno) throws IOException {
+    public PropertyDTO findProperty(String companyId, String dbName, String roomno) throws IOException {
         propertyMapper = DataSourceFactory.getMapper(companyId, dbName, PropertyMapper.class);
         //调用dao中方法进行数据查询
-        Property property = propertyMapper.selectProperty(dbName, roomno);
+        PropertyDTO property = propertyMapper.selectProperty(dbName, roomno);
         return property;
     }
 
     @Override
-    public List<Property> getPropertyForPage(String companyId, String dbName, Integer pageNum, Integer pageSize) throws Exception {
+    public List<PropertyDTO> getPropertyForPage(String companyId, String dbName, Integer pageNum, Integer pageSize, PropertySearchRequest request) throws Exception {
         propertyMapper =  DataSourceFactory.getMapper(companyId, dbName, PropertyMapper.class);
-
-        List<Property> propertys = propertyMapper.selectForPage(dbName, pageSize * (pageNum -1), pageSize);
+        List<PropertyDTO> propertys = propertyMapper.selectForPage(dbName, pageSize * (pageNum -1), pageSize, request);
         return propertys;
     }
 

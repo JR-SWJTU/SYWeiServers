@@ -1,5 +1,7 @@
 package com.swjtu.SYWeiServers.service;
 
+import com.swjtu.SYWeiServers.dto.property.PropertyDTO;
+import com.swjtu.SYWeiServers.dto.property.PropertySearchRequest;
 import com.swjtu.SYWeiServers.entity.Property;
 import com.swjtu.SYWeiServers.web.exception.CustomException;
 
@@ -23,7 +25,7 @@ public interface PropertyService {
      * @param propertyIds
      * @return
      */
-    List<Property> findPropertyByPropertyId(String companyId, String dbName, List<String> propertyIds) throws Exception;
+    List<PropertyDTO> findPropertyByPropertyId(String companyId, String dbName, List<String> propertyIds) throws Exception;
 
     /**
      * 根据房源Id从数据库获取一个房源信息
@@ -32,7 +34,7 @@ public interface PropertyService {
      * @param roomno 房源编号
      * @return
      */
-    Property findProperty(String companyId, String dbName, String roomno) throws IOException;
+    PropertyDTO findProperty(String companyId, String dbName, String roomno) throws IOException;
 
     /**
      * 分页获取房源信息
@@ -40,7 +42,7 @@ public interface PropertyService {
      * @param pageSize
      * @return
      */
-    List<Property> getPropertyForPage(String companyId, String dbName, Integer pageNum, Integer pageSize) throws Exception;
+    List<PropertyDTO> getPropertyForPage(String companyId, String dbName, Integer pageNum, Integer pageSize, PropertySearchRequest request) throws Exception;
 
     /**
      * 根据房源id批量删除房源信息

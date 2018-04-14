@@ -1,7 +1,6 @@
 package com.swjtu.SYWeiServers.service.impl;
 
 import com.swjtu.SYWeiServers.entity.Photo;
-import com.swjtu.SYWeiServers.entity.PhotoExample;
 import com.swjtu.SYWeiServers.mapper.PhotoMapper;
 import com.swjtu.SYWeiServers.mapper.PhotoMapperCustom;
 import com.swjtu.SYWeiServers.service.PhotoService;
@@ -10,7 +9,6 @@ import com.swjtu.SYWeiServers.util.ToolHelper;
 import com.swjtu.SYWeiServers.web.exception.CustomException;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,5 +34,16 @@ public class PhotoServiceImpl implements PhotoService {
     public String findPhotosByPropertyId(String companyId, String dbName, String propertyId) throws Exception {
         photoMapperCustom = DataSourceFactory.getMapper(companyId, dbName, PhotoMapperCustom.class);
         return photoMapperCustom.selectByPropertyId(dbName, "'" + propertyId + "'");
+    }
+
+    @Override
+    public List<Photo> findPhotosByPropertyIds(String companyId, String dbName, List<String> propertyIds) throws Exception {
+        photoMapper = DataSourceFactory.getMapper(companyId, dbName, PhotoMapper.class);
+
+        List<Photo> photos = photoMapper.selectByExample(dbName, propertyIds);
+        if(photos == null || photos.size() == 0) {
+            return new ArrayList<Photo>();
+        }
+        return photos;
     }
 }

@@ -2,8 +2,9 @@ package com.swjtu.SYWeiServers.mapper;
 
 import com.swjtu.SYWeiServers.entity.Photo;
 import com.swjtu.SYWeiServers.entity.PhotoExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface PhotoMapper {
     int countByExample(PhotoExample example);
@@ -14,7 +15,7 @@ public interface PhotoMapper {
 
     int insertSelective(Photo record);
 
-    List<Photo> selectByExample(PhotoExample example);
+    List<Photo> selectByExample(@Param("dbName")String dbName, @Param("propertyIds")List<String> propertyIds);
 
     int updateByExampleSelective(@Param("record") Photo record, @Param("example") PhotoExample example);
 

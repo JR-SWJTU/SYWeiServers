@@ -1,6 +1,5 @@
-package com.swjtu.SYWeiServers.dto;
+package com.swjtu.SYWeiServers.dto.property;
 
-import com.swjtu.SYWeiServers.entity.Photo;
 import com.swjtu.SYWeiServers.entity.Property;
 
 import java.util.List;

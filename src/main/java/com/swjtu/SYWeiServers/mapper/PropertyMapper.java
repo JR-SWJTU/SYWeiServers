@@ -1,5 +1,7 @@
 package com.swjtu.SYWeiServers.mapper;
 
+import com.swjtu.SYWeiServers.dto.property.PropertyDTO;
+import com.swjtu.SYWeiServers.dto.property.PropertySearchRequest;
 import com.swjtu.SYWeiServers.entity.Property;
 import org.apache.ibatis.annotations.Param;
 
@@ -10,11 +12,11 @@ public interface PropertyMapper {
 
     int insert(@Param("dbName")String dbName, @Param("entity")Property record);
 
-    List<Property> selectForPage(@Param("dbName")String dbName, @Param("start")int start, @Param("pageSize")int pageSize);
+    List<PropertyDTO> selectForPage(@Param("dbName")String dbName, @Param("start")int start, @Param("pageSize")int pageSize, @Param("request")PropertySearchRequest request);
 
-    List<Property> selectByExampleWithBLOBs(@Param("dbName")String dbName, @Param("propertyIds")List<String> propertyIds);
+    List<PropertyDTO> selectByExampleWithBLOBs(@Param("dbName")String dbName, @Param("propertyIds")List<String> propertyIds);
 
-    Property selectProperty(@Param("dbName")String dbName, @Param("roomNo")String roomNo);
+    PropertyDTO selectProperty(@Param("dbName")String dbName, @Param("roomNo")String roomNo);
 
     int deleteByExample(@Param("dbName")String dbName,  @Param("propertyIds")List<String> propertyIds);
 
