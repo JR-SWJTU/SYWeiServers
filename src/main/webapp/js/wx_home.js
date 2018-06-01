@@ -36,11 +36,14 @@ var app = new Vue({
                 // showToast(false, error);
             });
         },
+        searchBtnClick: function(){
+            location.assign('./wx_search.jsp?no=wzdc');
+        },
         sellPageTo: function () {
-            location.assign('./wx_sell.jsp');
+            location.assign('./wx_sell.jsp?no=wzdc');
         },
         rentPageTo: function () {
-            location.assign('./wx_rent.jsp');
+            location.assign('./wx_rent.jsp?no=wzdc');
         },
         employeePageTo: function () {
             
@@ -199,5 +202,4 @@ $('.layerCity a,.cityTab a').click(function(){
     var city_name = $(this).text();
     $('header .address span').eq(1).text(city_name);
     $('.layer').hide();
-
 })

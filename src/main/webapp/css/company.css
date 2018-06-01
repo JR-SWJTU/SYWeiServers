@@ -348,3 +348,13 @@ page share
     background: url("../source/image/property_back.jpg") no-repeat center/Cover;
     padding-top: 170px;
 }
+
+.gridlist-demo{
+    width: 720px;
+    height: 360px;
+    overflow-y: auto;
+}
+
+.mu-icon .material-icons{
+    cursor: pointer !important;
+}

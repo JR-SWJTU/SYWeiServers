@@ -1,3 +1,139 @@
+var app = new Vue({
+    el: '#app',
+    data: {
+        company: null,
+        propertyList: [],
+        districtname: '',
+        rentpricemin: 0,
+        rentpricemax: 10000,
+        squaremax: 10000,
+        squaremin: 0,
+        countf: null,
+        propertydirection: null,
+        propertydecoration: null
+    },
+    methods: {
+        getProperty: function (res) {
+            var that = this;
+            res.pageNum = 1;
+            res.pageSize = 10;
+            axios.post('/SYWeiServers/properties', res).then(function (response) {
+                if(response.data.code == 200){
+                    console.log(response.data.data);
+                    that.propertyList = response.data.data;
+                }
+                else{
+                    console.log(response.data.message);
+                    // showToast(false, response.data.message);
+                }
+            }).catch(function (error) {
+                console.log(error);
+                // showToast(false, error);
+            });
+        },
+        districtClick: function () {
+            this.districtname = '金牛'
+            console.log(this.districtname);
+            var res = {
+                cityname: '成都',
+                trade: '出租',
+                districtname: this.districtname
+            }
+            this.getProperty(res);
+        },
+        rentpriceClick: function () {
+            this.rentpricemax = 1000;
+            console.log(this.districtname);
+            var res = {
+                cityname: '成都',
+                trade: '出租',
+                districtname: this.districtname,
+                // priceMin: this.pricemin,
+                rentpriceMax: this.rentpricemax
+            }
+            this.getProperty(res);
+        },
+        roomClick: function () {
+            this.countf = 2;
+            console.log(this.districtname);
+            var res = {
+                cityname: '成都',
+                trade: '出租',
+                districtname: this.districtname,
+                rentpriceMax: this.rentpricemax,
+                countf: this.countf
+                // priceMin: this.pricemin,
+                // priceMax: this.pricemax
+            }
+            this.getProperty(res);
+        },
+        moreClick: function () {
+            this.squaremax = 100;
+            this.squaremin = 80;
+            // this.propertydirection = '南';
+            // this.propertydecoration = '精装';
+            console.log(this.districtname);
+            var res = {
+                cityname: '成都',
+                trade: '出租',
+                districtname: this.districtname,
+                countf: this.countf,
+                // propertydecoration: this.propertydecoration,
+                // propertydirection: this.propertydirection
+                rentpriceMax: this.rentpricemax,
+                squareMax: this.squaremax,
+                squareMin: this.squaremin
+                // priceMin: this.pricemin,
+                // priceMax: this.pricemax
+            }
+            this.getProperty(res);
+        },
+    },
+    computed: {
+
+    },
+    watch: {
+
+    },
+    mounted: function () {
+        /**
+         * 获取session中company记录，或根据url确定公司用户
+         */
+        var companyNo = getQueryString('no');
+        if(companyNo == null || companyNo == ''){
+            console.log('error');
+            return;
+        }
+        var that = this;
+        axios.get('/SYWeiServers/companies/find', {
+            params: {
+                companyno: companyNo
+            }
+        }).then(function (response) {
+            if(response.data.code == 200){
+                // console.log(response.data.data);
+                sessionStorage.setItem('company', JSON.stringify(response.data.data));
+                that.company = response.data.data;
+                document.title = that.company.companyname;
+                console.log(that.company);
+
+                var res = {
+                    cityname: '成都',
+                    trade: '出租'
+                }
+                that.getProperty(res);
+            }
+            else{
+                console.log(response.data.message);
+                // showToast(false, response.data.message);
+            }
+        }).catch(function (error) {
+            console.log(error);
+            // showToast(false, error);
+        });
+    }
+});
+
 //a标签点击后样式改变
 //PC端条件选择部分事件
 $('.choose .district .col-lg-11 li').find('a').click(function(e){

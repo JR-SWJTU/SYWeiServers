@@ -57,106 +57,106 @@
                 <div class="row box">
                     <div class="inputBox col-xs-12">
                         <input type="text" placeholder="请输入区域、商圈或小区名">
-                        <div class="searchBtn">搜索</div>
+                        <div class="searchBtn" @click="searchBtnClick">搜索</div>
                     </div>
                 </div>
             </div>
         </header>
 
-        <section class="layer-mobile">
-            <div class="lay-head">
-                <i class="back-icon"></i>
-                <span>选择城市</span>
-            </div>
-            <div class="lay-main">
-                <input type="text" placeholder="请输入城市名进行搜素">
-                <p>选择城市</p>
-                <div class="geo">
-                    <i class="icon-geo"></i>
-                    <span>定位失败</span>
-                    <span class="refren-icon"></span>
-                </div>
-                <p>最近访问</p>
-                <div class="latest">
-                    <a href="#"><span>成都</span></a>
-                </div>
-                <p>热门城市</p>
-                <div class="hot-city">
-                    <a href="#"><span>北京</span></a>
-                    <a href="#"><span>上海</span></a>
-                    <a href="#"><span>深圳</span></a>
-                </div>
-                <p>全部城市（按首字母顺序）</p>
-                <div class="cs">
-                    <a href="#"><span>A</span></a>
-                    <a href="#"><span>B</span></a>
-                    <a href="#"><span>C</span></a>
-                    <a href="#"><span>D</span></a>
-                    <a href="#"><span>E</span></a>
-                    <a href="#"><span>F</span></a>
-                    <a href="#"><span>G</span></a>
-                    <a href="#"><span>H</span></a>
-                    <a href="#"><span>J</span></a>
-                    <a href="#"><span>I</span></a>
-                    <a href="#"><span>E</span></a>
-                    <a href="#"><span>F</span></a>
-                    <a href="#"><span>G</span></a>
-                    <a href="#"><span>H</span></a>
-                    <a href="#"><span>J</span></a>
-                </div>
-                <div class="city-group">
-                    <p id="A">A</p>
-                    <div class="city-block">
-                        <a href="#"><span>成都</span></a>
-                        <a href="#"><span>成都</span></a>
-                        <a href="#"><span>成都</span></a>
-                        <a href="#"><span>成都</span></a>
-                        <a href="#"><span>成都</span></a>
-                    </div>
-                </div>
-                <div class="city-group">
-                    <p ID="B">B</p>
-                    <div class="city-block">
-                        <a href="#"><span>成都</span></a>
-                        <a href="#"><span>成都</span></a>
-                        <a href="#"><span>成都</span></a>
-                        <a href="#"><span>成都</span></a>
-                        <a href="#"><span>成都</span></a>
-                    </div>
-                </div>
-                <div class="city-group">
-                    <p id="C">C</p>
-                    <div class="city-block">
-                        <a href="#"><span>成都</span></a>
-                        <a href="#"><span>成都</span></a>
-                        <a href="#"><span>成都</span></a>
-                        <a href="#"><span>成都</span></a>
-                        <a href="#"><span>成都</span></a>
-                    </div>
-                </div>
-                <div class="city-group">
-                    <p id="D">D</p>
-                    <div class="city-block">
-                        <a href="#"><span>成都</span></a>
-                        <a href="#"><span>成都</span></a>
-                        <a href="#"><span>成都</span></a>
-                        <a href="#"><span>成都</span></a>
-                        <a href="#"><span>成都</span></a>
-                    </div>
-                </div>
-                <div class="city-group">
-                    <p id="E">E</p>
-                    <div class="city-block">
-                        <a href="#"><span>成都</span></a>
-                        <a href="#"><span>成都</span></a>
-                        <a href="#"><span>成都</span></a>
-                        <a href="#"><span>成都</span></a>
-                        <a href="#"><span>成都</span></a>
-                    </div>
-                </div>
+        <%--<section class="layer-mobile">--%>
+            <%--<div class="lay-head">--%>
+                <%--<i class="back-icon"></i>--%>
+                <%--<span>选择城市</span>--%>
+            <%--</div>--%>
+            <%--<div class="lay-main">--%>
+                <%--<input type="text" placeholder="请输入城市名进行搜素">--%>
+                <%--<p>选择城市</p>--%>
+                <%--<div class="geo">--%>
+                    <%--<i class="icon-geo"></i>--%>
+                    <%--<span>定位失败</span>--%>
+                    <%--<span class="refren-icon"></span>--%>
+                <%--</div>--%>
+                <%--<p>最近访问</p>--%>
+                <%--<div class="latest">--%>
+                    <%--<a href="#"><span>成都</span></a>--%>
+                <%--</div>--%>
+                <%--<p>热门城市</p>--%>
+                <%--<div class="hot-city">--%>
+                    <%--<a href="#"><span>北京</span></a>--%>
+                    <%--<a href="#"><span>上海</span></a>--%>
+                    <%--<a href="#"><span>深圳</span></a>--%>
+                <%--</div>--%>
+                <%--<p>全部城市（按首字母顺序）</p>--%>
+                <%--<div class="cs">--%>
+                    <%--<a href="#"><span>A</span></a>--%>
+                    <%--<a href="#"><span>B</span></a>--%>
+                    <%--<a href="#"><span>C</span></a>--%>
+                    <%--<a href="#"><span>D</span></a>--%>
+                    <%--<a href="#"><span>E</span></a>--%>
+                    <%--<a href="#"><span>F</span></a>--%>
+                    <%--<a href="#"><span>G</span></a>--%>
+                    <%--<a href="#"><span>H</span></a>--%>
+                    <%--<a href="#"><span>J</span></a>--%>
+                    <%--<a href="#"><span>I</span></a>--%>
+                    <%--<a href="#"><span>E</span></a>--%>
+                    <%--<a href="#"><span>F</span></a>--%>
+                    <%--<a href="#"><span>G</span></a>--%>
+                    <%--<a href="#"><span>H</span></a>--%>
+                    <%--<a href="#"><span>J</span></a>--%>
+                <%--</div>--%>
+                <%--<div class="city-group">--%>
+                    <%--<p id="A">A</p>--%>
+                    <%--<div class="city-block">--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="city-group">--%>
+                    <%--<p ID="B">B</p>--%>
+                    <%--<div class="city-block">--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="city-group">--%>
+                    <%--<p id="C">C</p>--%>
+                    <%--<div class="city-block">--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="city-group">--%>
+                    <%--<p id="D">D</p>--%>
+                    <%--<div class="city-block">--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="city-group">--%>
+                    <%--<p id="E">E</p>--%>
+                    <%--<div class="city-block">--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                        <%--<a href="#"><span>成都</span></a>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
 
-            </div>
-        </section>
+            <%--</div>--%>
+        <%--</section>--%>
 
         <section>
             <div class="container">

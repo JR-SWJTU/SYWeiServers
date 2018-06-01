@@ -28,7 +28,7 @@ public class DataSourceFactory {
     //数据库用户名
     private static String userName = "sa";
     //数据库连接密码
-    private static String password = "654321";
+    private static String password = "Root123";
 
 
     //最大数据库连接数量（采用数据库连接池思想）

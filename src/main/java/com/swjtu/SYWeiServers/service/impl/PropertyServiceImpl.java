@@ -75,7 +75,7 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public Integer getPropertyNumber(String companyId, String dbName) throws Exception {
+    public Integer getPropertyNumber(String companyId, String dbName/*, PropertySearchRequest request*/) throws Exception {
         propertyMapperCustom = DataSourceFactory.getMapper(companyId, dbName, PropertyMapperCustom.class);
         return propertyMapperCustom.getPropertyNumber(dbName);
     }

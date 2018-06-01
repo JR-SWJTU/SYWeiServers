@@ -66,7 +66,7 @@ public interface PropertyService {
      * @return
      * @throws Exception
      */
-    Integer getPropertyNumber(String companyId, String dbName) throws Exception;
+    Integer getPropertyNumber(String companyId, String dbName/*, PropertySearchRequest request*/) throws Exception;
 
     /**
      * 获取出售房源量

@@ -66,7 +66,7 @@ public class PropertyController {
      */
     @RequestMapping(value = "", method = RequestMethod.POST)
     public JsonResult queryPropertys(HttpServletRequest request, @RequestBody PropertySearchRequest propertySearchRequest) throws Exception {
-        HttpSession session = request.getSession();
+//        HttpSession session = request.getSession();
 //        Company company = (Company) session.getAttribute("company");
 //        String companyId = company.getCompanyid();
 //        String dbName = company.getDbname();
@@ -130,12 +130,12 @@ public class PropertyController {
      * @throws Exception
      */
     @RequestMapping(value="/total", method = RequestMethod.GET)
-    public JsonResult total(HttpServletRequest request/*, String sex, String status, String tel, String empName*/) throws  Exception{
+    public JsonResult total(HttpServletRequest request/*, @RequestBody PropertySearchRequest  propertySearchRequest, String sex, String status, String tel, String empName*/) throws  Exception{
         HttpSession session = request.getSession();
         Company company = (Company) session.getAttribute("company");
         String companyId = company.getCompanyid();
         String dbName = company.getDbname();
-        return JsonResult.build(StatusCode.SUCCESS, propertyService.getPropertyNumber(companyId, dbName));
+        return JsonResult.build(StatusCode.SUCCESS, propertyService.getPropertyNumber(companyId, dbName/*, propertySearchRequest*/));
     }
 
     @RequestMapping(value="/sellquality", method = RequestMethod.GET)

@@ -43,14 +43,26 @@ public class EmployeeController {
     @RequestMapping(value="/login", method = RequestMethod.POST)
     public JsonResult login(HttpServletRequest request, @RequestBody Employee employee) throws  Exception{
         HttpSession session = request.getSession();
-        Company company = (Company) session.getAttribute("company");
+        Company company = (Company)session.getAttribute("company");
         String companyId = company.getCompanyid();
         String dbName = company.getDbname();
-        Employee employee1 = employeeService.login(companyId, dbName, employee);
-        JSONObject jsonObject = JSONObject.fromObject(employee1);
-        jsonObject.remove("password");
-        employee1 = (Employee) JSONObject.toBean(jsonObject, Employee.class);
-        return JsonResult.build(StatusCode.SUCCESS, employee1);
+
+        String nativet = employee.getNativet();
+        System.out.println(nativet);
+
+        if(nativet.equals("true")){
+            JSONObject jsonObjectC = JSONObject.fromObject(company);
+            jsonObjectC.remove("password");
+            Company company1 = (Company) JSONObject.toBean(jsonObjectC, Company.class);
+            return JsonResult.build(StatusCode.SUCCESS, company1);
+        }
+        else{
+            Employee employee1 = employeeService.login(companyId, dbName, employee);
+            JSONObject jsonObject = JSONObject.fromObject(employee1);
+            jsonObject.remove("webpassword");
+            employee1 = (Employee) JSONObject.toBean(jsonObject, Employee.class);
+            return JsonResult.build(StatusCode.SUCCESS, employee1);
+        }
     }
 
     /**批量删除员工*/

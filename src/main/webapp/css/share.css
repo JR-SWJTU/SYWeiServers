@@ -38,3 +38,9 @@ toast
         top: 15px;
     }
 }
+
+.inputbox_title{
+    text-align: center;
+    font-size: 26px;
+    color: seagreen;
+}

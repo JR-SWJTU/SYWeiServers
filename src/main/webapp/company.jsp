@@ -32,7 +32,7 @@
                         anchorOrigin="horizontal: 'right', vertical: 'top'"
                         targetOrigin="horizontal: 'right', vertical: 'top'"
                 >
-                    <mu-menu-item title="个人信息" @click="infoDialogOpen"></mu-menu-item>
+                    <mu-menu-item :title="permissionFlag ? '公司信息' : '个人信息'" @click="infoDialogOpen"></mu-menu-item>
                     <mu-menu-item title="主题" @click="themeDialogOpen"></mu-menu-item>
                     <mu-menu-item title="退出" @click="logoutConfirmOpen"></mu-menu-item>
                     <mu-menu-item title="帮助" @click="helpDialogOpen"></mu-menu-item>
@@ -54,7 +54,8 @@
         <div class="exmaple-drawer-content">
             <div class="user-info-box">
                 <span class="box-icon" @click="infoDialogOpen"><img :src="userInfoSrc" alt="头像" class="user-icon" /></span>
-                <h2 class="one-title">{{ user ? user.name : 'no login' }}</h2>
+                <h2 v-show="permissionFlag" class="one-title">企业管理员</h2>
+                <h2 v-show="!permissionFlag" class="one-title">{{ user ? user.name : 'no login' }}</h2>
                 <h2 class="two-title">{{ user ? user.email : 'no login' }}</h2>
             </div>
             <mu-divider></mu-divider>
@@ -71,7 +72,7 @@
                     <mu-icon slot="left" value="group" :class="{ 'active-color': pageState == 'employee' }"></mu-icon>
                     <mu-icon slot="right" value="keyboard_arrow_right" :class="{ 'active-color': pageState == 'employee' }"></mu-icon>
                 </mu-list-item>
-                <mu-list-item title="楼盘" @click="estatePage"  :title-class="{ 'active-color': pageState == 'estate' }">
+                <mu-list-item v-if="permissionFlag" title="楼盘" @click="estatePage"  :title-class="{ 'active-color': pageState == 'estate' }">
                     <mu-icon slot="left" value="domain" :class="{ 'active-color': pageState == 'estate' }"></mu-icon >
                     <mu-icon slot="right" value="keyboard_arrow_right" :class="{ 'active-color': pageState == 'estate' }"></mu-icon>
                 </mu-list-item>
@@ -226,6 +227,9 @@
                 <ul class="type-select-ul border-bottom">
                     <li class="type-select-name">房产类型：</li>
                     <li><input id="type_0" type="radio" name="type" value="全部" v-model="estate_type" /><label for="type_0">全部</label></li>
+                    <li><input id="type_1" type="radio" name="type" value="全部" v-model="estate_type" /><label for="type_1">平房</label></li>
+                    <li><input id="type_2" type="radio" name="type" value="全部" v-model="estate_type" /><label for="type_2">多层</label></li>
+                    <li><input id="type_3" type="radio" name="type" value="全部" v-model="estate_type" /><label for="type_3">高层</label></li>
                     <%--<li><input id="status_internship" type="radio" name="type" value="实习" v-model="employee_status" /><label for="status_internship">实习</label></li>--%>
                     <%--<li><input id="status_official" type="radio" name="type" value="正式" v-model="employee_status" /><label for="status_official">正式</label></li>--%>
                     <%--<li><input id="status_dimission" type="radio" name="status" value="离职" v-model="employee_status" /><label for="status_dimission">离职</label></li>--%>
@@ -286,6 +290,12 @@
             </div>
             <form class="control-box">
                 <ul class="type-select-ul border-bottom">
+                    <li class="type-select-name">租/售：</li>
+                    <li><input id="trade_0" type="radio" name="trade" value="全部" v-model="property_trade" /><label for="trade_0">全部</label></li>
+                    <li><input id="trade_1" type="radio" name="trade" value="毛坯" v-model="property_trade" /><label for="trade_1">出租</label></li>
+                    <li><input id="trade_2" type="radio" name="trade" value="毛坯" v-model="property_trade" /><label for="trade_2">出售</label></li>
+                </ul>
+                <ul class="type-select-ul border-bottom">
                     <li class="type-select-name">装修：</li>
                     <li><input id="decoration_0" type="radio" name="decoration" value="全部" v-model="property_decoration" /><label for="decoration_0">全部</label></li>
                     <li><input id="decoration_1" type="radio" name="decoration" value="毛坯" v-model="property_decoration" /><label for="decoration_1">毛坯</label></li>
@@ -298,8 +308,18 @@
                     <li class="type-select-name">朝向：</li>
                     <li><input id="direction_0" type="radio" name="direction" value="全部" v-model="property_direction" /><label for="direction_0">全部</label></li>
                     <li><input id="direction_1" type="radio" name="direction" value="东" v-model="property_direction" /><label for="direction_1">东</label></li>
-                    <%--<li><input id="status_official" type="radio" name="status" value="正式" v-model="employee_status" /><label for="status_official">正式</label></li>--%>
-                    <%--<li><input id="status_dimission" type="radio" name="status" value="离职" v-model="employee_status" /><label for="status_dimission">离职</label></li>--%>
+                    <li><input id="direction_2" type="radio" name="direction" value="西" v-model="property_direction" /><label for="direction_2">西</label></li>
+                    <li><input id="direction_3" type="radio" name="direction" value="南" v-model="property_direction" /><label for="direction_3">南</label></li>
+                    <li><input id="direction_4" type="radio" name="direction" value="北" v-model="property_direction" /><label for="direction_4">北</label></li>
+                    <li><input id="direction_5" type="radio" name="direction" value="东西" v-model="property_direction" /><label for="direction_5">东西</label></li>
+                    <li><input id="direction_6" type="radio" name="direction" value="南北" v-model="property_direction" /><label for="direction_6">南北</label></li>
+                </ul>
+                <ul class="type-select-ul border-bottom">
+                    <li class="type-select-name">室数：</li>
+                    <li><input id="room_0" type="radio" name="room" value="全部" v-model="property_room" /><label for="room_0">全部</label></li>
+                    <li><input id="room_1" type="radio" name="room" value="1" v-model="property_room" /><label for="room_1">一室</label></li>
+                    <li><input id="room_2" type="radio" name="room" value="2" v-model="property_room" /><label for="room_2">两室</label></li>
+                    <li><input id="room_3" type="radio" name="room" value="3" v-model="property_room" /><label for="room_3">三室</label></li>
                 </ul>
                 <div class="type-control-div">
                     <ul class="ul-left">
@@ -351,10 +371,10 @@
                             <mu-td @click.stop="">{{item.ownername}}</mu-td>
                             <mu-td @click.stop="">{{item.ownermobile}}</mu-td>
                             <mu-td @click.stop="">
-                                <mu-icon-button icon="place" background-color="#a4c639" color="#FFF" @click.stop="propertyEdit(item)"></mu-icon-button>
+                                <mu-icon-button icon="place" background-color="#a4c639" color="#FFF" @click.stop="propertyAddressEdit(item)"></mu-icon-button>
                             </mu-td>
                             <mu-td @click.stop="">
-                                <mu-icon-button icon="palette" background-color="#a4c639" color="#FFF" @click.stop="propertyEdit(item)"></mu-icon-button>
+                                <mu-icon-button icon="palette" background-color="#a4c639" color="#FFF" @click.stop="propertyPhotoEdit(item)"></mu-icon-button>
                             </mu-td>
                             <mu-td @click.stop="">
                                 <mu-icon-button icon="account_circle" background-color="#a4c639" color="#FFF" @click.stop="propertyEdit(item)"></mu-icon-button>
@@ -413,10 +433,92 @@
     <%--login dialog--%>
     <mu-dialog :open="loginDialog" title="登录" @close="loginDialogClose" v-cloak>
         <div class="dialog-contain">
-            <mu-text-field hint-text="账号" type="text" icon="person" full-width v-model="employeeNo" ></mu-text-field>
-            <mu-text-field hint-text="密码" type="password" icon="password" full-width v-model="webPassword"></mu-text-field>
+            <mu-text-field label="账号" hint-text="账号" type="text" full-width v-model="employeeNo" ></mu-text-field>
+            <mu-text-field label="密码" hint-text="密码" type="password" full-width v-model="webPassword"></mu-text-field>
+            <input id="administrator" type="checkbox" name="administrator" v-model="adminFlag" /><label for="Administrator">企业管理员</label>
         </div>
         <mu-flat-button slot="actions" primary @click="loginDialogOk" label="登录"></mu-flat-button>
+    </mu-dialog>
+
+    <mu-dialog :open="registerDialog" title="注册" @close="registerDialogClose" v-cloak>
+        <div class="dialog-contain">
+            <mu-text-field label="输入账号" hint-text="账号" type="text" full-width v-model="reemployeeNo" ></mu-text-field>
+            <mu-text-field label="输入密码" hint-text="密码" type="password" full-width v-model="rewebPassword"></mu-text-field>
+            <mu-text-field label="再次输入密码" hint-text="密码" type="password" full-width v-model="rerewebPassword"></mu-text-field>
+        </div>
+        <mu-flat-button slot="actions" primary @click="registerDialogOk" label="注册"></mu-flat-button>
+    </mu-dialog>
+
+    <mu-dialog :open="employeeAddDialog" title="员工添加" @close="employeeAddDialogClose" v-cloak>
+        <div class="dialog-contain">
+            <mu-text-field label="账号" hint-text="账号" type="text" full-width v-model="addempno" ></mu-text-field>
+            <mu-text-field label="密码" hint-text="密码" type="text" full-width v-model="addpasswordweb"></mu-text-field>
+            <mu-text-field label="姓名" hint-text="姓名" type="text" full-width v-model="addempname"></mu-text-field>
+            <mu-text-field label="性别" hint-text="性别" type="text" full-width v-model="addsex"></mu-text-field>
+            <mu-text-field label="联系电话" hint-text="联系电话" type="text" full-width v-model="addtel"></mu-text-field>
+        </div>
+        <mu-flat-button slot="actions" primary @click="employeeAddDialogOk" label="确认"></mu-flat-button>
+    </mu-dialog>
+
+    <mu-dialog :open="employeeEditDialog" title="员工添加" @close="employeeEditDialogClose" v-cloak>
+        <div class="dialog-contain">
+            <mu-text-field label="账号" hint-text="账号" type="text" full-width v-model="now_employeeItem == null ? '' : now_employeeItem.empno" disabled></mu-text-field>
+            <mu-text-field label="密码" hint-text="密码" type="text" full-width v-model="now_employeeItem == null ? '' : now_employeeItem.passwordweb"></mu-text-field>
+            <mu-text-field label="姓名" hint-text="姓名" type="text" full-width v-model="now_employeeItem == null ? '' : now_employeeItem.empname"></mu-text-field>
+            <mu-text-field label="性别" hint-text="性别" type="text" full-width v-model="now_employeeItem == null ? '' : now_employeeItem.sex"></mu-text-field>
+            <mu-text-field label="联系电话" hint-text="联系电话" type="text" full-width v-model="now_employeeItem == null ? '' : now_employeeItem.tel"></mu-text-field>
+            <mu-text-field label="在职状态" hint-text="在职状态" type="text" full-width v-model="now_employeeItem == null ? '' : now_employeeItem.status"></mu-text-field>
+            <mu-text-field label="备注" hint-text="备注" type="text" full-width v-model="now_employeeItem == null ? '' : now_employeeItem.remark"></mu-text-field>
+        </div>
+        <mu-flat-button slot="actions" primary @click="employeeEditDialogOk" label="确认"></mu-flat-button>
+    </mu-dialog>
+
+    <mu-dialog :open="propertyAddressDialog" title="房源地址" @close="propertyAddressDialogClose" v-cloak>
+        <div class="dialog-contain">
+            <mu-text-field label="城市名" type="text" full-width v-model="now_propertyItem == null ? '' : now_propertyItem.cityname" ></mu-text-field>
+            <mu-text-field label="区域名" type="text" full-width v-model="now_propertyItem == null ? '' : now_propertyItem.districtname"></mu-text-field>
+        </div>
+        <mu-flat-button slot="actions" primary @click="propertyAddressDialogOk" label="确认更新"></mu-flat-button>
+    </mu-dialog>
+
+    <mu-dialog :open="propertyPhotoDialog" title="房源照片" @close="propertyPhotoDialogClose" v-cloak>
+        <div class="dialog-contain">
+            <mu-grid-list class="gridlist-demo">
+                <mu-grid-tile v-for="tile, index in now_propertyItem.photourls" :key="index">
+                    <img :src="tile" >
+                    <mu-button slot="action" icon>
+                        <mu-icon value="delete" @click.stop="propertyPhotoDialogDelete(index)"></mu-icon>
+                    </mu-button>
+                </mu-grid-tile>
+            </mu-grid-list>
+        </div>
+        <mu-flat-button slot="actions" @click="propertyPhotoDialogAdd" label="上传图片"></mu-flat-button>
+        <mu-flat-button slot="actions" primary @click="propertyPhotoDialogOk" label="确认更新"></mu-flat-button>
+    </mu-dialog>
+
+    <mu-dialog :open="infoDialog" title="permissionFlag ? '公司信息' : '个人信息'" @close="infoDialogClose" v-cloak>
+        <div class="dialog-contain">
+            <div v-show="permissionFlag">
+                <mu-text-field label="账户" type="text" full-width v-model="company.companyno" disabled ></mu-text-field>
+                <mu-text-field label="数据库名" type="text" full-width v-model="company.dbname" disabled ></mu-text-field>
+                <mu-text-field label="公司名" type="text" full-width v-model="company.companyname" ></mu-text-field>
+                <mu-text-field label="联系电话" type="text" full-width v-model="company.tel" ></mu-text-field>
+                <mu-text-field label="客服QQ" type="text" full-width v-model="company.qq" ></mu-text-field>
+                <mu-text-field label="邮箱" type="text" full-width v-model="company.email" ></mu-text-field>
+                <mu-text-field label="详细地址" type="text" full-width v-model="company.address" ></mu-text-field>
+                <mu-text-field label="公司简介" type="text" full-width v-model="company.remark" ></mu-text-field>
+            </div>
+
+            <div v-show="!permissionFlag">
+                <mu-text-field label="账户" type="text" full-width v-model="user == null ? '' :user.empno" disabled ></mu-text-field>
+                <mu-text-field label="姓名" type="text" full-width v-model="user == null ? '' :user.empname"></mu-text-field>
+                <mu-text-field label="性别" type="text" full-width v-model="user == null ? '' :user.sex" ></mu-text-field>
+                <mu-text-field label="联系电话" type="text" full-width v-model="user == null ? '' :user.tel" ></mu-text-field>
+                <mu-text-field label="状态" type="text" full-width v-model="user == null ? '' :user.stutas" ></mu-text-field>
+                <mu-text-field label="备注" type="text" full-width v-model="user == null ? '' :user.brief" ></mu-text-field>
+            </div>
+        </div>
+        <mu-flat-button slot="actions" primary @click="infoDialogOk" label="确认更新"></mu-flat-button>
     </mu-dialog>
 </div>
 

@@ -6,9 +6,9 @@ var app = new Vue({
     data: {
         openFlag: true,
         pageState: 'home',
-        company: null,
+        company: {},
         userInfoSrc: './source/image/info_icon_0.png',
-        user: null,
+        user: {},
         loginFlag: false,
         permissionFlag: false,
 
@@ -19,6 +19,14 @@ var app = new Vue({
         employeeSelectRowsIndex: [],
         employeeTotal: 5,
         employeePageCurrent: 1,
+        employeeAddDialog: false,
+        addempno: '',
+        addpasswordweb: '',
+        addempname: '',
+        addsex: '',
+        addtel: '',
+        now_employeeItem: {},
+        employeeEditDialog: false,
 
         estateList: [],
         estate_usage: '全部',
@@ -31,16 +39,29 @@ var app = new Vue({
         propertyList: [],
         property_decoration: '全部',
         property_direction: '全部',
+        property_trade: '全部',
+        property_room: '全部',
         property_input: '',
         propertySelectRowsIndex: [],
         propertyTotal: 5,
         propertyPageCurrent: 1,
+        propertyAddressDialog: false,
+        propertyPhotoDialog: false,
+        now_propertyItem: {},
 
         wxLinkDialog: false,
 
         employeeNo: '',
         webPassword: '',
-        loginDialog: false
+        adminFlag: false,
+        loginDialog: false,
+
+        reemployeeNo: '',
+        rewebPassword: '',
+        rerewebPassword: '',
+        registerDialog: false,
+
+        infoDialog: false,
     },
     methods: {
         /**
@@ -56,11 +77,24 @@ var app = new Vue({
             this.loginDialog = false;
         },
         /**
+         * 注册取消
+         */
+        registerDialogClose: function(){
+            this.registerDialog = false;
+        },
+        /**
+         * 信息修改取消
+         */
+        infoDialogClose: function(){
+            this.infoDialog = false;
+        },
+        /**
          * 登录确定
          */
         loginDialogOk: function(){
             var account = this.employeeNo.trim();
             var password = this.webPassword.trim();
+            var flag = this.adminFlag ? "true" : "false";
             if(account == ''){
                 showToast(false, '账号不可为空');
                 return;
@@ -72,16 +106,23 @@ var app = new Vue({
             var that = this;
             axios.post('/SYWeiServers/employees/login', {
                 empno: account,
-                passwordweb: password
+                passwordweb: password,
+                nativet: flag
             }).then(function (response) {
                 if(response.data.code == 200){
                     showToast(true, '登录成功');
-                    sessionStorage.setItem('permission', false);
+                    if(app.adminFlag){
+                        sessionStorage.setItem('permission', true);
+                        that.permissionFlag = true;
+                    }
+                    else{
+                        sessionStorage.setItem('permission', false);
+                        that.permissionFlag = false;
+                    }
                     sessionStorage.setItem('user', JSON.stringify(response.data.data));
                     that.user = response.data.data;
                     that.loginDialog = false;
                     that.loginFlag = true;
-                    that.permissionFlag = false;
                 }
                 else{
                     showToast(false, response.data.message);
@@ -89,6 +130,102 @@ var app = new Vue({
             }).catch(function (error) {
                 showToast(false, error);
             });
+        },
+        /**
+         * 注册确认
+         */
+        registerDialogOk: function(){
+            var account = this.reemployeeNo.trim();
+            var password = this.rewebPassword.trim();
+            var repassword = this.rerewebPassword.trim();
+            if(account == ''){
+                showToast(false, '账号不可为空');
+                return;
+            }
+            if(password == ''){
+                showToast(false, '密码不可为空');
+                return;
+            }
+            if(password != repassword){
+                showToast(false, '两次密码不一致');
+                return;
+            }
+            var that = this;
+            axios.post('/SYWeiServers/employees/register', {
+                empno: account,
+                passwordweb: password,
+                personalauthcode: '123456789'
+            }).then(function (response) {
+                if(response.data.code == 200){
+                    showToast(true, '注册成功，转至登录');
+                    that.registerDialog = false;
+                    that.loginDialog = true;
+                }
+                else{
+                    showToast(false, response.data.message);
+                }
+            }).catch(function (error) {
+                showToast(false, error);
+            });
+        },
+        /**
+         * 信息修改确认
+         */
+        infoDialogOk: function(){
+            var that = this;
+            if(this.permissionFlag){
+                axios.post('/SYWeiServers/companies/updateCompany', {
+                    companyid: that.company.companyid,
+                    companyname: that.company.companyname,
+                    companyno: that.company.compannyno,
+                    dbname: that.company.dbname,
+                    tel: that.company.tel,
+                    qq: that.company.qq,
+                    email: that.company.email,
+                    address: that.company.address,
+                    remark: that.company.remark,
+                    flagtrashed: false,
+                    flagdeleted: false
+                }).then(function (response) {
+                    if(response.data.code == 200){
+                        showToast(true, '公司信息更新成功');
+                        that.infoDialog = false;
+                    }
+                    else{
+                        showToast(false, response.data.message);
+                    }
+                }).catch(function (error) {
+                    showToast(false, error);
+                });
+            }
+            else{
+                axios.post('/SYWeiServers/employees/updateEmployee', {
+                    empid: that.user.empid,
+                    empno: that.user.empno,
+                    empname: that.user.empname,
+                    deptid: "123456789",
+                    tel: that.user.tel,
+                    sex: that.user.sex,
+                    brief: that.user.brief,
+                    stutas: that.user.stutas,
+                    flagtrashed: false,
+                    flagdeleted: false,
+                    flagsalary: false,
+                    flagrollret: false,
+                    tiger: "0",
+                    personalauthcode: "123456789"
+                }).then(function (response) {
+                    if(response.data.code == 200){
+                        showToast(true, '个人信息更新成功');
+                        that.infoDialog = false;
+                    }
+                    else{
+                        showToast(false, response.data.message);
+                    }
+                }).catch(function (error) {
+                    showToast(false, error);
+                });
+            }
         },
         /**
          * 提取session公司信息
@@ -141,12 +278,14 @@ var app = new Vue({
          */
         registerDialogOpen: function(){
             console.log('registerDialog');
+            this.registerDialog = true;
         },
         /**
          * 个人信息框显示
          */
         infoDialogOpen: function () {
             console.log('userinfo');
+            this.infoDialog = true;
         },
         /**
          * 主题框显示
@@ -266,7 +405,8 @@ var app = new Vue({
                         // that.employeePageCurrent = num;
                     }
                     else{
-                        showToast(false, "下一页无数据");
+                        showToast(false, "该页无数据");
+                        that.employeeList = [];
                     }
                 }
                 else{
@@ -357,6 +497,32 @@ var app = new Vue({
          */
         employeeAdd: function () {
             console.log('employAdd');
+            this.employeeAddDialog = true;
+        },
+        employeeAddDialogClose: function(){
+            this.employeeAddDialog = false
+        },
+        employeeAddDialogOk: function(){
+            var res = {
+                empno: this.addempno,
+                passwordweb: this.addpasswordweb,
+                empname: this.addempname,
+                sex: this.addsex,
+                tel: this.addtel,
+                personalauthcode: '123456789'
+            };
+            var that = this;
+            axios.post('/SYWeiServers/employees/register', res).then(function (response) {
+                if(response.data.code == 200){
+                    showToast(true, '员工注册添加成功');
+                    that.employeeAddDialog = false;
+                }
+                else{
+                    showToast(false, response.data.message);
+                }
+            }).catch(function (error) {
+                showToast(false, error);
+            });
         },
         /**
          * 员工编辑
@@ -364,6 +530,34 @@ var app = new Vue({
         employeeEdit: function (item) {
             console.log('employEdit');
             console.log(item);
+            this.now_employeeItem = item;
+            this.employeeEditDialog = true;
+        },
+        employeeEditDialogClose: function(){
+            this.now_employeeItem = {};
+            this.employeeEditDialog = false;
+        },
+        employeeEditDialogOk: function(){
+            var that = this;
+            axios.post('/SYWeiServers/employees/updateEmployee', that.now_employeeItem).then(function (response) {
+                if(response.data.code == 200){
+                    showToast(true, '员工信息修改成功');
+                    that.employeeEditDialog = false;
+                    var res = {
+                        status: null,
+                        sex: null,
+                        tel: null,
+                        empName: null,
+                        empNo: null
+                    };
+                    that.getEmployeeList(1, res);
+                }
+                else{
+                    showToast(false, response.data.message);
+                }
+            }).catch(function (error) {
+                showToast(false, error);
+            });
         },
 
         /**
@@ -409,7 +603,8 @@ var app = new Vue({
                         // that.estatePageCurrent = num;
                     }
                     else{
-                        showToast(false, "下一页无数据");
+                        showToast(false, "该页无数据");
+                        that.estateList = [];
                     }
                 }
                 else{
@@ -533,16 +728,9 @@ var app = new Vue({
             this.propertyPageCurrent = num;
             this.getPropertyTotal(res);
             var that = this;
-            axios.get('/SYWeiServers/properties', {
-                params: {
-                    // sex: res.sex,
-                    // status: res.status,
-                    // tel: res.tel,
-                    // empName: res.empName,
-                    pageNum: num,
-                    pageSize: 10
-                }
-            }).then(function (response) {
+            res.pageNum = num;
+            res.pageSize = 10;
+            axios.post('/SYWeiServers/properties', res).then(function (response) {
                 if(response.data.code == 200){
                     // console.log(response.data)
                     if(response.data.data.length > 0){
@@ -566,11 +754,28 @@ var app = new Vue({
         propertySearch: function(){
             var input = this.property_input.trim();
             var res = {
-                // sex: this.employee_sex == '全部' ? null : this.employee_sex,
-                // status: this.employee_status == '全部' ? null : this.employee_status,
-                // tel: input == '' ? null : input,
-                // empName: input == '' ? null : input
             };
+            if(input != ''){
+                res.cityname = input;
+                this.property_trade = '全部';
+                this.property_decoration = '全部';
+                this.property_direction = '全部';
+                this.property_room = '全部';
+            }
+            else{
+                if(this.property_trade != '全部'){
+                    res.trade = this.property_trade;
+                }
+                if(this.property_decoration != '全部'){
+                    res.propertydecoration = this.property_decoration;
+                }
+                if(this.property_direction != '全部'){
+                    res.propertydirection = this.property_direction;
+                }
+                if(this.property_room != '全部'){
+                    res.countf = this.property_room;
+                }
+            }
             this.getPropertyList(1, res);
         },
         /**
@@ -579,11 +784,28 @@ var app = new Vue({
         propertyPageChange: function () {
             var input = this.property_input.trim();
             var res = {
-                // sex: this.employee_sex == '全部' ? null : this.employee_sex,
-                // status: this.employee_status == '全部' ? null : this.employee_status,
-                // tel: input == '' ? null : input,
-                // empName: input == '' ? null : input
             };
+            if(input != ''){
+                res.cityname = input;
+                this.property_trade = '全部';
+                this.property_decoration = '全部';
+                this.property_direction = '全部';
+                this.property_room = '全部';
+            }
+            else{
+                if(this.property_trade != '全部'){
+                    res.trade = this.property_trade;
+                }
+                if(this.property_decoration != '全部'){
+                    res.propertydecoration = this.property_decoration;
+                }
+                if(this.property_direction != '全部'){
+                    res.propertydirection = this.property_direction;
+                }
+                if(this.property_room != '全部'){
+                    res.countf = this.property_room;
+                }
+            }
             this.getPropertyList(parseInt(arguments[0]), res);
         },
         /**
@@ -643,9 +865,82 @@ var app = new Vue({
         /**
          * 房源编辑
          */
+        propertyAddressEdit: function (item) {
+            console.log('propertyAddressEdit');
+            console.log(item);
+            this.now_propertyItem = item;
+            this.propertyAddressDialog = true;
+        },
+        propertyAddressDialogClose: function(){
+            this.propertyAddressDialog = false;
+            this.now_propertyItem = {};
+        },
+        propertyAddressDialogOk: function(){
+            console.log("更新房源地址");
+            var that = this;
+            axios.post('/SYWeiServers/properties/updateProperty', that.extendCopy(that.now_propertyItem)).then(function (response) {
+                if(response.data.code == 200){
+                    showToast(true, "地址信息修改成功");
+                    that.now_propertyItem = {};
+                    that.propertyAddressDialog = false;
+                }
+                else{
+                    showToast(false, response.data.message);
+                }
+            }).catch(function (error) {
+                showToast(false, error);
+            });
+        },
+
+        propertyPhotoEdit: function (item) {
+            console.log('propertyPhotoEdit');
+            console.log(item);
+            this.now_propertyItem = item;
+            this.propertyPhotoDialog = true;
+        },
+        propertyPhotoDialogClose: function(){
+            this.propertyPhotoDialog = false;
+            this.now_propertyItem = {};
+        },
+        propertyPhotoDialogOk: function(){
+            console.log("更新房源地址");
+            var that = this;
+            setTimeout(function(){
+                showToast(true, "图片信息修改成功");
+            }, 100);
+            that.propertyPhotoDialog = false;
+        },
+        propertyPhotoDialogDelete: function(index){
+            this.now_propertyItem.photourls.splice(index, 1);
+            showToast(true, "图片删除成功");
+        },
+        propertyPhotoDialogAdd: function(){
+            var inputObj=document.createElement('input')
+            inputObj.setAttribute('id','_ef');
+            inputObj.setAttribute('type','file');
+            inputObj.setAttribute("style",'visibility:hidden');
+            document.body.appendChild(inputObj);
+            inputObj.click();
+            var that = this;
+            setTimeout(function(){
+                showToast(true, "图片信息上传成功");
+                that.now_propertyItem.photourls.push('http://images.0101.cm/Photo/wzdc/Property/1705241641299B3FB41B6253810A1ED8/1705241642438D934ADEB3C1DA404E67.jpg');
+            }, 2000);
+        },
+
         propertyEdit: function (item) {
             console.log('propertyEdit');
             console.log(item);
+        },
+
+
+        extendCopy: function(p) {
+            var c = {};
+            for (var i in p) {
+                if(i != 'photourls')
+                    c[i] = p[i];
+            }
+            return c;
         }
     },
     computed: {
@@ -673,6 +968,74 @@ var app = new Vue({
                 empNo: input == '' ? null : input
             };
             this.getEmployeeList(1, res);
+        },
+        property_trade: function (val, oldVal) {
+            var res = {
+            };
+            if(val != '全部'){
+                res.trade = val;
+            }
+            if(this.property_decoration != '全部'){
+                res.propertydecoration = this.property_decoration;
+            }
+            if(this.property_direction != '全部'){
+                res.propertydirection = this.property_direction;
+            }
+            if(this.property_room != '全部'){
+                res.countf = this.property_room;
+            }
+            this.getPropertyList(1, res);
+        },
+        property_decoration: function (val, oldVal) {
+            var res = {
+            };
+            if(val != '全部'){
+                res.propertydecoration = val;
+            }
+            if(this.property_trade != '全部'){
+                res.trade = this.property_trade;
+            }
+            if(this.property_direction != '全部'){
+                res.propertydirection = this.property_direction;
+            }
+            if(this.property_room != '全部'){
+                res.countf = this.property_room;
+            }
+            this.getPropertyList(1, res);
+        },
+        property_direction: function (val, oldVal) {
+            var res = {
+            };
+            if(val != '全部'){
+                res.propertydirection = val;
+            }
+            if(this.property_trade != '全部'){
+                res.trade = this.property_trade;
+            }
+            if(this.property_decoration != '全部'){
+                res.propertydecoration = this.property_decoration;
+            }
+            if(this.property_room != '全部'){
+                res.countf = this.property_room;
+            }
+            this.getPropertyList(1, res);
+        },
+        property_room: function (val, oldVal) {
+            var res = {
+            };
+            if(val != '全部'){
+                res.countf = val;
+            }
+            if(this.property_trade != '全部'){
+                res.trade = this.property_trade;
+            }
+            if(this.property_decoration != '全部'){
+                res.propertydecoration = this.property_decoration;
+            }
+            if(this.property_direction != '全部'){
+                res.propertydirection = this.property_direction;
+            }
+            this.getPropertyList(1, res);
         }
     },
     mounted: function () {
@@ -699,6 +1062,7 @@ var app = new Vue({
                     document.title = that.company.companyname;
                     that.randomUserIcon();
                     // that.testSessionUser();
+
                     console.log(that.company);
                 }
                 else{
