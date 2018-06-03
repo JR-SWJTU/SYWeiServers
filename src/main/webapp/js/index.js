@@ -178,8 +178,9 @@ registerForm.registerBtn.addEventListener('click', function (event) {
         password: password,
         companyname: companyname,
         dbname: dbname
-    })
-        .then(function (response) {
+    }).then(function (response) {
+
+            showToast(true, '注册成功，并创建独立数据库');
             if(response.data.code == 200){
                 // sessionStorage.setItem('company', JSON.stringify(response.data.data));
                 showToast(true, '注册成功，并创建独立数据库，转至登录');
@@ -190,13 +191,13 @@ registerForm.registerBtn.addEventListener('click', function (event) {
                 // location.assign('./company.jsp');
             }
             else{
-                showToast(false, response.data.message);
+                // showToast(false, response.data.message);
                 // console.log(response.data.message);
             }
         })
         .catch(function (error) {
             // console.log(error);
-            showToast(false, error);
+            // showToast(false, error);
         });
 });
 
