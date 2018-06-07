@@ -1,5 +1,6 @@
 package com.swjtu.SYWeiServers.mapper;
 
+import com.swjtu.SYWeiServers.dto.EstateSearchRequest;
 import com.swjtu.SYWeiServers.entity.Estate;
 import org.apache.ibatis.annotations.Param;
 
@@ -10,7 +11,8 @@ public interface EstateMapper {
 
     int insert(@Param("dbName")String dbName, @Param("entity")Estate record);
 
-    List<Estate> selectForPage(@Param("dbName")String dbName, @Param("start")int start, @Param("pageSize")int pageSize);
+    List<Estate> selectForPage(@Param("dbName")String dbName, @Param("start")int start, @Param("pageSize")int pageSize,
+                               @Param("request")EstateSearchRequest request);
 
     List<Estate> selectByExampleWithBLOBs(@Param("dbName")String dbName, @Param("estateIds")List<String> estateIds);
 

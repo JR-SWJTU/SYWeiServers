@@ -52,9 +52,14 @@ public class EmployeeController {
 
         if(nativet.equals("true")){
             JSONObject jsonObjectC = JSONObject.fromObject(company);
-            jsonObjectC.remove("password");
-            Company company1 = (Company) JSONObject.toBean(jsonObjectC, Company.class);
-            return JsonResult.build(StatusCode.SUCCESS, company1);
+            if(company.getCompanyno().equals(employee.getEmpno()) && company.getPassword().equals(employee.getPasswordweb())){
+                jsonObjectC.remove("password");
+                Company company1 = (Company) JSONObject.toBean(jsonObjectC, Company.class);
+                return JsonResult.build(StatusCode.SUCCESS, company1);
+            }
+            else {
+                return JsonResult.build(StatusCode.FAIL_PASSWD_INCOR);
+            }
         }
         else{
             Employee employee1 = employeeService.login(companyId, dbName, employee);

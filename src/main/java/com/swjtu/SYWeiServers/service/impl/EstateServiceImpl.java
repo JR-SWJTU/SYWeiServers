@@ -1,5 +1,6 @@
 package com.swjtu.SYWeiServers.service.impl;
 
+import com.swjtu.SYWeiServers.dto.EstateSearchRequest;
 import com.swjtu.SYWeiServers.entity.Estate;
 import com.swjtu.SYWeiServers.mapper.EstateMapper;
 import com.swjtu.SYWeiServers.mapper.EstateMapperCustom;
@@ -52,10 +53,10 @@ public class EstateServiceImpl implements EstateService {
         return estate;
     }
 
-    public List<Estate> getEstateForPage(String companyId, String dbName, Integer pageNum, Integer pageSize) throws Exception {
+    public List<Estate> getEstateForPage(String companyId, String dbName, Integer pageNum, Integer pageSize, EstateSearchRequest request) throws Exception {
         estateMapper =  DataSourceFactory.getMapper(companyId, dbName, EstateMapper.class);
 
-        List<Estate> estates = estateMapper.selectForPage(dbName, pageSize * (pageNum -1), pageSize);
+        List<Estate> estates = estateMapper.selectForPage(dbName, pageSize * (pageNum -1), pageSize, request);
         return estates;
     }
 

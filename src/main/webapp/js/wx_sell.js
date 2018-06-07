@@ -3,22 +3,47 @@ var app = new Vue({
     data: {
         company: null,
         propertyList: [],
-        districtname: '',
-        pricemin: 0,
-        pricemax: 999,
+        pricemin: null,
+        pricemax: null,
+        districtname: null,
+        squaremax: null,
+        squaremin: null,
         countf: null,
         propertydirection: null,
-        propertydecoration: null
+        propertydecoration: null,
+        squaremax: null,
+        squaremin: null,
+
+        currentPage: 1
     },
     methods: {
-        getProperty: function (res) {
+        getProperty: function (page) {
             var that = this;
-            res.pageNum = 1;
+            var res = {
+                districtname: this.districtname,
+                priceMin: this.pricemin,
+                priceMax: this.pricemax,
+                countf: this.countf,
+                propertydirection: this.propertydirection,
+                propertydecoration: this.propertydecoration,
+                squareMax: this.squaremax,
+                squareMin: this.squaremin
+            };
+            res.pageNum = page;
             res.pageSize = 10;
+            res.cityname = '成都';
+            res.trade = '出售';
             axios.post('/SYWeiServers/properties', res).then(function (response) {
                 if(response.data.code == 200){
                     console.log(response.data.data);
                     that.propertyList = response.data.data;
+                    if(response.data.data.length == 0){
+                        console.log('无数据');
+                        that.currentPage = 1;
+                    }
+                    else{
+                        that.currentPage = page;
+                    }
                 }
                 else{
                     console.log(response.data.message);
@@ -29,58 +54,163 @@ var app = new Vue({
                 // showToast(false, error);
             });
         },
-        districtClick: function () {
-            this.districtname = '金牛'
-            console.log(this.districtname);
-            var res = {
-                cityname: '成都',
-                trade: '出售',
-                districtname: this.districtname
-            }
-            this.getProperty(res);
+        district1Click: function(){
+            this.districtname = null;
+            this.getProperty(1);
         },
-        priceClick: function () {
-            // this.pricemin = '0';
-            // this.pricemax = '50';
-            console.log(this.districtname);
-            var res = {
-                cityname: '成都',
-                trade: '出售',
-                districtname: this.districtname,
-                // priceMin: this.pricemin,
-                // priceMax: this.pricemax
-            }
-            this.getProperty(res);
+        district2Click: function(){
+            this.districtname = '新都';
+            this.getProperty(1);
+        },
+        district3Click: function(){
+            this.districtname = '成华';
+            this.getProperty(1);
+        },
+        district4Click: function(){
+            this.districtname = '高新';
+            this.getProperty(1);
+        },
+        district5Click: function(){
+            this.districtname = '郫都';
+            this.getProperty(1);
+        },
+        district6Click: function () {
+            this.districtname = '金牛'
+            this.getProperty(1);
+        },
+        price1Click: function(){
+            this.pricemax = null;
+            this.pricemin = null;
+        },
+        price2Click: function () {
+            this.pricemax = 50;
+            this.pricemin = null;
+            this.getProperty(1);
+        },
+        price3Click: function () {
+            this.pricemax = 80;
+            this.pricemin = 50;
+            this.getProperty(1);
+        },
+        price4Click: function () {
+            this.pricemax = 80;
+            this.pricemin = 100;
+            this.getProperty(1);
+        },
+        price5Click: function () {
+            this.pricemax = 120;
+            this.pricemin = 100;
+            this.getProperty(1);
+        },
+        price6Click: function () {
+            this.pricemax = null;
+            this.pricemin = 120;
+            this.getProperty(1);
+        },
+        room0Click: function(){
+            this.countf = null;
+        },
+        room1Click: function(){
+            this.countf = 1;
+        },
+        room2Click: function(){
+            this.countf = 2;
+        },
+        room3Click: function(){
+            this.countf = 3;
+        },
+        room4Click: function(){
+            this.countf = 4;
         },
         roomClick: function () {
-            this.countf = 3;
-            console.log(this.districtname);
-            var res = {
-                cityname: '成都',
-                trade: '出售',
-                districtname: this.districtname,
-                countf: this.countf
-                // priceMin: this.pricemin,
-                // priceMax: this.pricemax
+            this.getProperty(1);
+        },
+        direction2Click: function(){
+            this.propertydirection = this.propertydirection == '东' ? null : '东';
+        },
+        direction3Click: function(){
+            this.propertydirection = this.propertydirection == '西' ? null : '西';
+        },
+        direction4Click: function(){
+            this.propertydirection = this.propertydirection == '南' ? null : '南';
+        },
+        direction5Click: function(){
+            this.propertydirection = this.propertydirection == '北' ? null : '北';
+        },
+        direction6Click: function(){
+            this.propertydirection = this.propertydirection == '东西' ? null : '东西';
+        },
+        direction7Click: function(){
+            this.propertydirection = this.propertydirection == '南北' ? null : '南北';
+        },
+        square1Click: function(){
+            if(this.squaremax == 50 && this.squaremin == null){
+                this.squaremin = null;
+                this.squaremax = null;
             }
-            this.getProperty(res);
+            else{
+                this.squaremax = 50;
+                this.squaremin = null;
+            }
+        },
+        square2Click: function(){
+            if(this.squaremax == 60 && this.squaremin == 50){
+                this.squaremin = null;
+                this.squaremax = null;
+            }
+            else{
+                this.squaremax = 60;
+                this.squaremin = 50;
+            }
+        },
+        square3Click: function(){
+            if(this.squaremax == 80 && this.squaremin == 60){
+                this.squaremin = null;
+                this.squaremax = null;
+            }
+            else{
+                this.squaremax = 80;
+                this.squaremin = 60;
+            }
+        },
+        square4Click: function(){
+            if(this.squaremax == 100 && this.squaremin == 80){
+                this.squaremin = null;
+                this.squaremax = null;
+            }
+            else{
+                this.squaremax = 100;
+                this.squaremin = null;
+            }
+        },
+        decoration1Click: function(){
+            this.propertydecoration = this.propertydecoration == '精装' ?  null : '精装';
+        },
+        decoration2Click: function(){
+            this.propertydecoration = this.propertydecoration == '简装' ?  null : '简装';
+        },
+        decoration3Click: function(){
+            this.propertydecoration = this.propertydecoration == '毛坯' ?  null : '毛坯';
+        },
+        resetClick: function(){
+            this.propertydirection = null;
+            this.squaremax = null;
+            this.squaremin = null;
+            this.propertydirection = null;
         },
         moreClick: function () {
-            // this.propertydirection = '南';
-            this.propertydecoration = '简装';
-            console.log(this.districtname);
-            var res = {
-                cityname: '成都',
-                trade: '出售',
-                districtname: this.districtname,
-                countf: this.countf,
-                propertydecoration: this.propertydecoration,
-                // propertydirection: this.propertydirection
-                // priceMin: this.pricemin,
-                // priceMax: this.pricemax
-            }
-            this.getProperty(res);
+            this.getProperty(1);
         },
+        pageBefore: function () {
+            if(this.currentPage > 2)
+                this.getProperty(this.currentPage - 1);
+        },
+        pageNext: function () {
+            this.getProperty(this.currentPage + 1);
+        },
+        pageToRent: function () {
+            location.assign('./wx_rent.jsp?no=wzdc');
+        }
     },
     computed: {
 
@@ -109,12 +239,7 @@ var app = new Vue({
                 that.company = response.data.data;
                 document.title = that.company.companyname;
                 console.log(that.company);
-
-                var res = {
-                    cityname: '成都',
-                    trade: '出售'
-                }
-                that.getProperty(res);
+                that.getProperty(1);
             }
             else{
                 console.log(response.data.message);

@@ -1,5 +1,6 @@
 package com.swjtu.SYWeiServers.service;
 
+import com.swjtu.SYWeiServers.dto.EstateSearchRequest;
 import com.swjtu.SYWeiServers.entity.Estate;
 import com.swjtu.SYWeiServers.web.exception.CustomException;
 
@@ -41,7 +42,7 @@ public interface EstateService {
      * @param pageSize
      * @return
      */
-    List<Estate> getEstateForPage(String companyId, String dbName, Integer pageNum, Integer pageSize) throws Exception;
+    List<Estate> getEstateForPage(String companyId, String dbName, Integer pageNum, Integer pageSize, EstateSearchRequest request) throws Exception;
 
     /**
      * 根据楼盘id批量删除楼盘信息

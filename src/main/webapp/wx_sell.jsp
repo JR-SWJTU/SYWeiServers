@@ -58,7 +58,7 @@
                                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                     <ul class="nav navbar-nav">
                                         <li><a href="#">二手房</a></li>
-                                        <li><a href="#">租房</a></li>
+                                        <li><a href="#" @click="pageToRent">租房</a></li>
                                         <li><a href="#">经纪人</a></li>
                                     </ul>
                                 </div>
@@ -67,11 +67,6 @@
                     </div>
                 </div>
                 <div class="row box">
-                    <ul class="col-xs-0">
-                        <li><a href="#">二手房</a></li>
-                        <li><a href="#">租房</a></li>
-                        <li><a href="#">经纪人</a></li>
-                    </ul>
                     <div class="inputBox inputbox_title">
                         二手房
                     </div>
@@ -128,12 +123,12 @@
                             </div>
                             <div class="three">
                                 <div class="third">
-                                    <div class="li"><a href="#">新都区</a></div>
-                                    <div class="li"><a href="#">成华区</a></div>
-                                    <div class="li"><a href="#">高新区</a></div>
-                                    <div class="li"><a href="#">新都区</a></div>
-                                    <div class="li"><a href="#">郫都区</a></div>
-                                    <div class="li"><a href="#" @click="districtClick">金牛区</a></div>
+                                    <div class="li"><a href="#" @click="district1Click">不限</a></div>
+                                    <div class="li"><a href="#" @click="district2Click">新都区</a></div>
+                                    <div class="li"><a href="#" @click="district3Click">成华区</a></div>
+                                    <div class="li"><a href="#" @click="district4Click">高新区</a></div>
+                                    <div class="li"><a href="#" @click="district5Click">郫都区</a></div>
+                                    <div class="li"><a href="#" @click="district6Click">金牛区</a></div>
                                 </div>
                             </div>
                         </ul>
@@ -145,12 +140,12 @@
                         </button>
                         <ul class="dropdown-menu">
                             <div class="salePrice">
-                                <div class="li"><a href="#" class="aactive">不限</a></div>
-                                <div class="li"><a href="#" @click="priceClick">50万以下</a></div>
-                                <div class="li"><a href="#">50万-80万</a></div>
-                                <div class="li"><a href="#">80万-100万</a></div>
-                                <div class="li"><a href="#">100万-120万</a></div>
-                                <div class="li"><a href="#">120万以上</a></div>
+                                <div class="li"><a href="#" class="aactive" @click="price1Click">不限</a></div>
+                                <div class="li"><a href="#" @click="price2Click">50万以下</a></div>
+                                <div class="li"><a href="#" @click="price3Click">50万-80万</a></div>
+                                <div class="li"><a href="#" @click="price4Click">80万-100万</a></div>
+                                <div class="li"><a href="#" @click="price5Click">100万-120万</a></div>
+                                <div class="li"><a href="#" @click="price6Click">120万以上</a></div>
                             </div>
                         </ul>
                     </div>
@@ -161,10 +156,11 @@
                         </button>
                         <ul class="dropdown-menu">
                             <div class="type">
-                                <div class="li"><a href="#">一室</a></div>
-                                <div class="li"><a href="#">二室</a></div>
-                                <div class="li"><a href="#">三室</a></div>
-                                <div class="li"><a href="#">四室</a></div>
+                                <div class="li" @click="room0Click"><a href="#">不限</a></div>
+                                <div class="li" @click="room1Click"><a href="#">一室</a></div>
+                                <div class="li" @click="room2Click"><a href="#">二室</a></div>
+                                <div class="li" @click="room3Click"><a href="#">三室</a></div>
+                                <div class="li" @click="room4Click"><a href="#">四室</a></div>
                             </div>
                             <div class="sure" @click="roomClick">确定</div>
                         </ul>
@@ -178,26 +174,28 @@
                             <div class="more">
                                 <div class="box">
                                     <h2>朝向</h2>
-                                    <span>朝东</span>
-                                    <span>朝西</span>
-                                    <span>朝南</span>
-                                    <span>朝北</span>
+                                    <span @click="direction2Click">朝东</span>
+                                    <span @click="direction3Click">朝西</span>
+                                    <span @click="direction4Click">朝南</span>
+                                    <span @click="direction5Click">朝北</span>
+                                    <span @click="direction6Click">东西</span>
+                                    <span @click="direction7Click">南北</span>
                                 </div>
                                 <div class="box">
                                     <h2>面积</h2>
-                                    <span>50平以下</span>
-                                    <span>50-60平</span>
-                                    <span>60-80平</span>
-                                    <span>80-100平</span>
+                                    <span @click="square1Click">50平以下</span>
+                                    <span @click="square2Click">50-60平</span>
+                                    <span @click="square3Click">60-80平</span>
+                                    <span @click="square4Click">80-100平</span>
                                 </div>
                                 <div class="box">
                                     <h2>装修</h2>
-                                    <span>精装修</span>
-                                    <span>普通装修</span>
-                                    <span>毛坯房</span>
+                                    <span @click="decoration1Click">精装</span>
+                                    <span @click="decoration2Click">简装</span>
+                                    <span @click="decoration3Click">毛坯</span>
                                 </div>
                             </div>
-                            <div class="clear_if">清空条件</div>
+                            <div class="clear_if" @click="resetClick">清空条件</div>
                             <div class="sure" @click="moreClick">确定</div>
                         </ul>
                     </div>
@@ -235,11 +233,11 @@
                         </div>
                         <div class="pageBox">
                             <div>
-                                <span><<</span>
-                                <span>1</span>
-                                <span>2</span>
-                                <span>3</span>
-                                <span>>></span>
+                                <span @click="pageBefore"><<</span>
+                                <span>..</span>
+                                <span>{{currentPage}}</span>
+                                <span>..</span>
+                                <span @click="pageNext">>></span>
                             </div>
                         </div>
                     </div>

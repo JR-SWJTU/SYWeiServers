@@ -35,6 +35,16 @@ var app = new Vue({
         estateSelectRowsIndex: [],
         estateTotal: 5,
         estatePageCurrent: 1,
+        addestatename: '',
+        addcompleteyear: 1960,
+        addpropertyusage: '',
+        addpropertytype: '',
+        addmgtcompany: '',
+        addestateaddress: '',
+        addestateremark: '',
+        estateAddDialog: false,
+        now_estateItem: {},
+        estateEditDialog: false,
 
         propertyList: [],
         property_decoration: '全部',
@@ -46,8 +56,21 @@ var app = new Vue({
         propertyTotal: 5,
         propertyPageCurrent: 1,
         propertyAddressDialog: false,
+        propertyOwnerDialog: false,
         propertyPhotoDialog: false,
+        propertyEditDialog: false,
         now_propertyItem: {},
+        addwebtitle: '',
+        adddec: '',
+        adddirection: '',
+        addcountf: '',
+        addcountt: '',
+        addsquare: '',
+        addtrade: '',
+        add_status: '',
+        add_price: '',
+        add_rentprice: '',
+        propertyAddDialog: false,
 
         wxLinkDialog: false,
 
@@ -94,7 +117,7 @@ var app = new Vue({
         loginDialogOk: function(){
             var account = this.employeeNo.trim();
             var password = this.webPassword.trim();
-            var flag = this.adminFlag ? "true" : "false";
+            var flag = this.adminFlag ? 'true' : 'false';
             if(account == ''){
                 showToast(false, '账号不可为空');
                 return;
@@ -109,6 +132,7 @@ var app = new Vue({
                 passwordweb: password,
                 nativet: flag
             }).then(function (response) {
+                console.log(response);
                 if(response.data.code == 200){
                     showToast(true, '登录成功');
                     if(app.adminFlag){
@@ -125,7 +149,7 @@ var app = new Vue({
                     that.loginFlag = true;
                 }
                 else{
-                    showToast(false, response.data.message);
+                    showToast(false, "用户名不存在或密码错误");
                 }
             }).catch(function (error) {
                 showToast(false, error);
@@ -588,10 +612,10 @@ var app = new Vue({
             var that = this;
             axios.get('/SYWeiServers/estates', {
                 params: {
-                    // sex: res.sex,
-                    // status: res.status,
-                    // tel: res.tel,
-                    // empName: res.empName,
+                    estatename: res.estatename,
+                    completeyear: res.completeyear,
+                    propertyusage: res.propertyusage,
+                    propertytype: res.propertytype,
                     pageNum: num,
                     pageSize: 10
                 }
@@ -600,6 +624,7 @@ var app = new Vue({
                     // console.log(response.data)
                     if(response.data.data.length > 0){
                         that.estateList = response.data.data;
+                        console.log(that.estateList);
                         // that.estatePageCurrent = num;
                     }
                     else{
@@ -620,10 +645,10 @@ var app = new Vue({
         estateSearch: function(){
             var input = this.estate_input.trim();
             var res = {
-                // sex: this.employee_sex == '全部' ? null : this.employee_sex,
-                // status: this.employee_status == '全部' ? null : this.employee_status,
-                // tel: input == '' ? null : input,
-                // empName: input == '' ? null : input
+                estatename: input == '' ? null : input,
+                completeyear: input == '' ? null : input,
+                propertyusage: this.estate_usage == '全部' ? null : this.estate_usage,
+                propertytype: this.estate_type == '全部' ? null : this.estate_type
             };
             this.getEstateList(1, res);
         },
@@ -633,10 +658,10 @@ var app = new Vue({
         estatePageChange: function () {
             var input = this.estate_input.trim();
             var res = {
-                // sex: this.employee_sex == '全部' ? null : this.employee_sex,
-                // status: this.employee_status == '全部' ? null : this.employee_status,
-                // tel: input == '' ? null : input,
-                // empName: input == '' ? null : input
+                estatename: input == '' ? null : input,
+                completeyear: input == '' ? null : input,
+                propertyusage: this.estate_usage == '全部' ? null : this.estate_usage,
+                propertytype: this.estate_type == '全部' ? null : this.estate_type
             };
             this.getEstateList(parseInt(arguments[0]), res);
         },
@@ -693,6 +718,33 @@ var app = new Vue({
          */
         estateAdd: function () {
             console.log('estateAdd');
+            this.estateAddDialog = true;
+        },
+        estateAddDialogClose: function(){
+            this.estateAddDialog = false
+        },
+        estateAddDialogOk: function(){
+            var res = {
+                estatename: this.addestatename,
+                completeyear: this.addcompleteyear,
+                propertyusage: this.addpropertyusage,
+                propertytype: this.addpropertytype,
+                mgtcompany: this.addmgtcompany,
+                address: this.addestateaddress,
+                remark: this.addestateremark
+            };
+            var that = this;
+            axios.post('/SYWeiServers/estates/addEstate', res).then(function (response) {
+                if(response.data.code == 200){
+                    showToast(true, '楼盘添加成功');
+                    that.estateAddDialog = false;
+                }
+                else{
+                    showToast(false, response.data.message);
+                }
+            }).catch(function (error) {
+                showToast(false, error);
+            });
         },
         /**
          * 楼盘编辑
@@ -700,6 +752,33 @@ var app = new Vue({
         estateEdit: function (item) {
             console.log('estateEdit');
             console.log(item);
+            this.now_estateItem = item;
+            this.estateEditDialog = true;
+        },
+        estateEditDialogClose: function(){
+            this.now_estateItem = {};
+            this.estateEditDialog = false;
+        },
+        estateEditDialogOk: function(){
+            var that = this;
+            axios.post('/SYWeiServers/estates/updateEstate', that.now_estateItem).then(function (response) {
+                if(response.data.code == 200){
+                    showToast(true, '楼盘信息修改成功');
+                    that.estateEditDialog = false;
+                    var res = {
+                        estatename: null,
+                        completeyear: null,
+                        propertyusage: null,
+                        propertytype: null
+                    };
+                    that.getEstateList(1, res);
+                }
+                else{
+                    showToast(false, response.data.message);
+                }
+            }).catch(function (error) {
+                showToast(false, error);
+            });
         },
 
         /**
@@ -860,7 +939,39 @@ var app = new Vue({
          * 房源添加
          */
         propertyAdd: function () {
-            console.log('propertyAdd');
+            console.log('employAdd');
+            this.propertyAddDialog = true;
+        },
+        propertyAddDialogClose: function(){
+            this.propertyAddDialog = false
+        },
+        propertyAddDialogOk: function(){
+            var res = {
+                webtitle: this.addwebtitle,
+                propertydecoration: this.adddec,
+                propertydirection: this.adddirection,
+                countf: this.addcountf,
+                countt: this.addcountt,
+                county: 0,
+                square: this.addsquare,
+                trade: this.addtrade,
+                status: this.add_status,
+                price: this.add_price,
+                rentprice: this.add_rentprice
+            };
+            var that = this;
+            axios.post('/SYWeiServers/properties/addProperty', res).then(function (response) {
+                if(response.data.code == 200){
+                    showToast(true, '房源添加成功，请上传房源照片');
+                    that.propetyAddDialog = false;
+                    // that.propertyPhotoDialog = true;
+                }
+                else{
+                    showToast(false, response.data.message);
+                }
+            }).catch(function (error) {
+                showToast(false, error);
+            });
         },
         /**
          * 房源编辑
@@ -883,6 +994,33 @@ var app = new Vue({
                     showToast(true, "地址信息修改成功");
                     that.now_propertyItem = {};
                     that.propertyAddressDialog = false;
+                }
+                else{
+                    showToast(false, response.data.message);
+                }
+            }).catch(function (error) {
+                showToast(false, error);
+            });
+        },
+
+        propertyOwnerEdit: function (item) {
+            console.log('propertyOwnerEdit');
+            console.log(item);
+            this.now_propertyItem = item;
+            this.propertyOwnerDialog = true;
+        },
+        propertyOwnerDialogClose: function(){
+            this.propertyOwnerDialog = false;
+            this.now_propertyItem = {};
+        },
+        propertyOwnerDialogOk: function(){
+            console.log("更新房源地址");
+            var that = this;
+            axios.post('/SYWeiServers/properties/updateProperty', that.extendCopy(that.now_propertyItem)).then(function (response) {
+                if(response.data.code == 200){
+                    showToast(true, "地址信息修改成功");
+                    that.now_propertyItem = {};
+                    that.propertyOwnerDialog = false;
                 }
                 else{
                     showToast(false, response.data.message);
@@ -931,8 +1069,29 @@ var app = new Vue({
         propertyEdit: function (item) {
             console.log('propertyEdit');
             console.log(item);
+            this.now_propertyItem = item;
+            this.propertyEditDialog = true;
         },
-
+        propertyEditDialogClose: function(){
+            this.propertyEditDialog = false;
+            this.now_propertyItem = {};
+        },
+        propertyEditDialogOk: function(){
+            console.log("更新房源地址");
+            var that = this;
+            axios.post('/SYWeiServers/properties/updateProperty', that.extendCopy(that.now_propertyItem)).then(function (response) {
+                if(response.data.code == 200){
+                    showToast(true, "地址信息修改成功");
+                    that.now_propertyItem = {};
+                    that.propertyEditDialog = false;
+                }
+                else{
+                    showToast(false, response.data.message);
+                }
+            }).catch(function (error) {
+                showToast(false, error);
+            });
+        },
 
         extendCopy: function(p) {
             var c = {};
@@ -968,6 +1127,26 @@ var app = new Vue({
                 empNo: input == '' ? null : input
             };
             this.getEmployeeList(1, res);
+        },
+        estate_type: function (val, oldVal) {
+            var input = this.employee_input.trim();
+            var res = {
+                propertytype: val == '全部' ? null : val,
+                estatename: input == '' ? null : input,
+                completeyear: input == '' ? null : input,
+                propertyusage: this.estate_usage == '全部' ? null : this.estate_usage
+            };
+            this.getEstateList(1, res);
+        },
+        estate_usage: function (val, oldVal) {
+            var input = this.employee_input.trim();
+            var res = {
+                propertyusage: val == '全部' ? null : val,
+                estatename: input == '' ? null : input,
+                completeyear: input == '' ? null : input,
+                propertytype: this.estate_type == '全部' ? null : this.estate_type
+            };
+            this.getEstateList(1, res);
         },
         property_trade: function (val, oldVal) {
             var res = {

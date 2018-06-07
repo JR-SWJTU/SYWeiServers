@@ -22,11 +22,11 @@
             <span style="cursor: default">{{ company ? company.companyname : 'Title' }}</span>
         </div>
         <div class="right">
-            <div v-if="!user" class="nologin">
+            <div v-if="!loginFlag" class="nologin">
                 <mu-icon-button tooltip="登录" icon="person" @click="loginDialogOpen"></mu-icon-button>
                 <mu-icon-button tooltip="注册" icon="edit" @click="registerDialogOpen"></mu-icon-button>
             </div>
-            <div v-if="user" class="login">
+            <div v-if="loginFlag" class="login">
                 <mu-icon-menu
                         icon="person"
                         anchorOrigin="horizontal: 'right', vertical: 'top'"
@@ -212,7 +212,7 @@
         <div class="content-wrapper">
             <div class="head">
                 <div class="input-box">
-                    <input type="text" placeholder="楼盘名、物业公司或地址" v-model="estate_input" /><button @click="estateSearch">查询</button>
+                    <input type="text" placeholder="楼盘名" v-model="estate_input" /><button @click="estateSearch">查询</button>
                 </div>
             </div>
             <form class="control-box">
@@ -226,10 +226,10 @@
                 </ul>
                 <ul class="type-select-ul border-bottom">
                     <li class="type-select-name">房产类型：</li>
-                    <li><input id="type_0" type="radio" name="type" value="全部" v-model="estate_type" /><label for="type_0">全部</label></li>
-                    <li><input id="type_1" type="radio" name="type" value="全部" v-model="estate_type" /><label for="type_1">平房</label></li>
-                    <li><input id="type_2" type="radio" name="type" value="全部" v-model="estate_type" /><label for="type_2">多层</label></li>
-                    <li><input id="type_3" type="radio" name="type" value="全部" v-model="estate_type" /><label for="type_3">高层</label></li>
+                    <li><input id="type_0" type="radio" name="housetype" value="全部" v-model="estate_type" /><label for="type_0">全部</label></li>
+                    <li><input id="type_1" type="radio" name="housetype" value="平房" v-model="estate_type" /><label for="type_1">平房</label></li>
+                    <li><input id="type_2" type="radio" name="housetype" value="多层" v-model="estate_type" /><label for="type_2">多层</label></li>
+                    <li><input id="type_3" type="radio" name="housetype" value="高层" v-model="estate_type" /><label for="type_3">高层</label></li>
                     <%--<li><input id="status_internship" type="radio" name="type" value="实习" v-model="employee_status" /><label for="status_internship">实习</label></li>--%>
                     <%--<li><input id="status_official" type="radio" name="type" value="正式" v-model="employee_status" /><label for="status_official">正式</label></li>--%>
                     <%--<li><input id="status_dimission" type="radio" name="status" value="离职" v-model="employee_status" /><label for="status_dimission">离职</label></li>--%>
@@ -377,7 +377,7 @@
                                 <mu-icon-button icon="palette" background-color="#a4c639" color="#FFF" @click.stop="propertyPhotoEdit(item)"></mu-icon-button>
                             </mu-td>
                             <mu-td @click.stop="">
-                                <mu-icon-button icon="account_circle" background-color="#a4c639" color="#FFF" @click.stop="propertyEdit(item)"></mu-icon-button>
+                                <mu-icon-button icon="account_circle" background-color="#a4c639" color="#FFF" @click.stop="propertyOwnerEdit(item)"></mu-icon-button>
                             </mu-td>
                             <mu-td @click.stop="">
                                 <mu-icon-button icon="edit" background-color="#a4c639" color="#FFF" @click.stop="propertyEdit(item)"></mu-icon-button>
@@ -460,7 +460,33 @@
         <mu-flat-button slot="actions" primary @click="employeeAddDialogOk" label="确认"></mu-flat-button>
     </mu-dialog>
 
-    <mu-dialog :open="employeeEditDialog" title="员工添加" @close="employeeEditDialogClose" v-cloak>
+    <mu-dialog :open="estateAddDialog" title="楼盘添加" @close="estateAddDialogClose" v-cloak>
+        <div class="dialog-contain">
+            <mu-text-field label="楼盘名" hint-text="楼盘名" type="text" full-width v-model="addestatename" ></mu-text-field>
+            <mu-text-field label="建成年份" hint-text="1960-" type="text" full-width v-model="addcompleteyear"></mu-text-field>
+            <mu-text-field label="使用类型" hint-text="住宅、商铺、商住、写字楼" type="text" full-width v-model="addpropertyusage"></mu-text-field>
+            <mu-text-field label="房产类型" hint-text="平房、多层、高层" type="text" full-width v-model="addpropertytype"></mu-text-field>
+            <mu-text-field label="物业公司名" hint-text="物业公司名" type="text" full-width v-model="addmgtcompany"></mu-text-field>
+            <mu-text-field label="地址" hint-text="地址" type="text" full-width v-model="addestateaddress"></mu-text-field>
+            <mu-text-field label="备注" hint-text="备注" type="text" full-width v-model="addestateremark"></mu-text-field>
+        </div>
+        <mu-flat-button slot="actions" primary @click="estateAddDialogOk" label="确认"></mu-flat-button>
+    </mu-dialog>
+
+    <mu-dialog :open="estateEditDialog" title="楼盘信息维护" @close="estateEditDialogClose" v-cloak>
+        <div class="dialog-contain">
+            <mu-text-field label="楼盘名" hint-text="楼盘名" type="text" full-width v-model="now_estateItem == null ? '' : now_estateItem.estatename" ></mu-text-field>
+            <mu-text-field label="建成年份" hint-text="1960-" type="text" full-width v-model="now_estateItem == null ? '' : now_estateItem.completeyear"></mu-text-field>
+            <mu-text-field label="使用类型" hint-text="住宅、商铺、商住、写字楼" type="text" full-width v-model="now_estateItem == null ? '' : now_estateItem.propertyusage"></mu-text-field>
+            <mu-text-field label="房产类型" hint-text="平房、多层、高层" type="text" full-width v-model="now_estateItem == null ? '' : now_estateItem.propertytype"></mu-text-field>
+            <mu-text-field label="物业公司名" hint-text="物业公司名" type="text" full-width v-model="now_estateItem == null ? '' : now_estateItem.mgtcompany"></mu-text-field>
+            <mu-text-field label="地址" hint-text="地址" type="text" full-width v-model="now_estateItem == null ? '' : now_estateItem.address"></mu-text-field>
+            <mu-text-field label="备注" hint-text="备注" type="text" full-width v-model="now_estateItem == null ? '' : now_estateItem.remark"></mu-text-field>
+        </div>
+        <mu-flat-button slot="actions" primary @click="estateEditDialogOk" label="确认"></mu-flat-button>
+    </mu-dialog>
+
+    <mu-dialog :open="employeeEditDialog" title="员工信息维护" @close="employeeEditDialogClose" v-cloak>
         <div class="dialog-contain">
             <mu-text-field label="账号" hint-text="账号" type="text" full-width v-model="now_employeeItem == null ? '' : now_employeeItem.empno" disabled></mu-text-field>
             <mu-text-field label="密码" hint-text="密码" type="text" full-width v-model="now_employeeItem == null ? '' : now_employeeItem.passwordweb"></mu-text-field>
@@ -481,6 +507,14 @@
         <mu-flat-button slot="actions" primary @click="propertyAddressDialogOk" label="确认更新"></mu-flat-button>
     </mu-dialog>
 
+    <mu-dialog :open="propertyOwnerDialog" title="房源拥有者" @close="propertyOwnerDialogClose" v-cloak>
+        <div class="dialog-contain">
+            <mu-text-field label="姓名" type="text" full-width v-model="now_propertyItem == null ? '' : now_propertyItem.ownername" ></mu-text-field>
+            <mu-text-field label="手机" type="text" full-width v-model="now_propertyItem == null ? '' : now_propertyItem.ownermobile"></mu-text-field>
+        </div>
+        <mu-flat-button slot="actions" primary @click="propertyOwnerDialogOk" label="确认更新"></mu-flat-button>
+    </mu-dialog>
+
     <mu-dialog :open="propertyPhotoDialog" title="房源照片" @close="propertyPhotoDialogClose" v-cloak>
         <div class="dialog-contain">
             <mu-grid-list class="gridlist-demo">
@@ -494,6 +528,42 @@
         </div>
         <mu-flat-button slot="actions" @click="propertyPhotoDialogAdd" label="上传图片"></mu-flat-button>
         <mu-flat-button slot="actions" primary @click="propertyPhotoDialogOk" label="确认更新"></mu-flat-button>
+    </mu-dialog>
+
+    <mu-dialog :open="propertyAddDialog" title="房源添加" @close="propertyAddDialogClose" v-cloak>
+        <div class="dialog-contain">
+            <mu-text-field label="网络标题" type="text" full-width v-model="addwebtitle" ></mu-text-field>
+            <%--<mu-text-field label="装修" type="text" full-width v-model=adddec"></mu-text-field>--%>
+            <mu-text-field label="朝向" type="text" full-width v-model="adddirection"></mu-text-field>
+            <mu-text-field label="卧室数" type="text" full-width v-model="addcountf"></mu-text-field>
+            <mu-text-field label="客厅数" type="text" full-width v-model="addcountt"></mu-text-field>
+            <mu-text-field label="面积（平方米）" type="text" full-width v-model="addsquare"></mu-text-field>
+            <mu-text-field label="租/售" type="text" full-width v-model="addtrade"></mu-text-field>
+            <mu-text-field label="状态" type="text" full-width v-model="add_status"></mu-text-field>
+            <mu-text-field v-show="addtrade == '出售'" label="售价（万元）" type="text" full-width v-model="add_price"></mu-text-field>
+            <mu-text-field v-show="addtrade == '出租'" label="月租价（元）" type="text" full-width v-model="add_rentprice"></mu-text-field>
+        </div>
+        <mu-flat-button slot="actions" primary @click="propertyAddDialogOk" label="确认添加"></mu-flat-button>
+    </mu-dialog>
+
+    <mu-dialog :open="propertyEditDialog" title="房源基本信息维护" @close="propertyEditDialogClose" v-cloak>
+        <div class="dialog-contain">
+            <mu-text-field label="网络标题" type="text" full-width v-model="now_propertyItem == null ? '' : now_propertyItem.webtitle" ></mu-text-field>
+            <mu-text-field label="装修" type="text" full-width v-model="now_propertyItem == null ? '' : now_propertyItem.propertydecoration"></mu-text-field>
+            <mu-text-field label="朝向" type="text" full-width v-model="now_propertyItem == null ? '' : now_propertyItem.propertydirection"></mu-text-field>
+            <%--<mu-text-field label="所属楼层" type="text" full-width v-model="now_propertyItem == null ? '' : now_propertyItem.floor"></mu-text-field>--%>
+            <%--<mu-text-field label="最高层数" type="text" full-width v-model="now_propertyItem == null ? '' : now_propertyItem.floorall"></mu-text-field>--%>
+            <mu-text-field label="卧室数" type="text" full-width v-model="now_propertyItem == null ? '' : now_propertyItem.countf"></mu-text-field>
+            <mu-text-field label="客厅数" type="text" full-width v-model="now_propertyItem == null ? '' : now_propertyItem.countt"></mu-text-field>
+            <%--<mu-text-field label="卫生间数" type="text" full-width v-model="now_propertyItem == null ? '' : now_propertyItem.countw"></mu-text-field>--%>
+            <%--<mu-text-field label="阳台数" type="text" full-width v-model="now_propertyItem == null ? '' : now_propertyItem.county"></mu-text-field>--%>
+            <mu-text-field label="面积（平方米）" type="text" full-width v-model="now_propertyItem == null ? '' : now_propertyItem.square"></mu-text-field>
+            <mu-text-field label="租/售" type="text" full-width v-model="now_propertyItem == null ? '' : now_propertyItem.trade"></mu-text-field>
+            <mu-text-field label="状态" type="text" full-width v-model="now_propertyItem == null ? '' : now_propertyItem.status"></mu-text-field>
+            <mu-text-field v-show="now_propertyItem.trade == '出售'" label="售价（万元）" type="text" full-width v-model="now_propertyItem == null ? '' : now_propertyItem.price"></mu-text-field>
+            <mu-text-field v-show="now_propertyItem.trade == '出租'" label="月租价（元）" type="text" full-width v-model="now_propertyItem == null ? '' : now_propertyItem.rentprice"></mu-text-field>
+        </div>
+        <mu-flat-button slot="actions" primary @click="propertyEditDialogOk" label="确认更新"></mu-flat-button>
     </mu-dialog>
 
     <mu-dialog :open="infoDialog" title="permissionFlag ? '公司信息' : '个人信息'" @close="infoDialogClose" v-cloak>

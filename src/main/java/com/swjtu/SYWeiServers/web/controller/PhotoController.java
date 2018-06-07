@@ -18,7 +18,7 @@ import java.io.IOException;
  * Created by user on 2017/8/3.
  */
 @Controller
-@RequestMapping("api/v1/photos")
+@RequestMapping("photo")
 @ResponseBody
 public class PhotoController {
 

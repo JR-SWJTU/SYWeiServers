@@ -1,5 +1,6 @@
 package com.swjtu.SYWeiServers.web.controller;
 
+import com.swjtu.SYWeiServers.dto.EstateSearchRequest;
 import com.swjtu.SYWeiServers.entity.Company;
 import com.swjtu.SYWeiServers.entity.Estate;
 import com.swjtu.SYWeiServers.service.EstateService;
@@ -57,13 +58,25 @@ public class EstateController {
      * @return
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public JsonResult queryEstates(HttpServletRequest request, Integer pageNum, Integer pageSize) throws Exception {
+    public JsonResult queryEstates(HttpServletRequest request, Integer pageNum, Integer pageSize,
+                                   String estatename, String propertytype, String propertyusage, String completeyear) throws Exception {
         HttpSession session = request.getSession();
         Company company = (Company) session.getAttribute("company");
         String companyId = company.getCompanyid();
         String dbName = company.getDbname();
-        List<Estate> estates = estateService.getEstateForPage(companyId, dbName, pageNum, pageSize);
+
+        EstateSearchRequest searchRequest =  buildEstateSearchRequest(estatename, propertytype, propertyusage, completeyear);
+        List<Estate> estates = estateService.getEstateForPage(companyId, dbName, pageNum, pageSize, searchRequest);
         return JsonResult.build(StatusCode.SUCCESS, estates);
+    }
+
+    private EstateSearchRequest buildEstateSearchRequest(String estatename, String propertytype, String propertyusage, String completeyear) {
+        EstateSearchRequest searchRequest = new EstateSearchRequest();
+        searchRequest.setEstatename(estatename);
+        searchRequest.setCompleteyear(completeyear);
+        searchRequest.setPropertytype(propertytype);
+        searchRequest.setPropertyusage(propertyusage);
+        return searchRequest;
     }
 
     /**

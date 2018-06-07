@@ -88,10 +88,48 @@
   </select>
 
   <select id="selectForPage" resultMap="ResultMapWithBLOBs"  parameterType="Map" >
+    <if test="request.estatename != null">
+      <bind name="estatename" value="'%' + request.estatename + '%'" />
+    </if>
     use ${dbName}
-    select top ${pageSize} *  from Estate where EstateID NOT IN  (
+      select top ${pageSize} *  from Estate where EstateID NOT IN  (
       select top ${start} EstateID from Estate
+    <where>
+      <if test="request.estatename != null">
+        (Estatename like #{estatename})
+      </if>
+      <if test="request.propertytype != null">
+        <if test="request.estatename != null">
+          AND
+        </if>
+        Propertytype = #{request.propertytype}
+      </if>
+      <if test="request.propertyusage != null">
+        <if test="request.propertytype != null or request.estatename != null">
+          AND
+        </if>
+        Propertyusage = #{request.propertyusage}
+      </if>
+      <if test="request.completeyear != null">
+        <if test="request.propertytype != null or request.estatename != null or request.propertyusage != null">
+          OR
+        </if>
+        Completeyear = #{request.completeyear}
+      </if>
+    </where>
     )
+    <if test="request.estatename != null">
+      AND (Estatename like #{estatename})
+    </if>
+    <if test="request.propertytype != null">
+      AND Propertytype = #{request.propertytype}
+    </if>
+    <if test="request.propertyusage != null">
+      AND Propertyusage = #{request.propertyusage}
+    </if>
+    <if test="request.completeyear != null">
+      OR Completeyear = #{request.completeyear}
+    </if>
   </select>
 
   <select id="selectEstate" resultMap="ResultMapWithBLOBs"  >
